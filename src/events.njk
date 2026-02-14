@@ -47,34 +47,80 @@ permalink: /events/
     <h2>Seasonal Specials</h2>
     <p>Limited edition prints for holidays and special occasions</p>
   </div>
-  <div class="product-grid">
-    {%- for item in events.seasonal %}
-    <div class="product-card">
-      {%- if item.image %}
-      <div class="product-card-img">
-        <img src="/{{ item.image }}" alt="{{ item.name }}">
-        {%- if item.badge %}
-        <span class="product-card-badge">{{ item.badge }}</span>
-        {%- endif %}
-      </div>
-      {%- endif %}
-      <div class="product-card-body">
-        <h3>{{ item.name }}</h3>
-        <p class="description">{{ item.description }}</p>
-        <div class="product-card-footer">
-          <span class="price">{{ item.price }}</span>
-          <button class="btn btn-primary btn-small btn-add-to-cart"
-            data-name="{{ item.name }}" data-price="{{ item.price }}" data-type="product"
-            onclick="Cart.addItem(this.dataset.name, this.dataset.price, this.dataset.type); Cart.flashAdded(this);"
-            aria-label="Add {{ item.name }} to basket">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="9" y1="6" x2="15" y2="6"/></svg>
-          </button>
+  <div class="seasonal-groups">
+    {%- for group in events.seasonal | groupByBadge %}
+    <div class="seasonal-group" id="seasonal-{{ loop.index }}">
+      <button class="seasonal-group-header" onclick="toggleSeasonalGroup('seasonal-{{ loop.index }}')" aria-expanded="false">
+        <div class="seasonal-group-info">
+          <h3>{{ group.badge }} Collection</h3>
+          <span class="seasonal-group-count">{{ group.items | length }} item{{ "s" if group.items | length != 1 }}</span>
+        </div>
+        <svg class="seasonal-group-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="seasonal-group-items">
+        <div class="seasonal-group-items-inner">
+          <div class="product-grid">
+            {%- for item in group.items %}
+            <div class="product-card">
+              {%- if item.image %}
+              <div class="product-card-img">
+                <img src="/{{ item.image }}" alt="{{ item.name }}">
+                {%- if item.badge %}
+                <span class="product-card-badge">{{ item.badge }}</span>
+                {%- endif %}
+              </div>
+              {%- endif %}
+              <div class="product-card-body">
+                <h3>{{ item.name }}</h3>
+                <p class="description">{{ item.description }}</p>
+                <div class="product-card-footer">
+                  <span class="price">{{ item.price }}</span>
+                  <button class="btn btn-primary btn-small btn-add-to-cart"
+                    data-name="{{ item.name }}" data-price="{{ item.price }}" data-type="product"
+                    onclick="Cart.addItem(this.dataset.name, this.dataset.price, this.dataset.type); Cart.flashAdded(this);"
+                    aria-label="Add {{ item.name }} to basket">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="9" y1="6" x2="15" y2="6"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            {%- endfor %}
+          </div>
         </div>
       </div>
     </div>
     {%- endfor %}
   </div>
 </section>
+
+<script>
+function toggleSeasonalGroup(id) {
+  var group = document.getElementById(id);
+  var btn = group.querySelector('.seasonal-group-header');
+  var items = group.querySelector('.seasonal-group-items');
+  var inner = group.querySelector('.seasonal-group-items-inner');
+  var expanded = btn.getAttribute('aria-expanded') === 'true';
+
+  if (expanded) {
+    items.style.height = items.scrollHeight + 'px';
+    requestAnimationFrame(function() {
+      items.style.height = '0px';
+    });
+    btn.setAttribute('aria-expanded', 'false');
+    group.classList.remove('expanded');
+  } else {
+    items.style.height = inner.offsetHeight + 'px';
+    btn.setAttribute('aria-expanded', 'true');
+    group.classList.add('expanded');
+    items.addEventListener('transitionend', function handler() {
+      if (btn.getAttribute('aria-expanded') === 'true') {
+        items.style.height = 'auto';
+      }
+      items.removeEventListener('transitionend', handler);
+    });
+  }
+}
+</script>
 {%- endif %}
 
 {%- if events.upcoming | length == 0 and events.seasonal | length == 0 %}

@@ -787,6 +787,18 @@ img {
     padding: 32px 20px;
   }
 
+  .events-banner {
+    padding: 24px 20px;
+  }
+
+  .seasonal-group-header {
+    padding: 18px 20px;
+  }
+
+  .seasonal-group-items-inner {
+    padding: 0 20px 20px;
+  }
+
   .footer-inner {
     flex-direction: column;
     text-align: center;
@@ -1226,4 +1238,97 @@ select.form-input {
   font-size: 0.85rem;
   color: var(--text-muted);
   margin-top: 12px;
+}
+
+/* ===== Seasonal Group Cards ===== */
+.seasonal-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.seasonal-group {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color var(--transition);
+}
+
+.seasonal-group:hover {
+  border-color: var(--border-hover);
+}
+
+.seasonal-group-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 28px;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: background var(--transition);
+}
+
+.seasonal-group-header:hover {
+  background: var(--bg-card-hover);
+}
+
+.seasonal-group-info h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.seasonal-group-count {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.seasonal-group-chevron {
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.seasonal-group.expanded .seasonal-group-chevron {
+  transform: rotate(180deg);
+}
+
+.seasonal-group-items {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.seasonal-group-items-inner {
+  padding: 0 28px 28px;
+}
+
+/* ===== Events Banner ===== */
+.events-banner {
+  padding: 32px 48px;
+}
+
+.events-banner h2 {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+.events-banner-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  background: var(--accent-dim);
+  color: var(--accent);
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 230, 195, 0.15);
 }

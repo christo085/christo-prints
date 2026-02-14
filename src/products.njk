@@ -20,6 +20,9 @@ permalink: /products/
     <button class="tab-btn" data-filter="fidget">Fidget Toys</button>
     <button class="tab-btn" data-filter="flexi">Flexi Prints</button>
     <button class="tab-btn" data-filter="gadget">Gadgets</button>
+    {%- if events.seasonal | length > 0 %}
+    <button class="tab-btn" data-filter="seasonal">Seasonal</button>
+    {%- endif %}
   </div>
 
   <div class="product-grid" id="productGrid">
@@ -40,6 +43,31 @@ permalink: /products/
             data-name="{{ product.name }}" data-price="{{ product.price }}" data-type="product"
             onclick="Cart.addItem(this.dataset.name, this.dataset.price, this.dataset.type); Cart.flashAdded(this);"
             aria-label="Add {{ product.name }} to basket">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="9" y1="6" x2="15" y2="6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    {%- endfor %}
+    {%- for item in events.seasonal %}
+    <div class="product-card" data-category="seasonal" style="display:none">
+      {%- if item.image %}
+      <div class="product-card-img">
+        <img src="/{{ item.image }}" alt="{{ item.name }}">
+        {%- if item.badge %}
+        <span class="product-card-badge">{{ item.badge }}</span>
+        {%- endif %}
+      </div>
+      {%- endif %}
+      <div class="product-card-body">
+        <h3>{{ item.name }}</h3>
+        <p class="description">{{ item.description }}</p>
+        <div class="product-card-footer">
+          <span class="price">{{ item.price }}</span>
+          <button class="btn btn-primary btn-small btn-add-to-cart"
+            data-name="{{ item.name }}" data-price="{{ item.price }}" data-type="product"
+            onclick="Cart.addItem(this.dataset.name, this.dataset.price, this.dataset.type); Cart.flashAdded(this);"
+            aria-label="Add {{ item.name }} to basket">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="9" y1="6" x2="15" y2="6"/></svg>
           </button>
         </div>
@@ -70,10 +98,13 @@ permalink: /products/
       const filter = tab.dataset.filter;
 
       cards.forEach(card => {
-        if (filter === 'all' || card.dataset.category === filter) {
-          card.style.display = '';
+        if (filter === 'all') {
+          // "All" shows everything except seasonal
+          card.style.display = card.dataset.category === 'seasonal' ? 'none' : '';
+        } else if (filter === 'seasonal') {
+          card.style.display = card.dataset.category === 'seasonal' ? '' : 'none';
         } else {
-          card.style.display = 'none';
+          card.style.display = card.dataset.category === filter ? '' : 'none';
         }
       });
     });
