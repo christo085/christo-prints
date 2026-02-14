@@ -30,7 +30,7 @@ permalink: /
     {%- if product.popular %}
     <div class="product-card">
       <div class="product-card-img">
-        <img src="/{{ product.image }}" alt="{{ product.name }}">
+        <img src="/{{ product.image }}" alt="{{ product.name }}" loading="lazy">
         {%- if product.badge %}
         <span class="product-card-badge">{{ product.badge }}</span>
         {%- endif %}
@@ -57,7 +57,8 @@ permalink: /
   </div>
 </section>
 
-{%- if events.upcoming | length > 0 or events.seasonal | length > 0 %}
+{%- set futureEvents = events.upcoming | filterPastEvents %}
+{%- if futureEvents | length > 0 or events.seasonal | length > 0 %}
 <!-- Events & Seasonal Banner -->
 <section class="section" style="padding-top: 0;">
   <div class="cta-banner events-banner">
@@ -65,9 +66,9 @@ permalink: /
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       Events &amp; Seasonal
     </span>
-    {%- if events.upcoming | length > 0 %}
-    <h2>{{ events.upcoming[0].name }}</h2>
-    <p>{{ events.upcoming[0].date }}{%- if events.upcoming[0].location %} &middot; {{ events.upcoming[0].location }}{%- endif %}</p>
+    {%- if futureEvents | length > 0 %}
+    <h2>{{ futureEvents[0].name }}</h2>
+    <p>{{ futureEvents[0].date }}{%- if futureEvents[0].location %} &middot; {{ futureEvents[0].location }}{%- endif %}</p>
     {%- else %}
     <h2>Seasonal Specials Available</h2>
     <p>Limited edition prints for holidays and special occasions</p>
@@ -90,7 +91,7 @@ permalink: /
       <p>Choose from a wide palette of colours for any product. Make it yours.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/><path d="M8 3h8M8 21h8"/></svg></div>
       <h3>Affordable Prices</h3>
       <p>Quality 3D prints that won't break the bank. Most items under &pound;2.</p>
     </div>
@@ -105,6 +106,8 @@ permalink: /
       <p>Grab bundles for the best value. Curated sets at discounted prices.</p>
     </div>
   </div>
+
+  <p class="about-blurb">We're a small Edinburgh-based 3D printing business, making affordable fidget toys and practical gadgets. Every print is made to order with care — pick your colour, place your order, and collect locally.</p>
 </section>
 
 <!-- CTA Banner -->
@@ -112,6 +115,6 @@ permalink: /
   <div class="cta-banner">
     <h2>Got a Custom Print Idea?</h2>
     <p>Tell us what you'd like and we'll bring it to life with our 3D printer.</p>
-    <a href="https://forms.office.com/e/wjeAfCDLKX" target="_blank" class="btn btn-primary">Submit a Request &#8594;</a>
+    <a href="/custom/" class="btn btn-primary">Submit a Request &#8594;</a>
   </div>
 </section>

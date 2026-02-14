@@ -18,6 +18,15 @@ module.exports = function (eleventyConfig) {
     });
   });
 
+  eleventyConfig.addFilter("filterPastEvents", function (events) {
+    var now = new Date();
+    now.setHours(0, 0, 0, 0);
+    return (events || []).filter(function (event) {
+      var d = new Date(event.date);
+      return d >= now;
+    });
+  });
+
   eleventyConfig.addFilter("activeSeasonal", function (items) {
     var now = new Date();
     now.setHours(0, 0, 0, 0);

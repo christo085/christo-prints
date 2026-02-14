@@ -80,7 +80,7 @@ permalink: /basket/
 
 <script>
 (function () {
-  var COLOURS = ['No preference','Red','Orange','Yellow','Green','Dark Green','White','Black','Silky Green/Blue','Rainbow','Other'];
+  var COLOURS = {{ colours.dropdownOptions | dump | safe }};
 
   // Check for success redirect
   if (new URLSearchParams(window.location.search).get('success') === 'true') {
@@ -104,9 +104,17 @@ permalink: /basket/
     wrapper.hidden = false;
 
     container.innerHTML = items.map(function (item) {
-      var colourOptions = COLOURS.map(function (c) {
-        return '<option value="' + c + '"' + (item.colour === c ? ' selected' : '') + '>' + c + '</option>';
-      }).join('');
+      var isPresetColour = item.type === 'bundle' || item.type === 'seasonal';
+      var colourHtml;
+
+      if (isPresetColour) {
+        colourHtml = '<div class="cart-colour-note">Colour is pre-set. Add custom colour requests in notes below.</div>';
+      } else {
+        var colourOptions = COLOURS.map(function (c) {
+          return '<option value="' + c + '"' + (item.colour === c ? ' selected' : '') + '>' + c + '</option>';
+        }).join('');
+        colourHtml = '<select class="form-input form-input-sm" onchange="Cart.updateColour(\'' + item.id + '\', this.value)">' + colourOptions + '</select>';
+      }
 
       return '<div class="cart-item" data-id="' + item.id + '">' +
         '<div class="cart-item-info">' +
@@ -114,7 +122,7 @@ permalink: /basket/
           '<span class="cart-item-price">' + item.price + '</span>' +
         '</div>' +
         '<div class="cart-item-controls">' +
-          '<select class="form-input form-input-sm" onchange="Cart.updateColour(\'' + item.id + '\', this.value)">' + colourOptions + '</select>' +
+          colourHtml +
           '<div class="btn-qty-group">' +
             '<button type="button" class="btn-qty" onclick="Cart.updateQty(\'' + item.id + '\', -1); basketRender();">&#8722;</button>' +
             '<span class="btn-qty-count">' + item.qty + '</span>' +

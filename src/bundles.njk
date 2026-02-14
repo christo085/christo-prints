@@ -17,7 +17,7 @@ permalink: /bundles/
   {%- for bundle in bundles.items %}
   <div class="bundle-card" style="margin-bottom: 24px;">
     <div class="bundle-card-img">
-      <img src="/{{ bundle.image }}" alt="{{ bundle.name }}">
+      <img src="/{{ bundle.image }}" alt="{{ bundle.name }}" loading="lazy">
     </div>
     <div class="bundle-card-body">
       <h3>{{ bundle.name }}</h3>

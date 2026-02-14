@@ -5,5 +5,8 @@
 /contact.html  /contact/   301
 /events.html   /events/    301
 /basket.html   /basket/    301
+/reviews.html  /reviews/   301
+/custom.html   /custom/    301
+/terms.html    /terms/     301
 /order/        /basket/    301
 /order.html    /basket/    301

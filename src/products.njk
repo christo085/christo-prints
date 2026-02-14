@@ -29,7 +29,7 @@ permalink: /products/
     {%- for product in products.items %}
     <div class="product-card" data-category="{{ product.category }}">
       <div class="product-card-img">
-        <img src="/{{ product.image }}" alt="{{ product.name }}">
+        <img src="/{{ product.image }}" alt="{{ product.name }}" loading="lazy">
         {%- if product.badge %}
         <span class="product-card-badge">{{ product.badge }}</span>
         {%- endif %}
@@ -53,7 +53,7 @@ permalink: /products/
     <div class="product-card" data-category="seasonal" style="display:none">
       {%- if item.image %}
       <div class="product-card-img">
-        <img src="/{{ item.image }}" alt="{{ item.name }}">
+        <img src="/{{ item.image }}" alt="{{ item.name }}" loading="lazy">
         {%- if item.badge %}
         <span class="product-card-badge">{{ item.badge }}</span>
         {%- endif %}
@@ -65,7 +65,7 @@ permalink: /products/
         <div class="product-card-footer">
           <span class="price">{{ item.price }}</span>
           <button class="btn btn-primary btn-small btn-add-to-cart"
-            data-name="{{ item.name }}" data-price="{{ item.price }}" data-type="product"
+            data-name="{{ item.name }}" data-price="{{ item.price }}" data-type="seasonal"
             onclick="Cart.addItem(this.dataset.name, this.dataset.price, this.dataset.type); Cart.flashAdded(this);"
             aria-label="Add {{ item.name }} to basket">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="9" y1="6" x2="15" y2="6"/></svg>
@@ -82,7 +82,7 @@ permalink: /products/
   <div class="cta-banner">
     <h2>Don't See What You Want?</h2>
     <p>Submit a custom print request and we'll make it for you.</p>
-    <a href="https://forms.office.com/e/wjeAfCDLKX" target="_blank" class="btn btn-primary">Request Custom Print &#8594;</a>
+    <a href="/custom/" class="btn btn-primary">Request Custom Print &#8594;</a>
   </div>
 </section>
 

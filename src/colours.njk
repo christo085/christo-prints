@@ -50,27 +50,16 @@ permalink: /colours/
 </section>
 
 <script>
-  const standardColours = [
-    { name: 'Red', hex: '#e63946' },
-    { name: 'Orange', hex: '#f77f00' },
-    { name: 'Yellow', hex: '#fcbf49' },
-    { name: 'Green', hex: '#4caf50' },
-    { name: 'Dark Green', hex: '#1b5e20' },
-    { name: 'White', hex: '#f1faee' },
-    { name: 'Black', hex: '#212529' },
-  ];
-
-  const specialColours = [
-    { name: 'Silky Green/Blue', hex: 'linear-gradient(135deg, #4db6ac, #26a69a, #80cbc4)' },
-    { name: 'Rainbow', hex: 'linear-gradient(90deg, #e63946, #f77f00, #fcbf49, #4caf50, #3a86ff, #7209b7)' },
-  ];
+  var standardColours = {{ colours.standard | dump | safe }};
+  var specialColours = {{ colours.special | dump | safe }};
 
   function renderSwatches(colours, gridId) {
-    const grid = document.getElementById(gridId);
-    colours.forEach(c => {
-      const swatch = document.createElement('div');
+    var grid = document.getElementById(gridId);
+    colours.forEach(function (c) {
+      var swatch = document.createElement('div');
       swatch.className = 'colour-swatch';
       swatch.style.background = c.hex;
+      if (c.description) swatch.title = c.description;
       swatch.innerHTML = '<span>' + c.name + '</span>';
       grid.appendChild(swatch);
     });

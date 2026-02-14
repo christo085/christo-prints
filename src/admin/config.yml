@@ -49,6 +49,42 @@ collections:
                 field: { name: "item", label: "Item", widget: "string" }
               - { name: "image", label: "Image", widget: "image" }
 
+      - name: "colours"
+        label: "Colours"
+        file: "src/_data/colours.json"
+        fields:
+          - name: "standard"
+            label: "Standard Colours"
+            widget: "list"
+            fields:
+              - { name: "name", label: "Name", widget: "string" }
+              - { name: "hex", label: "Hex / CSS Value", widget: "string" }
+          - name: "special"
+            label: "Special Colours"
+            widget: "list"
+            fields:
+              - { name: "name", label: "Name", widget: "string" }
+              - { name: "hex", label: "Hex / CSS Value", widget: "string" }
+              - { name: "description", label: "Description", widget: "string", required: false }
+          - name: "dropdownOptions"
+            label: "Basket Dropdown Options"
+            widget: "list"
+            field: { name: "option", label: "Option", widget: "string" }
+
+      - name: "reviews"
+        label: "Reviews"
+        file: "src/_data/reviews.json"
+        fields:
+          - { name: "googleReviewsEnabled", label: "Enable Google Reviews Embed", widget: "boolean", default: false }
+          - name: "items"
+            label: "Reviews"
+            widget: "list"
+            fields:
+              - { name: "author", label: "Author", widget: "string" }
+              - { name: "stars", label: "Stars (1-5)", widget: "number", min: 1, max: 5 }
+              - { name: "text", label: "Review Text", widget: "text" }
+              - { name: "date", label: "Date", widget: "string" }
+
       - name: "events"
         label: "Events"
         file: "src/_data/events.json"

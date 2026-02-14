@@ -1,0 +1,28 @@
+{
+  "standard": [
+    { "name": "Red", "hex": "#e63946" },
+    { "name": "Orange", "hex": "#f77f00" },
+    { "name": "Yellow", "hex": "#fcbf49" },
+    { "name": "Green", "hex": "#4caf50" },
+    { "name": "Dark Green", "hex": "#1b5e20" },
+    { "name": "White", "hex": "#f1faee" },
+    { "name": "Black", "hex": "#212529" }
+  ],
+  "special": [
+    { "name": "Silk Blue & Green", "hex": "linear-gradient(135deg, #4db6ac, #26a69a, #80cbc4)", "description": "A single silk filament that shimmers between blue and green depending on the light" },
+    { "name": "Rainbow", "hex": "linear-gradient(90deg, #e63946, #f77f00, #fcbf49, #4caf50, #3a86ff, #7209b7)" }
+  ],
+  "dropdownOptions": [
+    "No preference",
+    "Red",
+    "Orange",
+    "Yellow",
+    "Green",
+    "Dark Green",
+    "White",
+    "Black",
+    "Silk Blue & Green",
+    "Rainbow",
+    "Other"
+  ]
+}

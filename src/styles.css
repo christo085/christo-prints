@@ -30,9 +30,11 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
+  overflow-x: hidden;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: var(--bg-primary);
   color: var(--text-primary);
@@ -101,16 +103,17 @@ img {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   list-style: none;
 }
 
 .nav-links a {
   color: var(--text-secondary);
-  padding: 8px 16px;
+  padding: 8px 12px;
   border-radius: 8px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 500;
+  white-space: nowrap;
   transition: all var(--transition);
 }
 
@@ -707,6 +710,7 @@ img {
   padding: 120px 24px 48px;
   text-align: center;
   position: relative;
+  overflow: hidden;
 }
 
 .page-header::before {
@@ -739,7 +743,7 @@ img {
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
   .nav-links {
-    display: none;
+    display: flex;
     position: absolute;
     top: 72px;
     left: 0;
@@ -747,12 +751,32 @@ img {
     flex-direction: column;
     background: var(--bg-primary);
     border-bottom: 1px solid var(--border);
-    padding: 16px 24px;
+    padding: 0 24px;
     gap: 4px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .nav-links.open {
-    display: flex;
+    max-height: 500px;
+    padding: 16px 24px;
+  }
+
+  .nav-links li {
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  .nav-links li.nav-item-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .nav-links a {
+    padding: 12px 16px;
+    font-size: 1rem;
   }
 
   .nav-toggle {
@@ -806,6 +830,7 @@ img {
 
   .footer-links {
     justify-content: center;
+    flex-wrap: wrap;
   }
 }
 
@@ -1331,4 +1356,143 @@ select.form-input {
   font-weight: 600;
   margin-bottom: 16px;
   border: 1px solid rgba(0, 230, 195, 0.15);
+}
+
+/* ===== Nav Overlay ===== */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  top: 72px;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.nav-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ===== Footer Email ===== */
+.footer-email {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+  transition: color var(--transition);
+}
+
+.footer-email:hover {
+  color: var(--accent);
+}
+
+/* ===== Reviews Page ===== */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.review-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  transition: all var(--transition);
+}
+
+.review-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+
+.review-stars {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 16px;
+}
+
+.review-text {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 16px;
+  font-style: italic;
+}
+
+.review-author {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.review-date {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ===== Terms Page ===== */
+.terms-content {
+  max-width: 700px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px 36px;
+}
+
+.terms-content h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-top: 28px;
+  margin-bottom: 10px;
+}
+
+.terms-content h2:first-child {
+  margin-top: 0;
+}
+
+.terms-content p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* ===== About Blurb ===== */
+.about-blurb {
+  text-align: center;
+  max-width: 700px;
+  margin: 40px auto 0;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* ===== Cart Colour Note ===== */
+.cart-colour-note {
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--text-muted);
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-secondary);
+  line-height: 1.4;
+}
+
+@media (max-width: 480px) {
+  .terms-content {
+    padding: 24px 18px;
+  }
+
+  .reviews-grid {
+    grid-template-columns: 1fr;
+  }
 }
