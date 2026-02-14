@@ -48,3 +48,25 @@ collections:
                 widget: "list"
                 field: { name: "item", label: "Item", widget: "string" }
               - { name: "image", label: "Image", widget: "image" }
+
+      - name: "events"
+        label: "Events"
+        file: "src/_data/events.json"
+        fields:
+          - name: "upcoming"
+            label: "Upcoming Events"
+            widget: "list"
+            fields:
+              - { name: "name", label: "Event Name", widget: "string" }
+              - { name: "date", label: "Date", widget: "string" }
+              - { name: "location", label: "Location", widget: "string" }
+              - { name: "description", label: "Description", widget: "string" }
+          - name: "seasonal"
+            label: "Seasonal Specials"
+            widget: "list"
+            fields:
+              - { name: "name", label: "Name", widget: "string" }
+              - { name: "price", label: "Price", widget: "string" }
+              - { name: "description", label: "Description", widget: "string" }
+              - { name: "image", label: "Image", widget: "image" }
+              - { name: "badge", label: "Badge", widget: "string" }
