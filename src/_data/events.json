@@ -5,6 +5,12 @@
         "date": "2 July 2026",
         "description": "Come find us at the school summer fair with a full range of fidgets. Card accepted",
         "location": "Boroughmuir High School"
+      },
+      {
+        "name": "BHS Winter Fair",
+        "date": "13 December 2026, 3:00 PM",
+        "description": "Join us at the Boroughmuir High School Winter Fair for a festive afternoon of fun! Browse our full range of 3D-printed fidgets, stocking fillers, and unique gifts perfect for the holiday season. Card payments accepted.",
+        "location": "Boroughmuir High School"
       }
     ],
     "seasonal": [
