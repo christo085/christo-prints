@@ -710,7 +710,6 @@ img {
   padding: 120px 24px 48px;
   text-align: center;
   position: relative;
-  overflow: hidden;
 }
 
 .page-header::before {
