@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/cart.js"></script>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+Christo's Prints
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="/"{% if activePage == "home" %} class="active"{% endif %}>Home</a></li>
+        <li><a href="/products/"{% if activePage == "products" %} class="active"{% endif %}>Products</a></li>
+        <li><a href="/bundles/"{% if activePage == "bundles" %} class="active"{% endif %}>Bundles</a></li>
+        <li><a href="/colours/"{% if activePage == "colours" %} class="active"{% endif %}>Colours</a></li>
+        <li><a href="/events/"{% if activePage == "events" %} class="active"{% endif %}>Events</a></li>
+        <li><a href="/contact/"{% if activePage == "contact" %} class="active"{% endif %}>Contact</a></li>
+        <li><a href="https://forms.office.com/e/wjeAfCDLKX" target="_blank" class="nav-cta">Custom Print</a></li>
+        <li>
+          <a href="/basket/" class="nav-basket{% if activePage == "basket" %} active{% endif %}" aria-label="Basket">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <span class="cart-badge" id="cart-count" hidden>0</span>
+          </a>
+        </li>
+      </ul>
+      <div class="nav-right">
+        <a href="/basket/" class="nav-basket-mobile" aria-label="Basket">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="cart-badge" id="cart-count-mobile" hidden>0</span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+      </div>
+    </div>
+  </nav>
+
+  {{ content | safe }}
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">Christo's Prints</div>
+        <div class="footer-tagline">Printing Happiness</div>
+      </div>
+      <ul class="footer-links">
+        <li><a href="/products/">Products</a></li>
+        <li><a href="/bundles/">Bundles</a></li>
+        <li><a href="/colours/">Colours</a></li>
+        <li><a href="/events/">Events</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="/nav.js"></script>
+</body>
+</html>

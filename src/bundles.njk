@@ -1,0 +1,54 @@
+---
+layout: base.njk
+title: "Bundles - Christo's Prints"
+description: "Save money with curated bundles of 3D-printed fidgets and gadgets from Christo's Prints."
+activePage: bundles
+permalink: /bundles/
+---
+
+<!-- Page Header -->
+<div class="page-header">
+  <h1>Bundles</h1>
+  <p>Curated sets at discounted prices</p>
+</div>
+
+<!-- Bundles -->
+<section class="section" style="padding-top: 0;">
+  {%- for bundle in bundles.items %}
+  <div class="bundle-card" style="margin-bottom: 24px;">
+    <div class="bundle-card-img">
+      <img src="/{{ bundle.image }}" alt="{{ bundle.name }}">
+    </div>
+    <div class="bundle-card-body">
+      <h3>{{ bundle.name }}</h3>
+      <p class="includes">{{ bundle.description }}</p>
+      <ul class="bundle-items">
+        {%- for item in bundle.items %}
+        <li>{{ item }}</li>
+        {%- endfor %}
+      </ul>
+      <div class="bundle-price-row">
+        <span class="price">{{ bundle.price }}</span>
+        {%- if bundle.oldPrice %}
+        <span class="price-old">{{ bundle.oldPrice }}</span>
+        {%- endif %}
+      </div>
+      <button class="btn btn-primary btn-add-to-cart"
+        data-name="{{ bundle.name }}" data-price="{{ bundle.price }}" data-type="bundle"
+        onclick="Cart.addItem(this.dataset.name, this.dataset.price, this.dataset.type); Cart.flashAdded(this);"
+        aria-label="Add {{ bundle.name }} to basket">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="9" y1="6" x2="15" y2="6"/></svg> Add to Basket
+      </button>
+    </div>
+  </div>
+  {%- endfor %}
+</section>
+
+<!-- CTA -->
+<section class="section" style="padding-top: 0;">
+  <div class="cta-banner">
+    <h2>Want a Custom Bundle?</h2>
+    <p>Mix and match your favourite prints. Message us to build your own bundle.</p>
+    <a href="https://wa.me/message/LOBEWRYKAT5UI1" target="_blank" class="btn btn-primary">Message Us &#8594;</a>
+  </div>
+</section>

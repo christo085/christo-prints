@@ -1,0 +1,97 @@
+---
+layout: base.njk
+title: "Christo's Prints - Printing Happiness"
+description: "Affordable, high-quality 3D-printed fidget toys and practical gadgets. Printing happiness, one layer at a time."
+activePage: home
+permalink: /
+---
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Printing Happiness</div>
+    <h1>3D Printed <span class="highlight">Fidgets & Gadgets</span></h1>
+    <p>Affordable, high-quality 3D-printed products made with care. From satisfying fidget toys to clever everyday gadgets.</p>
+    <div class="hero-actions">
+      <a href="/products/" class="btn btn-primary">Browse Products</a>
+      <a href="https://wa.me/c/447435976773" target="_blank" class="btn btn-secondary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> WhatsApp Catalogue</a>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Products -->
+<section class="section">
+  <div class="section-header">
+    <h2>Popular Picks</h2>
+    <p>Our most-loved fidgets and gadgets</p>
+  </div>
+  <div class="product-grid">
+    {%- for product in products.items %}
+    {%- if product.popular %}
+    <div class="product-card">
+      <div class="product-card-img">
+        <img src="/{{ product.image }}" alt="{{ product.name }}">
+        {%- if product.badge %}
+        <span class="product-card-badge">{{ product.badge }}</span>
+        {%- endif %}
+      </div>
+      <div class="product-card-body">
+        <h3>{{ product.name }}</h3>
+        <p class="description">{{ product.description }}</p>
+        <div class="product-card-footer">
+          <span class="price">{{ product.price }}</span>
+          <button class="btn btn-primary btn-small btn-add-to-cart"
+            data-name="{{ product.name }}" data-price="{{ product.price }}" data-type="product"
+            onclick="Cart.addItem(this.dataset.name, this.dataset.price, this.dataset.type); Cart.flashAdded(this);"
+            aria-label="Add {{ product.name }} to basket">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="9" y1="6" x2="15" y2="6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    {%- endif %}
+    {%- endfor %}
+  </div>
+  <div style="text-align:center; margin-top:36px;">
+    <a href="/products/" class="btn btn-secondary">View All Products &#8594;</a>
+  </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="section">
+  <div class="section-header">
+    <h2>Why Christo's Prints?</h2>
+    <p>What makes our prints special</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="19" cy="11.5" r="2.5"/><circle cx="17" cy="18" r="2.5"/><circle cx="8" cy="18" r="2.5"/><circle cx="5" cy="11.5" r="2.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.5-.73 1.5-1.5 0-.39-.15-.74-.39-1.01-.24-.26-.37-.6-.37-.99 0-.83.67-1.5 1.5-1.5H16c3.31 0 6-2.69 6-6 0-5.52-4.48-10-10-10z"/></svg></div>
+      <h3>Vibrant Colours</h3>
+      <p>Choose from a wide palette of colours for any product. Make it yours.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+      <h3>Affordable Prices</h3>
+      <p>Quality 3D prints that won't break the bank. Most items under &pound;2.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+      <h3>Custom Prints</h3>
+      <p>Got an idea? Request a custom 3D print and we'll make it happen.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+      <h3>Bundle &amp; Save</h3>
+      <p>Grab bundles for the best value. Curated sets at discounted prices.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Banner -->
+<section class="section">
+  <div class="cta-banner">
+    <h2>Got a Custom Print Idea?</h2>
+    <p>Tell us what you'd like and we'll bring it to life with our 3D printer.</p>
+    <a href="https://forms.office.com/e/wjeAfCDLKX" target="_blank" class="btn btn-primary">Submit a Request &#8594;</a>
+  </div>
+</section>

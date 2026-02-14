@@ -1,0 +1,81 @@
+---
+layout: base.njk
+title: "Colours - Christo's Prints"
+description: "Choose from a wide range of filament colours for your 3D-printed products from Christo's Prints."
+activePage: colours
+permalink: /colours/
+---
+
+<!-- Page Header -->
+<div class="page-header">
+  <h1>Colours</h1>
+  <p>Pick your favourite colour for any product</p>
+</div>
+
+<!-- Standard Colours -->
+<section class="section" style="padding-top: 0;">
+  <div class="section-header">
+    <h2>Standard Colours</h2>
+    <p>All products can be printed in any of these colours. Just let us know when you order.</p>
+  </div>
+
+  <div class="colour-grid" id="colourGrid">
+    <!-- Standard colours populated via JS -->
+  </div>
+</section>
+
+<!-- Special Colours -->
+<section class="section" style="padding-top: 0;">
+  <div class="section-header">
+    <h2>Special Colours</h2>
+    <p>Premium and unique filaments for something extra</p>
+  </div>
+
+  <div class="colour-grid" id="specialColourGrid">
+    <!-- Special colours populated via JS -->
+  </div>
+
+  <p style="text-align: center; color: var(--text-secondary); margin-top: 32px; font-size: 0.9rem;">
+    Colours shown are approximate. Actual shades may vary slightly due to printing and screen differences.
+  </p>
+</section>
+
+<!-- CTA -->
+<section class="section" style="padding-top: 0;">
+  <div class="cta-banner">
+    <h2>Need a Specific Colour?</h2>
+    <p>If you don't see the colour you want, get in touch and we'll see what we can do.</p>
+    <a href="/contact/" class="btn btn-primary">Contact Us &#8594;</a>
+  </div>
+</section>
+
+<script>
+  const standardColours = [
+    { name: 'Red', hex: '#e63946' },
+    { name: 'Orange', hex: '#f77f00' },
+    { name: 'Yellow', hex: '#fcbf49' },
+    { name: 'Green', hex: '#4caf50' },
+    { name: 'Dark Green', hex: '#1b5e20' },
+    { name: 'White', hex: '#f1faee' },
+    { name: 'Black', hex: '#212529' },
+  ];
+
+  const specialColours = [
+    { name: 'Silky Green/Blue', hex: 'linear-gradient(135deg, #4db6ac, #26a69a, #80cbc4)' },
+    { name: 'Rainbow', hex: 'linear-gradient(90deg, #e63946, #f77f00, #fcbf49, #4caf50, #3a86ff, #7209b7)' },
+  ];
+
+  function renderSwatches(colours, gridId) {
+    const grid = document.getElementById(gridId);
+    colours.forEach(c => {
+      const swatch = document.createElement('div');
+      swatch.className = 'colour-swatch';
+      swatch.style.background = c.hex;
+      swatch.innerHTML = '<span>' + c.name + '</span>';
+      grid.appendChild(swatch);
+    });
+  }
+
+  renderSwatches(standardColours, 'colourGrid');
+  renderSwatches(specialColours, 'specialColourGrid');
+</script>

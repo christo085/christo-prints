@@ -1,0 +1,28 @@
+{
+  "items": [
+    {
+      "name": "Fidgets Bundle",
+      "price": "£4.00",
+      "oldPrice": "£5.00",
+      "description": "3 popular fidgets in one pack",
+      "items": ["Flexagon", "Joystick", "Spiral Cone"],
+      "image": "images/fidgets-bundle.jpg"
+    },
+    {
+      "name": "Adventure Bundle",
+      "price": "£3.00",
+      "oldPrice": "£5.50",
+      "description": "Essential outdoor gadgets",
+      "items": ["Carabiner", "Screw Lock Carabiner", "Whistle"],
+      "image": "images/adventure-bundle.jpg"
+    },
+    {
+      "name": "Spooky Bundle",
+      "price": "£5.00",
+      "oldPrice": "",
+      "description": "Limited edition Halloween collection",
+      "items": ["Spiral Pumpkin", "Flexi Pumpkin", "Sitting Pumpkin"],
+      "image": "images/spooky-bundle.jpg"
+    }
+  ]
+}

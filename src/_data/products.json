@@ -1,0 +1,148 @@
+{
+  "items": [
+    {
+      "name": "Spiral Cone",
+      "price": "£2.00",
+      "description": "A mesmerising spiral fidget that keeps your hands busy.",
+      "category": "fidget",
+      "image": "images/spiral-cone.jpg",
+      "popular": true,
+      "badge": "Popular"
+    },
+    {
+      "name": "Fidget Button",
+      "price": "£2.00",
+      "description": "Satisfying clicky button fidget for endless pressing.",
+      "category": "fidget",
+      "image": "images/fidget-button.jpg",
+      "popular": false,
+      "badge": ""
+    },
+    {
+      "name": "Flexagon",
+      "price": "£1.50",
+      "description": "An infinitely folding geometric fidget toy.",
+      "category": "fidget",
+      "image": "images/flexagon.jpg",
+      "popular": true,
+      "badge": "Popular"
+    },
+    {
+      "name": "Fidget Twist",
+      "price": "£1.50",
+      "description": "Twist and turn for a soothing, tactile experience.",
+      "category": "fidget",
+      "image": "images/fidget-twist.jpg",
+      "popular": true,
+      "badge": "Popular"
+    },
+    {
+      "name": "Fidget Ring",
+      "price": "£0.50",
+      "description": "Discreet spinning ring fidget you can wear anywhere.",
+      "category": "fidget",
+      "image": "images/fidget-ring.jpg",
+      "popular": false,
+      "badge": ""
+    },
+    {
+      "name": "Fidget Slider",
+      "price": "£1.75",
+      "description": "Slide and click for a satisfying sensory fidget.",
+      "category": "fidget",
+      "image": "images/fidget-slider.jpg",
+      "popular": false,
+      "badge": ""
+    },
+    {
+      "name": "Infinity Cube",
+      "price": "£1.75",
+      "description": "Endlessly folding cube for satisfying tactile play.",
+      "category": "fidget",
+      "image": "images/infinity-cube.jpg",
+      "popular": false,
+      "badge": ""
+    },
+    {
+      "name": "Infinity Triangle",
+      "price": "£1.50",
+      "description": "Triangle twist on the classic infinity fidget.",
+      "category": "fidget",
+      "image": "images/infinity-triangle.jpg",
+      "popular": false,
+      "badge": ""
+    },
+    {
+      "name": "Flexi Slug",
+      "price": "£2.00",
+      "description": "Articulated slug that wiggles and bends in your hands.",
+      "category": "flexi",
+      "image": "images/flexi-slug.jpg",
+      "popular": false,
+      "badge": ""
+    },
+    {
+      "name": "Flexi Fish Bone",
+      "price": "£2.00",
+      "description": "Articulated fish skeleton that bends and flexes.",
+      "category": "flexi",
+      "image": "images/flexi-fish-bone.jpg",
+      "popular": false,
+      "badge": ""
+    },
+    {
+      "name": "Flexi Snake",
+      "price": "£2.00",
+      "description": "Slithering articulated snake with smooth movement.",
+      "category": "flexi",
+      "image": "images/flexi-snake.jpg",
+      "popular": true,
+      "badge": "Popular"
+    },
+    {
+      "name": "Flexi Dino",
+      "price": "£2.00",
+      "description": "Adorable articulated dinosaur with flexible joints.",
+      "category": "flexi",
+      "image": "images/flexi-dino.jpg",
+      "popular": false,
+      "badge": ""
+    },
+    {
+      "name": "Name Keychain",
+      "price": "£1.00+",
+      "description": "Personalised keychain with your name. Price varies by length.",
+      "category": "gadget",
+      "image": "images/name-keychain.jpg",
+      "popular": false,
+      "badge": "Custom"
+    },
+    {
+      "name": "Slim Wallet",
+      "price": "£1.50",
+      "description": "Minimalist 3D-printed card wallet. Slim and practical.",
+      "category": "gadget",
+      "image": "images/slim-wallet.jpg",
+      "popular": false,
+      "badge": ""
+    },
+    {
+      "name": "Flat Phone Stand",
+      "price": "£1.00",
+      "description": "Foldable phone stand that lies flat when not in use.",
+      "category": "gadget",
+      "image": "images/flat-phone-stand.jpg",
+      "popular": false,
+      "badge": ""
+    },
+    {
+      "name": "Rocktopus",
+      "price": "£1.50",
+      "description": "A cool octopus figure with rock 'n' roll attitude.",
+      "category": "gadget",
+      "image": "images/rocktopus.jpg",
+      "popular": false,
+      "badge": ""
+    }
+  ]
+}

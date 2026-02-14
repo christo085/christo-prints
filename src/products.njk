@@ -1,0 +1,81 @@
+---
+layout: base.njk
+title: "Products - Christo's Prints"
+description: "Browse all 3D-printed fidget toys and practical gadgets from Christo's Prints."
+activePage: products
+permalink: /products/
+---
+
+<!-- Page Header -->
+<div class="page-header">
+  <h1>All Products</h1>
+  <p>Fidget toys, practical gadgets, and more</p>
+</div>
+
+<!-- Products -->
+<section class="section" style="padding-top: 0;">
+  <!-- Filter Tabs -->
+  <div class="category-tabs">
+    <button class="tab-btn active" data-filter="all">All</button>
+    <button class="tab-btn" data-filter="fidget">Fidget Toys</button>
+    <button class="tab-btn" data-filter="flexi">Flexi Prints</button>
+    <button class="tab-btn" data-filter="gadget">Gadgets</button>
+  </div>
+
+  <div class="product-grid" id="productGrid">
+    {%- for product in products.items %}
+    <div class="product-card" data-category="{{ product.category }}">
+      <div class="product-card-img">
+        <img src="/{{ product.image }}" alt="{{ product.name }}">
+        {%- if product.badge %}
+        <span class="product-card-badge">{{ product.badge }}</span>
+        {%- endif %}
+      </div>
+      <div class="product-card-body">
+        <h3>{{ product.name }}</h3>
+        <p class="description">{{ product.description }}</p>
+        <div class="product-card-footer">
+          <span class="price">{{ product.price }}</span>
+          <button class="btn btn-primary btn-small btn-add-to-cart"
+            data-name="{{ product.name }}" data-price="{{ product.price }}" data-type="product"
+            onclick="Cart.addItem(this.dataset.name, this.dataset.price, this.dataset.type); Cart.flashAdded(this);"
+            aria-label="Add {{ product.name }} to basket">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="9" y1="6" x2="15" y2="6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    {%- endfor %}
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" style="padding-top: 0;">
+  <div class="cta-banner">
+    <h2>Don't See What You Want?</h2>
+    <p>Submit a custom print request and we'll make it for you.</p>
+    <a href="https://forms.office.com/e/wjeAfCDLKX" target="_blank" class="btn btn-primary">Request Custom Print &#8594;</a>
+  </div>
+</section>
+
+<script>
+  // Category filtering
+  const tabs = document.querySelectorAll('.tab-btn');
+  const cards = document.querySelectorAll('.product-card');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const filter = tab.dataset.filter;
+
+      cards.forEach(card => {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

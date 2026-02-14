@@ -1,0 +1,156 @@
+---
+layout: base.njk
+title: "Basket - Christo's Prints"
+description: "Review your basket and place an order from Christo's Prints."
+activePage: basket
+permalink: /basket/
+---
+
+<!-- Page Header -->
+<div class="page-header">
+  <h1>Your Basket</h1>
+  <p>Review your items and place your order</p>
+</div>
+
+<section class="section" style="padding-top: 0;">
+
+  <!-- Empty State -->
+  <div class="cart-empty" id="cartEmpty" hidden>
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+    </svg>
+    <h2>Your basket is empty</h2>
+    <p>Add some items and come back here to check out.</p>
+    <a href="/products/" class="btn btn-primary" style="margin-top: 16px;">Browse Products</a>
+  </div>
+
+  <!-- Success State -->
+  <div class="cart-success" id="cartSuccess" hidden>
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+      <polyline points="22 4 12 14.01 9 11.01"/>
+    </svg>
+    <h2>Order placed!</h2>
+    <p>Thanks for your order. We'll be in touch soon to confirm the details.</p>
+    <a href="/products/" class="btn btn-primary" style="margin-top: 16px;">Continue Browsing</a>
+  </div>
+
+  <!-- Cart Items -->
+  <div id="cartWrapper" hidden>
+    <div id="cartItems"></div>
+
+    <div class="cart-divider"></div>
+    <h3 class="cart-section-title">Your Details</h3>
+
+    <div class="form-container">
+      <form name="basket-order" method="POST" data-netlify="true" action="/basket/?success=true" id="basketForm">
+        <input type="hidden" name="form-name" value="basket-order">
+        <input type="hidden" name="cart-items" id="cartItemsField" value="">
+
+        <div class="form-group">
+          <label class="form-label" for="name">Name</label>
+          <input class="form-input" type="text" id="name" name="name" placeholder="Your name" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <input class="form-input" type="email" id="email" name="email" placeholder="you@example.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="phone">Phone</label>
+            <input class="form-input" type="tel" id="phone" name="phone" placeholder="07xxx xxxxxx">
+          </div>
+        </div>
+        <p class="form-hint">Please provide at least an email or phone number.</p>
+        <p class="form-error" id="contactError">Please enter an email address or phone number so we can reach you.</p>
+
+        <div class="form-group">
+          <label class="form-label" for="notes">Notes</label>
+          <textarea class="form-textarea" id="notes" name="notes" placeholder="Anything else you'd like us to know (e.g. custom name for keychains)"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-large">Place Order</button>
+      </form>
+    </div>
+  </div>
+
+</section>
+
+<script>
+(function () {
+  var COLOURS = ['No preference','Red','Orange','Yellow','Green','Dark Green','White','Black','Silky Green/Blue','Rainbow','Other'];
+
+  // Check for success redirect
+  if (new URLSearchParams(window.location.search).get('success') === 'true') {
+    Cart.clear();
+    document.getElementById('cartSuccess').hidden = false;
+    return;
+  }
+
+  function render() {
+    var items = Cart.getItems();
+    var empty = document.getElementById('cartEmpty');
+    var wrapper = document.getElementById('cartWrapper');
+    var container = document.getElementById('cartItems');
+
+    if (items.length === 0) {
+      empty.hidden = false;
+      wrapper.hidden = true;
+      return;
+    }
+    empty.hidden = true;
+    wrapper.hidden = false;
+
+    container.innerHTML = items.map(function (item) {
+      var colourOptions = COLOURS.map(function (c) {
+        return '<option value="' + c + '"' + (item.colour === c ? ' selected' : '') + '>' + c + '</option>';
+      }).join('');
+
+      return '<div class="cart-item" data-id="' + item.id + '">' +
+        '<div class="cart-item-info">' +
+          '<span class="cart-item-name">' + item.name + '</span>' +
+          '<span class="cart-item-price">' + item.price + '</span>' +
+        '</div>' +
+        '<div class="cart-item-controls">' +
+          '<select class="form-input form-input-sm" onchange="Cart.updateColour(\'' + item.id + '\', this.value)">' + colourOptions + '</select>' +
+          '<div class="btn-qty-group">' +
+            '<button type="button" class="btn-qty" onclick="Cart.updateQty(\'' + item.id + '\', -1); basketRender();">&#8722;</button>' +
+            '<span class="btn-qty-count">' + item.qty + '</span>' +
+            '<button type="button" class="btn-qty" onclick="Cart.updateQty(\'' + item.id + '\', 1); basketRender();">+</button>' +
+          '</div>' +
+          '<button type="button" class="cart-item-remove" onclick="Cart.removeItem(\'' + item.id + '\'); basketRender();" aria-label="Remove">&times;</button>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  window.basketRender = render;
+  render();
+
+  // Form validation & submission
+  var form = document.getElementById('basketForm');
+  form.addEventListener('submit', function (e) {
+    var email = document.getElementById('email').value.trim();
+    var phone = document.getElementById('phone').value.trim();
+    var errorEl = document.getElementById('contactError');
+
+    if (!email && !phone) {
+      e.preventDefault();
+      errorEl.classList.add('visible');
+      document.getElementById('email').focus();
+      return;
+    }
+    errorEl.classList.remove('visible');
+    document.getElementById('cartItemsField').value = Cart.toSummaryText();
+  });
+
+  document.getElementById('email').addEventListener('input', function () {
+    document.getElementById('contactError').classList.remove('visible');
+  });
+  document.getElementById('phone').addEventListener('input', function () {
+    document.getElementById('contactError').classList.remove('visible');
+  });
+})();
+</script>
