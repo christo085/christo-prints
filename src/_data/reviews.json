@@ -1,29 +1,29 @@
 {
-  "googleReviewsEnabled": false,
+  "googlePlaceId": "",
   "items": [
     {
-      "author": "Sarah M.",
+      "author": "Customer",
       "stars": 5,
-      "text": "My kids absolutely love the fidget toys! Great quality and the colours are so vibrant. Will definitely be ordering more.",
-      "date": "January 2025"
+      "text": "The product is great quality and I liked the speedy response and delivery. I'd give it a 10/10.",
+      "date": ""
     },
     {
-      "author": "James T.",
+      "author": "Customer",
       "stars": 5,
-      "text": "Ordered a custom print and Christo was brilliant — quick turnaround and exactly what I asked for. Highly recommend!",
-      "date": "December 2024"
+      "text": "This business is amazing. Great customer service. I got the fidget button and the product quality is amazing.",
+      "date": ""
     },
     {
-      "author": "Laura K.",
+      "author": "User",
       "stars": 5,
-      "text": "Bought a bundle as a gift and it went down a treat. Fantastic value for the price.",
-      "date": "November 2024"
+      "text": "The product was very fun to fidget with, and makes a fun sound :)",
+      "date": ""
     },
     {
-      "author": "Mark D.",
-      "stars": 4,
-      "text": "Really impressed with the print quality. The flexi prints are so satisfying to play with. Great little business!",
-      "date": "October 2024"
+      "author": "Customer",
+      "stars": 5,
+      "text": "Soooo amazing!! I love the fidgets!",
+      "date": ""
     }
   ]
 }
