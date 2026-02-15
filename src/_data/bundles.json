@@ -15,14 +15,6 @@
       "description": "Essential outdoor gadgets",
       "items": ["Carabiner", "Screw Lock Carabiner", "Whistle"],
       "image": "images/adventure-bundle.jpg"
-    },
-    {
-      "name": "Spooky Bundle",
-      "price": "£5.00",
-      "oldPrice": "",
-      "description": "Limited edition Halloween collection",
-      "items": ["Spiral Pumpkin", "Flexi Pumpkin", "Sitting Pumpkin"],
-      "image": "images/spooky-bundle.jpg"
     }
   ]
 }

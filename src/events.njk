@@ -123,6 +123,18 @@ permalink: /events/
   }
   </script>
   {%- else %}
-  <p style="text-align: center; color: var(--text-secondary);">No seasonal specials right now — check back soon!</p>
+  <p style="text-align: center; color: var(--text-secondary);">Nothing available at the moment — new seasonal collections coming soon!</p>
+  {%- endif %}
+
+  {%- if events.upcomingSeasonal | length > 0 %}
+  <div class="features-grid" style="margin-top: 32px;">
+    {%- for season in events.upcomingSeasonal %}
+    <div class="feature-card">
+      <div class="upcoming-seasonal-badge">{{ season.expected }}</div>
+      <h3>{{ season.name }}</h3>
+      <p>{{ season.description }}</p>
+    </div>
+    {%- endfor %}
+  </div>
   {%- endif %}
 </section>

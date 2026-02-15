@@ -9,7 +9,7 @@
     { "name": "Black", "hex": "#212529" }
   ],
   "special": [
-    { "name": "Silk Green & Blue", "hex": "linear-gradient(135deg, #1b5e20, #0d3b2e, #0d47a1)", "description": "A single silk filament that shimmers between dark green and dark blue depending on the light" },
+    { "name": "Silk Green & Blue", "hex": "linear-gradient(135deg, #1b5e20, #0d3b2e, #0d47a1)", "description": "A shiny filament that depending from the direction you look at, you see dark green or dark blue" },
     { "name": "Rainbow", "hex": "linear-gradient(90deg, #e63946, #f77f00, #fcbf49, #4caf50, #3a86ff, #7209b7)" }
   ],
   "dropdownOptions": [

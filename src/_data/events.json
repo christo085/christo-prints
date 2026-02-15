@@ -7,5 +7,22 @@
         "location": "Boroughmuir High School"
       }
     ],
-    "seasonal": []
+    "seasonal": [],
+    "upcomingSeasonal": [
+      {
+        "name": "Easter",
+        "description": "Easter-themed prints and spring specials",
+        "expected": "April 2026"
+      },
+      {
+        "name": "Halloween",
+        "description": "Spooky prints and creepy collectibles",
+        "expected": "October 2026"
+      },
+      {
+        "name": "Christmas",
+        "description": "Festive prints, decorations and stocking fillers",
+        "expected": "December 2026"
+      }
+    ]
   }
