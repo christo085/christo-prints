@@ -3,7 +3,7 @@
     {
       "name": "Spiral Cone",
       "price": "£2.00",
-      "description": "A mesmerising spiral fidget that keeps your hands busy.",
+      "description": "THe popular mesmerising spiral fidget that keeps your hands busy.",
       "category": "fidget",
       "image": "images/spiral-cone.jpg",
       "popular": true,
@@ -12,7 +12,7 @@
     {
       "name": "Fidget Button",
       "price": "£2.00",
-      "description": "Satisfying clicky button fidget for endless pressing.",
+      "description": "Infinite satisfying clicking on the button fidget.",
       "category": "fidget",
       "image": "images/fidget-button.jpg",
       "popular": false,
@@ -21,7 +21,7 @@
     {
       "name": "Flexagon",
       "price": "£1.50",
-      "description": "An infinitely folding geometric fidget toy.",
+      "description": "Satisfying hexagonal fidget toy that looks so cool.",
       "category": "fidget",
       "image": "images/flexagon.jpg",
       "popular": true,
@@ -30,7 +30,7 @@
     {
       "name": "Fidget Twist",
       "price": "£1.50",
-      "description": "Twist and turn for a soothing, tactile experience.",
+      "description": "Keep twisting forever with the mesmirising twist fidget.",
       "category": "fidget",
       "image": "images/fidget-twist.jpg",
       "popular": true,
@@ -39,7 +39,7 @@
     {
       "name": "Fidget Ring",
       "price": "£0.50",
-      "description": "Discreet spinning ring fidget you can wear anywhere.",
+      "description": "Small, discreet spinning ring fidget you can wear anywhere.",
       "category": "fidget",
       "image": "images/fidget-ring.jpg",
       "popular": false,
@@ -48,7 +48,7 @@
     {
       "name": "Fidget Slider",
       "price": "£1.75",
-      "description": "Slide and click for a satisfying sensory fidget.",
+      "description": "Keep sliding forever with this satisfying sensory fidget.",
       "category": "fidget",
       "image": "images/fidget-slider.jpg",
       "popular": false,
@@ -120,7 +120,7 @@
     {
       "name": "Slim Wallet",
       "price": "£1.50",
-      "description": "Minimalist 3D-printed card wallet. Slim and practical.",
+      "description": "Minimalist 3D-printed card wallet. Slim and practical. Holds 2 cards.",
       "category": "gadget",
       "image": "images/slim-wallet.jpg",
       "popular": false,
@@ -138,7 +138,7 @@
     {
       "name": "Rocktopus",
       "price": "£1.50",
-      "description": "It's 'the Rock' on an octopus body! Who wouldn't want that?",
+      "description": "It's 'The Rock' on an octopus body! Who wouldn't want that?",
       "category": "flexi",
       "image": "images/rocktopus.jpg",
       "popular": false,
