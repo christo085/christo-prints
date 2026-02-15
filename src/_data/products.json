@@ -143,6 +143,42 @@
       "image": "images/rocktopus.jpg",
       "popular": false,
       "badge": ""
+    },
+    {
+      "name": "Joystick",
+      "price": "£1.50",
+      "description": "Fidget joystick that clicks and tilts in every direction.",
+      "category": "fidget",
+      "image": "images/joystick.jpg",
+      "popular": false,
+      "badge": ""
+    },
+    {
+      "name": "Carabiner",
+      "price": "£1.00",
+      "description": "Handy 3D-printed carabiner clip for bags, keys, and gear.",
+      "category": "gadget",
+      "image": "images/carabiner.jpg",
+      "popular": false,
+      "badge": ""
+    },
+    {
+      "name": "Screw Lock Carabiner",
+      "price": "£1.50",
+      "description": "Twist-lock carabiner for a more secure hold on your stuff.",
+      "category": "gadget",
+      "image": "images/screw-lock-carabiner.jpg",
+      "popular": false,
+      "badge": ""
+    },
+    {
+      "name": "Whistle",
+      "price": "£1.00",
+      "description": "Loud 3D-printed whistle. Great for outdoors and emergencies.",
+      "category": "gadget",
+      "image": "images/whistle.jpg",
+      "popular": false,
+      "badge": ""
     }
   ]
 }

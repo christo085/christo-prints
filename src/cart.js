@@ -22,12 +22,26 @@ window.Cart = (function () {
 
   function addItem(name, price, type) {
     var items = getItems();
-    var id = slugify(name);
-    var existing = items.find(function (i) { return i.id === id; });
-    if (existing) {
-      existing.qty += 1;
+    var isKeychain = name === 'Name Keychain';
+
+    if (isKeychain) {
+      // Each keychain is a separate entry with unique ID
+      var count = items.filter(function (i) { return i.name === 'Name Keychain'; }).length;
+      var id = 'name-keychain-' + (count + 1);
+      // Ensure unique ID
+      while (items.find(function (i) { return i.id === id; })) {
+        count++;
+        id = 'name-keychain-' + (count + 1);
+      }
+      items.push({ id: id, name: name, price: '£1.00', type: type || 'product', colour: 'No preference', qty: 1, keychainName: '' });
     } else {
-      items.push({ id: id, name: name, price: price, type: type || 'product', colour: 'No preference', qty: 1 });
+      var id = slugify(name);
+      var existing = items.find(function (i) { return i.id === id; });
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        items.push({ id: id, name: name, price: price, type: type || 'product', colour: 'No preference', qty: 1 });
+      }
     }
     _save(items);
     updateBadge();
@@ -56,6 +70,22 @@ window.Cart = (function () {
     _save(items);
   }
 
+  function updateKeychainName(id, name) {
+    var items = getItems();
+    var item = items.find(function (i) { return i.id === id; });
+    if (!item) return;
+    item.keychainName = name;
+    item.price = keychainPrice(name);
+    _save(items);
+  }
+
+  function keychainPrice(name) {
+    var len = (name || '').trim().length;
+    if (len <= 4) return '£1.00';
+    if (len <= 7) return '£1.50';
+    return '£2.00';
+  }
+
   function clear() {
     _save([]);
     updateBadge();
@@ -65,9 +95,18 @@ window.Cart = (function () {
     return getItems().reduce(function (sum, i) { return sum + i.qty; }, 0);
   }
 
+  function getTotal() {
+    return getItems().reduce(function (sum, i) {
+      var p = parseFloat((i.price || '0').replace('£', '')) || 0;
+      return sum + (p * i.qty);
+    }, 0);
+  }
+
   function toSummaryText() {
     return getItems().map(function (i) {
-      return i.qty + 'x ' + i.name + ' (' + i.colour + ') - ' + i.price + ' each';
+      var line = i.qty + 'x ' + i.name + ' (' + i.colour + ') - ' + i.price + ' each';
+      if (i.keychainName) line += ' [Name: ' + i.keychainName + ']';
+      return line;
     }).join('\n');
   }
 
@@ -100,8 +139,11 @@ window.Cart = (function () {
     removeItem: removeItem,
     updateQty: updateQty,
     updateColour: updateColour,
+    updateKeychainName: updateKeychainName,
+    keychainPrice: keychainPrice,
     clear: clear,
     getCount: getCount,
+    getTotal: getTotal,
     toSummaryText: toSummaryText,
     updateBadge: updateBadge,
     flashAdded: flashAdded

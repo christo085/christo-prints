@@ -32,13 +32,15 @@ permalink: /basket/
       <polyline points="22 4 12 14.01 9 11.01"/>
     </svg>
     <h2>Order placed!</h2>
-    <p>Thanks for your order. We'll be in touch soon to confirm the details.</p>
-    <a href="/products/" class="btn btn-primary" style="margin-top: 16px;">Continue Browsing</a>
+    <p>Thanks for your order! We'll message you on WhatsApp or email to confirm the details and arrange collection.</p>
+    <div id="orderSummary"></div>
+    <a href="/products/" class="btn btn-primary" style="margin-top: 20px;">Continue Browsing</a>
   </div>
 
   <!-- Cart Items -->
   <div id="cartWrapper" hidden>
     <div id="cartItems"></div>
+    <div class="cart-total" id="cartTotal"></div>
 
     <div class="cart-divider"></div>
     <h3 class="cart-section-title">Your Details</h3>
@@ -84,8 +86,22 @@ permalink: /basket/
 
   // Check for success redirect
   if (new URLSearchParams(window.location.search).get('success') === 'true') {
+    var savedOrder = [];
+    try { savedOrder = JSON.parse(sessionStorage.getItem('christoOrderSummary')) || []; } catch (e) {}
+    sessionStorage.removeItem('christoOrderSummary');
     Cart.clear();
     document.getElementById('cartSuccess').hidden = false;
+
+    if (savedOrder.length > 0) {
+      var summaryHtml = '<div class="order-summary"><h3>Order Summary</h3><ul>';
+      savedOrder.forEach(function (item) {
+        var line = item.qty + 'x ' + item.name + ' (' + item.colour + ') — ' + item.price + ' each';
+        if (item.keychainName) line += ' [Name: ' + item.keychainName + ']';
+        summaryHtml += '<li>' + line + '</li>';
+      });
+      summaryHtml += '</ul></div>';
+      document.getElementById('orderSummary').innerHTML = summaryHtml;
+    }
     return;
   }
 
@@ -105,6 +121,7 @@ permalink: /basket/
 
     container.innerHTML = items.map(function (item) {
       var isPresetColour = item.type === 'bundle' || item.type === 'seasonal';
+      var isKeychain = item.name === 'Name Keychain';
       var colourHtml;
 
       if (isPresetColour) {
@@ -114,6 +131,26 @@ permalink: /basket/
           return '<option value="' + c + '"' + (item.colour === c ? ' selected' : '') + '>' + c + '</option>';
         }).join('');
         colourHtml = '<select class="form-input form-input-sm" onchange="Cart.updateColour(\'' + item.id + '\', this.value)">' + colourOptions + '</select>';
+      }
+
+      if (isKeychain) {
+        var nameVal = item.keychainName || '';
+        var estPrice = Cart.keychainPrice(nameVal);
+        return '<div class="cart-item cart-item-keychain" data-id="' + item.id + '">' +
+          '<div class="cart-item-info">' +
+            '<span class="cart-item-name">Name Keychain</span>' +
+            '<span class="cart-item-price">£1.00+</span>' +
+          '</div>' +
+          '<div class="cart-keychain-row">' +
+            '<input type="text" class="form-input form-input-sm" placeholder="Enter name" value="' + nameVal.replace(/"/g, '&quot;') + '" ' +
+              'oninput="handleKeychainInput(\'' + item.id + '\', this)" maxlength="15">' +
+            '<span class="cart-keychain-estimate" id="keychain-est-' + item.id + '">Est: ' + estPrice + '</span>' +
+          '</div>' +
+          '<div class="cart-item-controls">' +
+            colourHtml +
+            '<button type="button" class="cart-item-remove" onclick="Cart.removeItem(\'' + item.id + '\'); basketRender();" aria-label="Remove">&times;</button>' +
+          '</div>' +
+        '</div>';
       }
 
       return '<div class="cart-item" data-id="' + item.id + '">' +
@@ -132,9 +169,32 @@ permalink: /basket/
         '</div>' +
       '</div>';
     }).join('');
+
+    // "Add another keychain" button if at least one keychain exists
+    var hasKeychain = items.some(function (i) { return i.name === 'Name Keychain'; });
+    if (hasKeychain) {
+      container.innerHTML += '<button type="button" class="btn btn-secondary btn-add-keychain" onclick="Cart.addItem(\'Name Keychain\', \'£1.00+\', \'product\'); basketRender();">+ Add another keychain</button>';
+    }
+
+    // Update total
+    var total = Cart.getTotal();
+    document.getElementById('cartTotal').innerHTML =
+      '<div class="cart-total-row"><span>Estimated Total</span><span class="cart-total-price">£' + total.toFixed(2) + '</span></div>';
   }
 
   window.basketRender = render;
+
+  window.handleKeychainInput = function (id, input) {
+    Cart.updateKeychainName(id, input.value);
+    var estEl = document.getElementById('keychain-est-' + id);
+    var newPrice = Cart.keychainPrice(input.value);
+    if (estEl) estEl.textContent = 'Est: ' + newPrice;
+    // Update total without full re-render
+    var total = Cart.getTotal();
+    document.getElementById('cartTotal').innerHTML =
+      '<div class="cart-total-row"><span>Estimated Total</span><span class="cart-total-price">£' + total.toFixed(2) + '</span></div>';
+  };
+
   render();
 
   // Form validation & submission
@@ -152,6 +212,7 @@ permalink: /basket/
     }
     errorEl.classList.remove('visible');
     document.getElementById('cartItemsField').value = Cart.toSummaryText();
+    try { sessionStorage.setItem('christoOrderSummary', JSON.stringify(Cart.getItems())); } catch (e) {}
   });
 
   document.getElementById('email').addEventListener('input', function () {
