@@ -139,7 +139,7 @@
       "name": "Rocktopus",
       "price": "£1.50",
       "description": "It's 'the Rock' on an octopus body! Who wouldn't want that?",
-      "category": "gadget",
+      "category": "flexi",
       "image": "images/rocktopus.jpg",
       "popular": false,
       "badge": ""
