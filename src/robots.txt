@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://christoprints.co.uk/sitemap.xml
+Sitemap: https://christoprints.com/sitemap.xml

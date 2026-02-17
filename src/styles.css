@@ -809,10 +809,6 @@ img {
     display: block;
   }
 
-  .nav-basket-mobile {
-    display: flex;
-  }
-
   .nav-links .nav-basket {
     display: none;
   }
@@ -1043,6 +1039,12 @@ select.form-input {
   align-items: center;
   color: var(--text-primary);
   padding: 8px;
+}
+
+@media (max-width: 1024px) {
+  .nav-basket-mobile {
+    display: flex;
+  }
 }
 
 .nav-right {
