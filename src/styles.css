@@ -1432,6 +1432,12 @@ select.form-input {
   color: var(--bg-primary);
 }
 
+@media (max-width: 1024px) {
+  .back-to-top {
+    bottom: 96px;
+  }
+}
+
 /* ===== Upcoming Seasonal Badge ===== */
 .upcoming-seasonal-badge {
   display: inline-block;
