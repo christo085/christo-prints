@@ -35,7 +35,7 @@ html {
 
 body {
   overflow-x: hidden;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
   background: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.6;
@@ -1490,6 +1490,25 @@ select.form-input {
 .nav-overlay.visible {
   opacity: 1;
   pointer-events: auto;
+}
+
+/* ===== Footer Credit ===== */
+.footer-credit {
+  width: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  margin-top: 24px;
+}
+
+.footer-credit a {
+  color: var(--text-muted);
+}
+
+.footer-credit a:hover {
+  color: var(--accent);
 }
 
 /* ===== Footer Email ===== */

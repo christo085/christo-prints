@@ -18,6 +18,7 @@
     links.classList.add('open');
     overlay.classList.add('visible');
     toggle.textContent = '\u2715';
+    toggle.setAttribute('aria-expanded', 'true');
     scrollStart = window.scrollY;
     document.body.style.overflow = 'hidden';
 
@@ -34,6 +35,7 @@
     links.classList.remove('open');
     overlay.classList.remove('visible');
     toggle.textContent = '\u2630';
+    toggle.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
 
     menuItems.forEach(function (li) {

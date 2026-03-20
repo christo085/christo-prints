@@ -5,10 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ title }}</title>
   <meta name="description" content="{{ description }}">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+  <link rel="canonical" href="https://christoprints.com{{ page.url }}">
+  <meta property="og:title" content="{{ title }}">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://christoprints.com{{ page.url }}">
+  <meta property="og:locale" content="en_GB">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Christo's Prints",
+    "description": "Affordable, high-quality 3D-printed fidget toys and practical gadgets. Printing happiness, one layer at a time.",
+    "url": "https://christoprints.com",
+    "email": "christo3dprints@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Edinburgh",
+      "addressCountry": "GB"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "3D Printed Products",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Fidget Toys" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Flexi Prints" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Gadgets" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Custom Prints" } }
+      ]
+    }
+  }
+  </script>
   <link rel="icon" type="image/png" href="/CPLogo.png">
   <link rel="stylesheet" href="/styles.css">
   <script src="/cart.js"></script>
@@ -16,7 +43,8 @@
 <body>
 
   <!-- Navigation -->
-  <nav class="navbar">
+  <header>
+  <nav class="navbar" aria-label="Main navigation">
     <div class="nav-inner">
       <a href="/" class="nav-logo">
 Christo's Prints
@@ -42,12 +70,15 @@ Christo's Prints
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           <span class="cart-badge" id="cart-count-mobile" hidden>0</span>
         </a>
-        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navLinks">&#9776;</button>
       </div>
     </div>
   </nav>
+  </header>
 
+  <main>
   {{ content | safe }}
+  </main>
 
   <!-- Footer -->
   <footer class="footer">
@@ -67,6 +98,7 @@ Christo's Prints
         <li><a href="/terms/">Terms</a></li>
       </ul>
     </div>
+    <div class="footer-credit">Made by <a href="https://forthdigital.uk" target="_blank" rel="noopener">Forth Digital</a></div>
   </footer>
 
   <!-- Back to Top -->
@@ -89,10 +121,6 @@ Christo's Prints
     }, true);
   </script>
   <script defer src="/nav.js"></script>
-  <script>
-    (function(){var s=document.createElement('script');s.src='https://identity.netlify.com/v1/netlify-identity-widget.js';s.async=true;s.onload=function(){if(window.netlifyIdentity){window.netlifyIdentity.on("init",function(user){if(!user){window.netlifyIdentity.on("login",function(){document.location.href="/admin/"})}})}};document.head.appendChild(s)})();
-  </script>
-
   <!-- WhatsApp floating button -->
   <style>
     #wa-btn{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;align-items:center;gap:0;cursor:pointer;text-decoration:none}
@@ -100,7 +128,7 @@ Christo's Prints
     #wa-btn:hover #wa-bubble{transform:scale(1.08);box-shadow:0 6px 28px rgba(37,211,102,.6)}
     #wa-bubble::before{content:'';position:absolute;width:58px;height:58px;border-radius:50%;background:rgba(37,211,102,.25);animation:waPulse 2s ease-out infinite}
     @keyframes waPulse{0%{transform:scale(1);opacity:1}100%{transform:scale(1.7);opacity:0}}
-    #wa-label{background:#25D366;color:#fff;font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:700;padding:8px 14px 8px 18px;border-radius:30px 0 0 30px;margin-right:-6px;white-space:nowrap;box-shadow:0 2px 10px rgba(37,211,102,.3);opacity:0;transform:translateX(10px);transition:opacity .25s,transform .25s;pointer-events:none}
+    #wa-label{background:#25D366;color:#fff;font-family:inherit;font-size:.82rem;font-weight:700;padding:8px 14px 8px 18px;border-radius:30px 0 0 30px;margin-right:-6px;white-space:nowrap;box-shadow:0 2px 10px rgba(37,211,102,.3);opacity:0;transform:translateX(10px);transition:opacity .25s,transform .25s;pointer-events:none}
     #wa-btn:hover #wa-label{opacity:1;transform:translateX(0)}
   </style>
   <a id="wa-btn" href="https://wa.me/447435976773?text=Hi%20Christo!%20I%20found%20your%20website%20and%20I%27d%20like%20to%20order%20%F0%9F%96%A8%EF%B8%8F" target="_blank" rel="noopener">

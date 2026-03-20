@@ -3,7 +3,7 @@
     {
       "name": "Spiral Cone",
       "price": "£2.00",
-      "description": "THe popular mesmerising spiral fidget that keeps your hands busy.",
+      "description": "The popular mesmerising spiral fidget that keeps your hands busy.",
       "category": "fidget",
       "image": "images/spiral-cone.jpg",
       "popular": true,
@@ -30,7 +30,7 @@
     {
       "name": "Fidget Twist",
       "price": "£1.50",
-      "description": "Keep twisting forever with the mesmirising twist fidget.",
+      "description": "Keep twisting forever with the mesmerising twist fidget.",
       "category": "fidget",
       "image": "images/fidget-twist.jpg",
       "popular": true,

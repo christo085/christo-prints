@@ -7,7 +7,43 @@
         "location": "Boroughmuir High School"
       }
     ],
-    "seasonal": [],
+    "seasonal": [
+      {
+        "name": "Flexi Bunny",
+        "price": "£2.00",
+        "description": "Adorable articulated rabbit that wiggles and hops in your hands. Perfect for Easter!",
+        "image": "images/flexi-bunny.jpg",
+        "badge": "Easter"
+      },
+      {
+        "name": "Easter Egg",
+        "price": "£1.50",
+        "description": "Decorative hollow Easter egg, great for displaying or gifting.",
+        "image": "images/easter-egg.jpg",
+        "badge": "Easter"
+      },
+      {
+        "name": "Spring Chick",
+        "price": "£1.50",
+        "description": "Cute little fluffy chick fresh out of the egg. A springtime favourite!",
+        "image": "images/spring-chick.jpg",
+        "badge": "Easter"
+      },
+      {
+        "name": "Flexi Butterfly",
+        "price": "£2.00",
+        "description": "Beautiful articulated butterfly with wings that gently flex and flutter.",
+        "image": "images/flexi-butterfly.jpg",
+        "badge": "Easter"
+      },
+      {
+        "name": "Tulip",
+        "price": "£1.00",
+        "description": "A charming 3D-printed tulip to brighten up any space this spring.",
+        "image": "images/tulip.jpg",
+        "badge": "Easter"
+      }
+    ],
     "upcomingSeasonal": [
       {
         "name": "Easter",
