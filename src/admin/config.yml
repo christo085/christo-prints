@@ -5,21 +5,24 @@ backend:
 media_folder: "src/images"
 public_folder: "/images"
 
+logo_url: /CPLogo.png
+
 collections:
-  - name: "data"
-    label: "Site Data"
+  - name: "products"
+    label: "Products"
     files:
       - name: "products"
-        label: "Products"
+        label: "All Products"
         file: "src/_data/products.json"
         fields:
           - name: "items"
             label: "Products"
             widget: "list"
+            summary: "{{fields.name}} — {{fields.price}}"
             fields:
               - { name: "name", label: "Name", widget: "string" }
-              - { name: "price", label: "Price", widget: "string" }
-              - { name: "description", label: "Description", widget: "string" }
+              - { name: "price", label: "Price (e.g. £2.00)", widget: "string" }
+              - { name: "description", label: "Description", widget: "text" }
               - name: "category"
                 label: "Category"
                 widget: "select"
@@ -27,82 +30,152 @@ collections:
                   - { label: "Fidget Toys", value: "fidget" }
                   - { label: "Flexi Prints", value: "flexi" }
                   - { label: "Gadgets", value: "gadget" }
-              - { name: "image", label: "Image", widget: "image" }
+                  - { label: "Decor", value: "decor" }
+              - { name: "image", label: "Main Image", widget: "image" }
+              - name: "images"
+                label: "Extra Photos (gallery on product page)"
+                widget: "list"
+                required: false
+                field: { name: "image", label: "Image", widget: "image" }
+              - name: "colours"
+                label: "Available Colours"
+                hint: "Leave empty to show all colours. Add specific colour names (e.g. Red, Rainbow) to restrict."
+                widget: "list"
+                required: false
+                field: { name: "colour", label: "Colour name", widget: "string" }
               - { name: "popular", label: "Popular", widget: "boolean", default: false }
-              - { name: "badge", label: "Badge", widget: "string", required: false }
+              - name: "badge"
+                label: "Badge"
+                widget: "select"
+                required: false
+                default: ""
+                options:
+                  - { label: "None", value: "" }
+                  - { label: "Popular", value: "Popular" }
+                  - { label: "Custom", value: "Custom" }
+                  - { label: "Easter", value: "Easter" }
+                  - { label: "New", value: "New" }
+                  - { label: "Sale", value: "Sale" }
 
+  - name: "bundles"
+    label: "Bundles"
+    files:
       - name: "bundles"
-        label: "Bundles"
+        label: "Pre-made Bundles"
         file: "src/_data/bundles.json"
         fields:
           - name: "items"
             label: "Bundles"
             widget: "list"
+            summary: "{{fields.name}} — {{fields.price}}"
             fields:
-              - { name: "name", label: "Name", widget: "string" }
-              - { name: "price", label: "Price", widget: "string" }
-              - { name: "oldPrice", label: "Old Price", widget: "string", required: false }
-              - { name: "description", label: "Description", widget: "string" }
+              - { name: "name", label: "Bundle Name", widget: "string" }
+              - { name: "price", label: "Bundle Price (e.g. £4.00)", widget: "string" }
+              - { name: "oldPrice", label: "Original Price (e.g. £5.00)", widget: "string", required: false }
+              - { name: "description", label: "Short Description", widget: "string" }
               - name: "items"
-                label: "Included Items"
+                label: "Included Products (by name)"
                 widget: "list"
-                field: { name: "item", label: "Item", widget: "string" }
-              - { name: "image", label: "Image", widget: "image" }
+                field: { name: "item", label: "Product name", widget: "string" }
+              - { name: "image", label: "Bundle Image", widget: "image" }
 
-      - name: "colours"
-        label: "Colours"
-        file: "src/_data/colours.json"
-        fields:
-          - name: "standard"
-            label: "Standard Colours"
-            widget: "list"
-            fields:
-              - { name: "name", label: "Name", widget: "string" }
-              - { name: "hex", label: "Hex / CSS Value", widget: "string" }
-          - name: "special"
-            label: "Special Colours"
-            widget: "list"
-            fields:
-              - { name: "name", label: "Name", widget: "string" }
-              - { name: "hex", label: "Hex / CSS Value", widget: "string" }
-              - { name: "description", label: "Description", widget: "string", required: false }
-          - name: "dropdownOptions"
-            label: "Basket Dropdown Options"
-            widget: "list"
-            field: { name: "option", label: "Option", widget: "string" }
-
-      - name: "reviews"
-        label: "Reviews"
-        file: "src/_data/reviews.json"
-        fields:
-          - { name: "googlePlaceId", label: "Google Place ID (for embed)", widget: "string", required: false }
-          - name: "items"
-            label: "Reviews"
-            widget: "list"
-            fields:
-              - { name: "author", label: "Author", widget: "string" }
-              - { name: "stars", label: "Stars (1-5)", widget: "number", min: 1, max: 5 }
-              - { name: "text", label: "Review Text", widget: "text" }
-              - { name: "date", label: "Date", widget: "string", required: false }
-
+  - name: "events"
+    label: "Events & Seasonal"
+    files:
       - name: "events"
-        label: "Events"
+        label: "Events & Seasonal"
         file: "src/_data/events.json"
         fields:
           - name: "upcoming"
             label: "Upcoming Events"
             widget: "list"
+            summary: "{{fields.name}} — {{fields.date}}"
             fields:
               - { name: "name", label: "Event Name", widget: "string" }
-              - { name: "date", label: "Date", widget: "string" }
+              - { name: "date", label: "Date (YYYY-MM-DD)", widget: "string" }
               - { name: "location", label: "Location", widget: "string" }
-              - { name: "description", label: "Description", widget: "string" }
+              - { name: "description", label: "Description", widget: "text" }
           - name: "seasonal"
-            label: "Seasonal Specials"
+            label: "Seasonal Products"
+            hint: "Set activeFrom/activeTo to auto-show during a season."
             widget: "list"
+            summary: "{{fields.name}} — {{fields.badge}}"
             fields:
               - { name: "name", label: "Name", widget: "string" }
-              - { name: "price", label: "Price", widget: "string" }
-              - { name: "description", label: "Description", widget: "string" }
+              - { name: "price", label: "Price (e.g. £3.00)", widget: "string" }
+              - { name: "description", label: "Description", widget: "text" }
               - { name: "image", label: "Image", widget: "image" }
-              - { name: "badge", label: "Badge", widget: "string" }
+              - name: "badge"
+                label: "Badge"
+                widget: "select"
+                options:
+                  - { label: "Easter", value: "Easter" }
+                  - { label: "Halloween", value: "Halloween" }
+                  - { label: "Christmas", value: "Christmas" }
+                  - { label: "Spring", value: "Spring" }
+                  - { label: "Other", value: "Other" }
+              - { name: "activeFrom", label: "Active From (YYYY-MM-DD)", widget: "string", required: false }
+              - { name: "activeTo", label: "Active Until (YYYY-MM-DD)", widget: "string", required: false }
+          - name: "upcomingSeasonals"
+            label: "Upcoming Seasonal Announcements"
+            hint: "Teaser items shown before a season starts."
+            widget: "list"
+            required: false
+            summary: "{{fields.name}}"
+            fields:
+              - { name: "name", label: "Name", widget: "string" }
+              - { name: "expectedDate", label: "Expected Date", widget: "string", required: false }
+              - { name: "description", label: "Description", widget: "string", required: false }
+
+  - name: "colours"
+    label: "Colours"
+    files:
+      - name: "colours"
+        label: "Colour Options"
+        file: "src/_data/colours.json"
+        fields:
+          - name: "standard"
+            label: "Standard Colours"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - { name: "name", label: "Name", widget: "string" }
+              - { name: "hex", label: "Hex code (e.g. #e63946)", widget: "string" }
+          - name: "special"
+            label: "Special Colours (gradients, effects)"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - { name: "name", label: "Name", widget: "string" }
+              - { name: "hex", label: "CSS value (hex or gradient)", widget: "string" }
+              - { name: "description", label: "Description", widget: "string", required: false }
+          - name: "dropdownOptions"
+            label: "Basket Colour Dropdown"
+            hint: "The list shown when choosing a colour in the basket."
+            widget: "list"
+            field: { name: "option", label: "Option", widget: "string" }
+
+  - name: "reviews"
+    label: "Reviews"
+    files:
+      - name: "reviews"
+        label: "Customer Reviews"
+        file: "src/_data/reviews.json"
+        fields:
+          - name: "items"
+            label: "Reviews"
+            widget: "list"
+            summary: "{{fields.author}} — {{fields.stars}} stars"
+            fields:
+              - { name: "author", label: "Customer Name", widget: "string" }
+              - name: "stars"
+                label: "Star Rating"
+                widget: "select"
+                options:
+                  - { label: "5 stars", value: 5 }
+                  - { label: "4 stars", value: 4 }
+                  - { label: "3 stars", value: 3 }
+                  - { label: "2 stars", value: 2 }
+                  - { label: "1 star", value: 1 }
+              - { name: "text", label: "Review Text", widget: "text" }
+              - { name: "date", label: "Date (e.g. March 2025)", widget: "string", required: false }

@@ -40,6 +40,17 @@ module.exports = function (eleventyConfig) {
     });
   });
 
+  eleventyConfig.addFilter("resolveProductColours", function (productColours, allColoursData) {
+    var all = [].concat(allColoursData.standard || [], allColoursData.special || []);
+    if (!productColours || productColours.length === 0) {
+      return all;
+    }
+    var lower = productColours.map(function (c) { return c.toLowerCase(); });
+    return all.filter(function (c) {
+      return lower.indexOf(c.name.toLowerCase()) !== -1;
+    });
+  });
+
   eleventyConfig.addFilter("groupByBadge", function (items) {
     const groups = {};
     (items || []).forEach(function (item) {
@@ -55,6 +66,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.setServerOptions({
     host: "0.0.0.0",
     port: 8080,
+    host: "0.0.0.0",
   });
 
   return {

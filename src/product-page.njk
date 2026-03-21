@@ -1,0 +1,100 @@
+---
+pagination:
+  data: products.items
+  size: 1
+  alias: product
+eleventyComputed:
+  title: "{{ product.name }} - Christo's Prints"
+  description: "{{ product.description }}"
+layout: base.njk
+activePage: products
+permalink: "/products/{{ product.name | slug }}/"
+---
+
+<div class="page-header">
+  <a href="/products/" class="back-link">&#8592; All Products</a>
+  <h1>{{ product.name }}</h1>
+  {% if product.badge %}
+  <span class="product-page-badge">{{ product.badge }}</span>
+  {% endif %}
+</div>
+
+<section class="section" style="padding-top: 0;">
+  <div class="product-page-grid">
+
+    <!-- Image Gallery -->
+    <div class="product-page-gallery">
+      {% set allImages = product.images if product.images else [product.image] %}
+      <div class="gallery-main">
+        <img src="/{{ allImages[0] }}" alt="{{ product.name }}" id="galleryMain" loading="eager">
+      </div>
+      {% if allImages.length > 1 %}
+      <div class="gallery-thumbs">
+        {% for img in allImages %}
+        <button class="gallery-thumb{% if loop.index == 1 %} active{% endif %}" onclick="setGallery('/{{ img }}', this)" type="button" aria-label="View photo {{ loop.index }}">
+          <img src="/{{ img }}" alt="{{ product.name }} photo {{ loop.index }}" loading="lazy">
+        </button>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Product Info -->
+    <div class="product-page-info">
+      <div class="product-page-price">{{ product.price }}</div>
+      <p class="product-page-desc">{{ product.description }}</p>
+
+      <!-- Colours -->
+      <div class="product-page-colours">
+        <h3>
+          {% if product.colours.length == 0 %}
+          All colours available
+          {% else %}
+          Available colours
+          {% endif %}
+        </h3>
+        {% if product.colours.length == 0 %}
+        <p class="colours-note">This item can be printed in any colour — pick your preference in the basket, or leave as "No preference" and we'll choose for you.</p>
+        {% endif %}
+        {% set displayColours = product.colours | resolveProductColours(colours) %}
+        <div class="product-colours-swatches">
+          {% for colour in displayColours %}
+          <div class="product-colour-dot" title="{{ colour.name }}" style="background: {{ colour.hex }};"></div>
+          {% endfor %}
+        </div>
+        <div class="product-colours-names">
+          {% for colour in displayColours %}
+          <span class="colour-chip">{{ colour.name }}</span>
+          {% endfor %}
+        </div>
+        <a href="/colours/" class="colours-see-all">See all colours in detail &#8594;</a>
+      </div>
+
+      <!-- Add to Cart -->
+      <button class="btn btn-primary btn-large btn-add-to-cart"
+        data-name="{{ product.name }}" data-price="{{ product.price }}" data-type="product"
+        onclick="Cart.addItem(this.dataset.name, this.dataset.price, this.dataset.type); Cart.flashAdded(this);"
+        aria-label="Add {{ product.name }} to basket">
+        Add to Basket — {{ product.price }}
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" style="padding-top: 0;">
+  <div class="cta-banner">
+    <h2>Want something different?</h2>
+    <p>Request a custom print in any colour, size, or design.</p>
+    <a href="/custom/" class="btn btn-primary">Request Custom Print &#8594;</a>
+  </div>
+</section>
+
+<script>
+function setGallery(src, btn) {
+  document.getElementById('galleryMain').src = src;
+  document.querySelectorAll('.gallery-thumb').forEach(function(t) { t.classList.remove('active'); });
+  btn.classList.add('active');
+}
+</script>

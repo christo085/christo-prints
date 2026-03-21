@@ -1,0 +1,218 @@
+---
+layout: base.njk
+title: "Build a Bundle - Christo's Prints"
+description: "Pick any 3 products and save 10% with a custom bundle from Christo's Prints."
+activePage: build-bundle
+permalink: /build-bundle/
+---
+
+<div class="page-header">
+  <h1>Build a Bundle</h1>
+  <p>Pick any 3 products and save 10%</p>
+</div>
+
+<section class="section" style="padding-top: 0;">
+
+  <!-- Bundle Slots -->
+  <div class="bundle-builder">
+    <div class="bundle-slots" id="bundleSlots">
+      <div class="bundle-slot empty" id="slot-0">
+        <div class="bundle-slot-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          <span>Pick an item</span>
+        </div>
+      </div>
+      <div class="bundle-slot empty" id="slot-1">
+        <div class="bundle-slot-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          <span>Pick an item</span>
+        </div>
+      </div>
+      <div class="bundle-slot empty" id="slot-2">
+        <div class="bundle-slot-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          <span>Pick an item</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pricing Summary -->
+    <div class="bundle-summary" id="bundleSummary">
+      <div class="bundle-summary-row">
+        <span>Items selected</span>
+        <span id="bundleCount">0 / 3</span>
+      </div>
+      <div class="bundle-summary-row">
+        <span>Original price</span>
+        <span id="bundleOriginal" class="price-old-inline">—</span>
+      </div>
+      <div class="bundle-summary-row bundle-summary-saving" id="bundleSavingRow" hidden>
+        <span>You save (10%)</span>
+        <span id="bundleSaving" class="bundle-saving-amount">—</span>
+      </div>
+      <div class="bundle-summary-row bundle-summary-total">
+        <span>Bundle price</span>
+        <span id="bundleTotal" class="price">—</span>
+      </div>
+      <button class="btn btn-primary btn-large" id="bundleAddBtn" disabled onclick="addBundleToCart()">
+        Add Bundle to Basket
+      </button>
+      <p class="bundle-cta-hint" id="bundleHint">Select 3 items to unlock your bundle discount</p>
+    </div>
+  </div>
+
+  <!-- Product Picker -->
+  <div class="bundle-picker-header">
+    <h2>Choose your items</h2>
+    <div class="product-search" style="max-width:320px; margin: 0;">
+      <svg class="product-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="form-input product-search-input" id="pickerSearch" placeholder="Search..." oninput="pickerFilter()">
+    </div>
+  </div>
+
+  <div class="product-grid" id="pickerGrid">
+    {%- for product in products.items %}
+    <div class="product-card picker-card" data-name="{{ product.name }}" data-price="{{ product.price }}" data-image="{{ product.image }}" data-keywords="{{ product.name | lower }} {{ product.description | lower }}" onclick="toggleProduct(this)">
+      <div class="product-card-img">
+        <img src="/{{ product.image }}" alt="{{ product.name }}" loading="lazy">
+        {%- if product.badge %}
+        <span class="product-card-badge">{{ product.badge }}</span>
+        {%- endif %}
+        <div class="picker-selected-overlay">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+      </div>
+      <div class="product-card-body">
+        <h3>{{ product.name }}</h3>
+        <div class="product-card-footer">
+          <span class="price">{{ product.price }}</span>
+        </div>
+      </div>
+    </div>
+    {%- endfor %}
+  </div>
+
+</section>
+
+<script>
+(function () {
+  var selected = [null, null, null]; // array of {name, price, image}
+
+  function getPrice(priceStr) {
+    return parseFloat((priceStr || '0').replace('£', '').replace('+', '')) || 0;
+  }
+
+  function updateSlots() {
+    var count = selected.filter(Boolean).length;
+
+    for (var i = 0; i < 3; i++) {
+      var slot = document.getElementById('slot-' + i);
+      var item = selected[i];
+      if (item) {
+        slot.className = 'bundle-slot filled';
+        slot.innerHTML =
+          '<img src="/' + item.image + '" alt="' + item.name + '">' +
+          '<div class="bundle-slot-info">' +
+            '<span class="bundle-slot-name">' + item.name + '</span>' +
+            '<span class="bundle-slot-price">' + item.price + '</span>' +
+          '</div>' +
+          '<button class="bundle-slot-remove" onclick="removeSlot(' + i + '); event.stopPropagation();" aria-label="Remove">&times;</button>';
+      } else {
+        slot.className = 'bundle-slot empty';
+        slot.innerHTML =
+          '<div class="bundle-slot-placeholder">' +
+            '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>' +
+            '<span>Pick an item</span>' +
+          '</div>';
+      }
+    }
+
+    var total = selected.reduce(function (s, item) { return s + (item ? getPrice(item.price) : 0); }, 0);
+    var discounted = total * 0.9;
+    var saving = total - discounted;
+
+    document.getElementById('bundleCount').textContent = count + ' / 3';
+    document.getElementById('bundleOriginal').textContent = count > 0 ? '£' + total.toFixed(2) : '—';
+    document.getElementById('bundleTotal').textContent = count === 3 ? '£' + discounted.toFixed(2) : '—';
+    document.getElementById('bundleSaving').textContent = '£' + saving.toFixed(2);
+    document.getElementById('bundleSavingRow').hidden = count < 3;
+    document.getElementById('bundleHint').hidden = count === 3;
+
+    var addBtn = document.getElementById('bundleAddBtn');
+    addBtn.disabled = count < 3;
+
+    // Update picker card states
+    var selectedNames = selected.filter(Boolean).map(function (i) { return i.name; });
+    document.querySelectorAll('.picker-card').forEach(function (card) {
+      var isSelected = selectedNames.indexOf(card.dataset.name) !== -1;
+      var isFull = count >= 3 && !isSelected;
+      card.classList.toggle('picker-selected', isSelected);
+      card.classList.toggle('picker-disabled', isFull);
+    });
+  }
+
+  window.toggleProduct = function (card) {
+    var name = card.dataset.name;
+    var price = card.dataset.price;
+    var image = card.dataset.image;
+
+    // If already selected, find & remove it
+    var idx = selected.findIndex(function (s) { return s && s.name === name; });
+    if (idx !== -1) {
+      selected[idx] = null;
+      updateSlots();
+      return;
+    }
+
+    // If full, do nothing
+    var count = selected.filter(Boolean).length;
+    if (count >= 3) return;
+
+    // Fill the first empty slot
+    var emptyIdx = selected.indexOf(null);
+    selected[emptyIdx] = { name: name, price: price, image: image };
+    updateSlots();
+  };
+
+  window.removeSlot = function (i) {
+    selected[i] = null;
+    updateSlots();
+  };
+
+  window.pickerFilter = function () {
+    var query = document.getElementById('pickerSearch').value.toLowerCase().trim();
+    document.querySelectorAll('.picker-card').forEach(function (card) {
+      var keywords = card.dataset.keywords || '';
+      card.style.display = (!query || keywords.indexOf(query) !== -1) ? '' : 'none';
+    });
+  };
+
+  window.addBundleToCart = function () {
+    var items = selected.filter(Boolean);
+    if (items.length < 3) return;
+
+    var total = items.reduce(function (s, i) { return s + getPrice(i.price); }, 0);
+    var discounted = (total * 0.9).toFixed(2);
+    var names = items.map(function (i) { return i.name; }).join(' + ');
+    var bundleName = 'Custom Bundle (' + names + ')';
+
+    Cart.addItem(bundleName, '£' + discounted, 'bundle');
+
+    // Flash button
+    var btn = document.getElementById('bundleAddBtn');
+    var orig = btn.textContent;
+    btn.textContent = 'Added to Basket!';
+    btn.classList.add('btn-added');
+    setTimeout(function () {
+      btn.textContent = orig;
+      btn.classList.remove('btn-added');
+    }, 1500);
+
+    // Reset
+    selected = [null, null, null];
+    updateSlots();
+  };
+
+  updateSlots();
+})();
+</script>
