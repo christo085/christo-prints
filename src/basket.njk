@@ -37,7 +37,7 @@ permalink: /basket/
         <button type="button" class="btn btn-secondary" onclick="applyCoupon()">Apply</button>
       </div>
       <p class="coupon-error" id="couponError"></p>
-      <div class="coupon-applied" id="couponApplied" hidden>
+      <div class="coupon-applied" id="couponApplied">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         <span id="couponAppliedText"></span>
         <button type="button" class="coupon-remove" onclick="removeCoupon()" aria-label="Remove coupon">&times;</button>
@@ -214,8 +214,8 @@ permalink: /basket/
     appliedCoupon = match;
     errEl.textContent = '';
     errEl.classList.remove('visible');
-    document.getElementById('couponInputRow').hidden = true;
-    document.getElementById('couponApplied').hidden = false;
+    document.getElementById('couponInputRow').style.display = 'none';
+    document.getElementById('couponApplied').style.display = 'flex';
     document.getElementById('couponAppliedText').textContent =
       '"' + match.code + '" — ' + match.description + ' applied';
     renderTotal();
@@ -224,8 +224,8 @@ permalink: /basket/
   window.removeCoupon = function () {
     appliedCoupon = null;
     document.getElementById('couponCode').value = '';
-    document.getElementById('couponInputRow').hidden = false;
-    document.getElementById('couponApplied').hidden = true;
+    document.getElementById('couponInputRow').style.display = 'flex';
+    document.getElementById('couponApplied').style.display = 'none';
     renderTotal();
   };
 
