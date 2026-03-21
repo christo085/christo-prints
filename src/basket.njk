@@ -30,6 +30,20 @@ permalink: /basket/
     <div id="cartItems"></div>
     <div class="cart-total" id="cartTotal"></div>
 
+    <!-- Coupon code -->
+    <div class="coupon-row" id="couponRow">
+      <div class="coupon-input-row" id="couponInputRow">
+        <input class="form-input coupon-input" type="text" id="couponCode" placeholder="Discount code" autocomplete="off" autocapitalize="characters">
+        <button type="button" class="btn btn-secondary" onclick="applyCoupon()">Apply</button>
+      </div>
+      <p class="coupon-error" id="couponError"></p>
+      <div class="coupon-applied" id="couponApplied" hidden>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span id="couponAppliedText"></span>
+        <button type="button" class="coupon-remove" onclick="removeCoupon()" aria-label="Remove coupon">&times;</button>
+      </div>
+    </div>
+
     <div class="cart-divider"></div>
     <h3 class="cart-section-title">Your Details</h3>
 
@@ -72,7 +86,7 @@ permalink: /basket/
       </p>
 
       <!-- Hidden Netlify form for pay-at-delivery -->
-      <form name="basket-order" method="POST" data-netlify="true" id="deliveryForm" hidden>
+      <form name="basket-order" method="POST" data-netlify="true" id="deliveryForm" action="/success/" hidden>
         <input type="hidden" name="form-name" value="basket-order">
         <input type="hidden" name="customer-name" id="deliveryName">
         <input type="hidden" name="email" id="deliveryEmail">
@@ -80,6 +94,7 @@ permalink: /basket/
         <input type="hidden" name="notes" id="deliveryNotes">
         <input type="hidden" name="cart-items" id="deliveryItems">
         <input type="hidden" name="payment" value="Pay at collection/delivery">
+        <input type="hidden" name="discount-code" id="deliveryDiscount">
       </form>
     </div>
   </div>
@@ -89,6 +104,9 @@ permalink: /basket/
 <script>
 (function () {
   var COLOURS = {{ colours.dropdownOptions | dump | safe }};
+  var LOW_STOCK = {{ colours.lowStock | dump | safe }};
+  var COUPONS = {{ coupons.items | dump | safe }};
+  var appliedCoupon = null;
 
   function render() {
     var items = Cart.getItems();
@@ -113,7 +131,8 @@ permalink: /basket/
         colourHtml = '<div class="cart-colour-note">Colour is pre-set. Add custom colour requests in notes below.</div>';
       } else {
         var colourOptions = COLOURS.map(function (c) {
-          return '<option value="' + c + '"' + (item.colour === c ? ' selected' : '') + '>' + c + '</option>';
+          var label = c + (LOW_STOCK.indexOf(c) !== -1 ? ' (Running Low)' : '');
+          return '<option value="' + c + '"' + (item.colour === c ? ' selected' : '') + '>' + label + '</option>';
         }).join('');
         colourHtml = '<select class="form-input form-input-sm" onchange="Cart.updateColour(\'' + item.id + '\', this.value)">' + colourOptions + '</select>';
       }
@@ -160,20 +179,61 @@ permalink: /basket/
       container.innerHTML += '<button type="button" class="btn btn-secondary btn-add-keychain" onclick="Cart.addItem(\'Name Keychain\', \'£1.00+\', \'product\'); basketRender();">+ Add another keychain</button>';
     }
 
-    var total = Cart.getTotal();
-    document.getElementById('cartTotal').innerHTML =
-      '<div class="cart-total-row"><span>Estimated Total</span><span class="cart-total-price">£' + total.toFixed(2) + '</span></div>';
+    renderTotal();
+  }
+
+  function renderTotal() {
+    var subtotal = Cart.getTotal();
+    var discount = 0;
+    var html = '';
+    if (appliedCoupon) {
+      if (appliedCoupon.type === 'percentage') {
+        discount = subtotal * (appliedCoupon.value / 100);
+      } else {
+        discount = Math.min(appliedCoupon.value, subtotal);
+      }
+      html += '<div class="cart-total-row cart-subtotal-row"><span>Subtotal</span><span>£' + subtotal.toFixed(2) + '</span></div>';
+      html += '<div class="cart-total-row cart-discount-row"><span>' + appliedCoupon.description + '</span><span>−£' + discount.toFixed(2) + '</span></div>';
+    }
+    var finalTotal = Math.max(0, subtotal - discount);
+    html += '<div class="cart-total-row"><span>Estimated Total</span><span class="cart-total-price">£' + finalTotal.toFixed(2) + '</span></div>';
+    document.getElementById('cartTotal').innerHTML = html;
   }
 
   window.basketRender = render;
+
+  window.applyCoupon = function () {
+    var code = document.getElementById('couponCode').value.trim().toUpperCase();
+    var errEl = document.getElementById('couponError');
+    var match = COUPONS.find(function (c) { return c.code.toUpperCase() === code && c.active; });
+    if (!match) {
+      errEl.textContent = 'Invalid or expired code.';
+      errEl.classList.add('visible');
+      return;
+    }
+    appliedCoupon = match;
+    errEl.textContent = '';
+    errEl.classList.remove('visible');
+    document.getElementById('couponInputRow').hidden = true;
+    document.getElementById('couponApplied').hidden = false;
+    document.getElementById('couponAppliedText').textContent =
+      '"' + match.code + '" — ' + match.description + ' applied';
+    renderTotal();
+  };
+
+  window.removeCoupon = function () {
+    appliedCoupon = null;
+    document.getElementById('couponCode').value = '';
+    document.getElementById('couponInputRow').hidden = false;
+    document.getElementById('couponApplied').hidden = true;
+    renderTotal();
+  };
 
   window.handleKeychainInput = function (id, input) {
     Cart.updateKeychainName(id, input.value);
     var estEl = document.getElementById('keychain-est-' + id);
     if (estEl) estEl.textContent = 'Est: ' + Cart.keychainPrice(input.value);
-    var total = Cart.getTotal();
-    document.getElementById('cartTotal').innerHTML =
-      '<div class="cart-total-row"><span>Estimated Total</span><span class="cart-total-price">£' + total.toFixed(2) + '</span></div>';
+    renderTotal();
   };
 
   window.startCheckout = async function () {
@@ -205,6 +265,7 @@ permalink: /basket/
           email: email,
           phone: phone,
           notes: document.getElementById('notes').value.trim(),
+          couponCode: appliedCoupon ? appliedCoupon.code : null,
         }),
       });
 
@@ -245,6 +306,7 @@ permalink: /basket/
     document.getElementById('deliveryPhone').value = phone;
     document.getElementById('deliveryNotes').value = document.getElementById('notes').value.trim();
     document.getElementById('deliveryItems').value = Cart.toSummaryText();
+    document.getElementById('deliveryDiscount').value = appliedCoupon ? appliedCoupon.code + ' (' + appliedCoupon.description + ')' : '';
 
     Cart.clear();
     document.getElementById('deliveryForm').submit();

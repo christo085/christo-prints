@@ -46,20 +46,20 @@ permalink: "/products/{{ product.name | slug }}/"
 
       <!-- Colours -->
       <div class="product-page-colours">
-        <h3>All colours available</h3>
-        <p class="colours-note">This item can be printed in any colour — pick your preference in the basket, or leave as "No preference" and we'll choose for you.</p>
-        {% set allColours = [] | resolveProductColours(colours) %}
-        <div class="product-colours-swatches">
-          {% for colour in allColours %}
-          <div class="product-colour-dot" title="{{ colour.name }}" style="background: {{ colour.hex }};"></div>
-          {% endfor %}
+        <button class="colours-toggle" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.nextElementSibling.hidden ? 'true' : 'false'); this.nextElementSibling.hidden = !this.nextElementSibling.hidden;">
+          <span>All colours available</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="colours-toggle-icon"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="colours-body" hidden>
+          <p class="colours-note">This item can be printed in any colour — pick your preference in the basket, or leave as "No preference" and we'll choose for you.</p>
+          {% set allColours = [] | resolveProductColours(colours) %}
+          <div class="product-colours-swatches">
+            {% for colour in allColours %}
+            <div class="product-colour-dot" title="{{ colour.name }}" style="background: {{ colour.hex }};"></div>
+            {% endfor %}
+          </div>
+          <a href="/colours/" class="colours-see-all">See all colours in detail &#8594;</a>
         </div>
-        <div class="product-colours-names">
-          {% for colour in allColours %}
-          <span class="colour-chip">{{ colour.name }}</span>
-          {% endfor %}
-        </div>
-        <a href="/colours/" class="colours-see-all">See all colours in detail &#8594;</a>
       </div>
 
       <!-- Add to Cart / Buy Now -->
@@ -69,7 +69,7 @@ permalink: "/products/{{ product.name | slug }}/"
             <label class="form-label" for="buyNowColour">Colour</label>
             <select class="form-input" id="buyNowColour">
               {% for opt in colours.dropdownOptions %}
-              <option value="{{ opt }}">{{ opt }}</option>
+              <option value="{{ opt }}">{{ opt }}{% if opt in colours.lowStock %} (Running Low){% endif %}</option>
               {% endfor %}
             </select>
           </div>
@@ -91,6 +91,11 @@ permalink: "/products/{{ product.name | slug }}/"
         </div>
       </div>
       <p class="form-error" id="buyNowError" style="margin-top:8px;"></p>
+
+      <button class="share-btn" onclick="shareProduct()" type="button" aria-label="Share this product">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        <span id="shareBtnText">Share</span>
+      </button>
     </div>
 
   </div>
@@ -106,6 +111,27 @@ permalink: "/products/{{ product.name | slug }}/"
 </section>
 
 <script>
+async function shareProduct() {
+  var url = window.location.href;
+  var title = '{{ product.name }} — Christo\'s Prints';
+  var text = '{{ product.description }}';
+  var btnText = document.getElementById('shareBtnText');
+
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: title, text: text, url: url });
+    } catch (e) {}
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(url);
+    btnText.textContent = 'Link copied!';
+    setTimeout(function () { btnText.textContent = 'Share'; }, 2000);
+  } catch (e) {
+    btnText.textContent = 'Share';
+  }
+}
+
 function setGallery(src, btn) {
   document.getElementById('galleryMain').src = src;
   document.querySelectorAll('.gallery-thumb').forEach(function(t) { t.classList.remove('active'); });

@@ -97,6 +97,7 @@ permalink: /colours/
   var standardColours = {{ colours.standard | dump | safe }};
   var specialColours = {{ colours.special | dump | safe }};
   var allProducts = {{ products.items | dump | safe }};
+  var lowStockColours = {{ colours.lowStock | dump | safe }};
 
   function renderSwatches(colours, gridId) {
     var grid = document.getElementById(gridId);
@@ -105,7 +106,8 @@ permalink: /colours/
       swatch.className = 'colour-swatch';
       swatch.style.background = c.hex;
       if (c.description) swatch.title = c.description;
-      swatch.innerHTML = '<span>' + c.name + '</span>';
+      var isLow = lowStockColours.indexOf(c.name) !== -1;
+      swatch.innerHTML = '<span>' + c.name + '</span>' + (isLow ? '<span class="low-stock-badge">Running Low</span>' : '');
       swatch.addEventListener('click', function () { openColourModal(c); });
       grid.appendChild(swatch);
     });

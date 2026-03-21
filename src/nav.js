@@ -9,7 +9,7 @@
   overlay.className = 'nav-overlay';
   document.body.appendChild(overlay);
 
-  var menuItems = links.querySelectorAll('li');
+  var menuItems = links.querySelectorAll(':scope > li');
   var isOpen = false;
   var scrollStart = 0;
 

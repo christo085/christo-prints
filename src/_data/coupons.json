@@ -1,0 +1,11 @@
+{
+  "items": [
+    {
+      "code": "EXAMPLE10",
+      "description": "10% off your order",
+      "type": "percentage",
+      "value": 10,
+      "active": true
+    }
+  ]
+}

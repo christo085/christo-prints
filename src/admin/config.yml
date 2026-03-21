@@ -2,6 +2,8 @@ backend:
   name: git-gateway
   branch: main
 
+publish_mode: editorial_workflow
+
 media_folder: "src/images"
 public_folder: "/images"
 
@@ -138,6 +140,29 @@ collections:
             label: "Basket Colour Dropdown"
             widget: "list"
             field: { name: "option", label: "Option", widget: "string" }
+
+  - name: "coupons"
+    label: "Coupon Codes"
+    files:
+      - name: "coupons"
+        label: "Discount Codes"
+        file: "src/_data/coupons.json"
+        fields:
+          - name: "items"
+            label: "Codes"
+            widget: "list"
+            summary: "{{fields.code}} — {{fields.description}}"
+            fields:
+              - { name: "code", label: "Code (e.g. SAVE10)", widget: "string" }
+              - { name: "description", label: "Description (shown to customer)", widget: "string" }
+              - name: "type"
+                label: "Discount Type"
+                widget: "select"
+                options:
+                  - { label: "Percentage (e.g. 10%)", value: "percentage" }
+                  - { label: "Fixed Amount (e.g. £1.00 off)", value: "fixed" }
+              - { name: "value", label: "Value (number only — e.g. 10 for 10% or 1 for £1)", widget: "number" }
+              - { name: "active", label: "Active", widget: "boolean", default: true }
 
   - name: "reviews"
     label: "Reviews"

@@ -4,3 +4,9 @@
 
 [functions]
   directory = "netlify/functions"
+
+[dev]
+  command = "npx @11ty/eleventy --serve"
+  publish = "_site"
+  port = 8888
+  targetPort = 8080

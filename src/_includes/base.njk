@@ -52,8 +52,16 @@ Christo's Prints
       <ul class="nav-links" id="navLinks">
         <li><a href="/"{% if activePage == "home" %} class="active"{% endif %}>Home</a></li>
         <li><a href="/products/"{% if activePage == "products" %} class="active"{% endif %}>Products</a></li>
-        <li><a href="/bundles/"{% if activePage == "bundles" %} class="active"{% endif %}>Bundles</a></li>
-        <li><a href="/build-bundle/"{% if activePage == "build-bundle" %} class="active"{% endif %}>Build Bundle</a></li>
+        <li class="nav-has-dropdown">
+          <button class="nav-dropdown-trigger{% if activePage == "bundles" or activePage == "build-bundle" %} active{% endif %}" aria-haspopup="true">
+            Bundles
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <ul class="nav-dropdown-menu">
+            <li><a href="/bundles/"{% if activePage == "bundles" %} class="active"{% endif %}>Ready-Made Bundles</a></li>
+            <li><a href="/build-bundle/"{% if activePage == "build-bundle" %} class="active"{% endif %}>Build Your Own</a></li>
+          </ul>
+        </li>
         <li><a href="/colours/"{% if activePage == "colours" %} class="active"{% endif %}>Colours</a></li>
         <li><a href="/events/"{% if activePage == "events" %} class="active"{% endif %}>Events</a></li>
         <li><a href="/contact/"{% if activePage == "contact" %} class="active"{% endif %}>Contact</a></li>

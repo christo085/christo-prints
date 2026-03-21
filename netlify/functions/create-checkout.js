@@ -13,11 +13,17 @@ exports.handler = async function (event) {
   }
 
   try {
-    const { items, name, email, phone, notes } = JSON.parse(event.body);
+    const { items, name, email, phone, notes, couponCode } = JSON.parse(event.body);
 
     if (!items || items.length === 0) {
       return { statusCode: 400, body: JSON.stringify({ error: 'No items in basket' }) };
     }
+
+    // Validate coupon server-side
+    const coupons = require('../../src/_data/coupons.json');
+    const coupon = couponCode
+      ? coupons.items.find(function (c) { return c.code.toUpperCase() === couponCode.toUpperCase() && c.active; })
+      : null;
 
     const lineItems = items.map(function (item) {
       var price = parseFloat((item.price || '0').replace('£', '').replace('+', '')) || 0;
@@ -54,6 +60,17 @@ exports.handler = async function (event) {
           line_items: lineItems,
           reference_id: name || 'Web Order',
           note: orderNote || undefined,
+          ...(coupon ? {
+            discounts: [{
+              uid: 'coupon-' + coupon.code,
+              name: coupon.description,
+              scope: 'ORDER',
+              ...(coupon.type === 'percentage'
+                ? { percentage: String(coupon.value) }
+                : { amount_money: { amount: Math.round(coupon.value * 100), currency: 'GBP' } }
+              ),
+            }],
+          } : {}),
         },
         checkout_options: {
           redirect_url: process.env.URL + '/success/',
