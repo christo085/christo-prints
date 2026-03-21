@@ -1847,6 +1847,24 @@ select.form-input {
   margin-bottom: 0;
 }
 
+/* Stretched link — makes whole card clickable */
+.product-card-title-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: var(--radius-lg);
+}
+
+/* Keep buttons and interactive elements above the stretched link */
+.product-card-footer .btn,
+.product-card-footer .btn-group,
+.product-card-footer .price,
+.product-card-body .description {
+  position: relative;
+  z-index: 1;
+}
+
 /* ===== Individual Product Page ===== */
 .back-link {
   display: inline-flex;
@@ -2027,6 +2045,17 @@ select.form-input {
 
 .colours-see-all:hover {
   color: var(--accent);
+}
+
+/* ===== Checkout secure note ===== */
+.checkout-secure-note {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  justify-content: center;
+  margin-top: 10px;
 }
 
 /* ===== Bundle Builder ===== */

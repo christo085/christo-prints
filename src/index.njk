@@ -38,23 +38,30 @@ permalink: /
     {%- for product in products.items %}
     {%- if product.popular %}
     <div class="product-card">
-      <div class="product-card-img">
-        <img src="/{{ product.image }}" alt="{{ product.name }}" loading="lazy">
-        {%- if product.badge %}
-        <span class="product-card-badge">{{ product.badge }}</span>
-        {%- endif %}
-      </div>
+      <a href="/products/{{ product.name | slug }}/" class="product-card-img-link" tabindex="-1" aria-hidden="true">
+        <div class="product-card-img">
+          <img src="/{{ product.image }}" alt="{{ product.name }}" loading="lazy">
+          {%- if product.badge %}
+          <span class="product-card-badge">{{ product.badge }}</span>
+          {%- endif %}
+        </div>
+      </a>
       <div class="product-card-body">
-        <h3>{{ product.name }}</h3>
+        <a href="/products/{{ product.name | slug }}/" class="product-card-title-link">
+          <h3>{{ product.name }}</h3>
+        </a>
         <p class="description">{{ product.description }}</p>
         <div class="product-card-footer">
           <span class="price">{{ product.price }}</span>
-          <button class="btn btn-primary btn-small btn-add-to-cart"
-            data-name="{{ product.name }}" data-price="{{ product.price }}" data-type="product"
-            onclick="Cart.addItem(this.dataset.name, this.dataset.price, this.dataset.type); Cart.flashAdded(this);"
-            aria-label="Add {{ product.name }} to basket">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="9" y1="6" x2="15" y2="6"/></svg>
-          </button>
+          <div class="btn-group">
+            <a href="/products/{{ product.name | slug }}/" class="btn btn-secondary btn-small" aria-label="View {{ product.name }} details">Details</a>
+            <button class="btn btn-primary btn-small btn-add-to-cart"
+              data-name="{{ product.name }}" data-price="{{ product.price }}" data-type="product"
+              onclick="Cart.addItem(this.dataset.name, this.dataset.price, this.dataset.type); Cart.flashAdded(this);"
+              aria-label="Add {{ product.name }} to basket">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="9" y1="6" x2="15" y2="6"/></svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>

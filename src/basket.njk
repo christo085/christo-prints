@@ -25,18 +25,6 @@ permalink: /basket/
     <a href="/products/" class="btn btn-primary" style="margin-top: 16px;">Browse Products</a>
   </div>
 
-  <!-- Success State -->
-  <div class="cart-success" id="cartSuccess" hidden>
-    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-      <polyline points="22 4 12 14.01 9 11.01"/>
-    </svg>
-    <h2>Order placed!</h2>
-    <p>Thanks for your order! We'll message you on WhatsApp or email to confirm the details and arrange collection.</p>
-    <div id="orderSummary"></div>
-    <a href="/products/" class="btn btn-primary" style="margin-top: 20px;">Continue Browsing</a>
-  </div>
-
   <!-- Cart Items -->
   <div id="cartWrapper" hidden>
     <div id="cartItems"></div>
@@ -46,35 +34,37 @@ permalink: /basket/
     <h3 class="cart-section-title">Your Details</h3>
 
     <div class="form-container">
-      <form name="basket-order" method="POST" data-netlify="true" action="/basket/?success=true" id="basketForm">
-        <input type="hidden" name="form-name" value="basket-order">
-        <input type="hidden" name="cart-items" id="cartItemsField" value="">
+      <div class="form-group">
+        <label class="form-label" for="name">Name</label>
+        <input class="form-input" type="text" id="name" placeholder="Your name" required>
+      </div>
 
+      <div class="form-row">
         <div class="form-group">
-          <label class="form-label" for="name">Name</label>
-          <input class="form-input" type="text" id="name" name="name" placeholder="Your name" required>
+          <label class="form-label" for="email">Email</label>
+          <input class="form-input" type="email" id="email" placeholder="you@example.com">
         </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="email">Email</label>
-            <input class="form-input" type="email" id="email" name="email" placeholder="you@example.com">
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="phone">Phone</label>
-            <input class="form-input" type="tel" id="phone" name="phone" placeholder="07xxx xxxxxx">
-          </div>
-        </div>
-        <p class="form-hint">Please provide at least an email or phone number.</p>
-        <p class="form-error" id="contactError">Please enter an email address or phone number so we can reach you.</p>
-
         <div class="form-group">
-          <label class="form-label" for="notes">Notes</label>
-          <textarea class="form-textarea" id="notes" name="notes" placeholder="Anything else you'd like us to know (e.g. custom name for keychains)"></textarea>
+          <label class="form-label" for="phone">Phone</label>
+          <input class="form-input" type="tel" id="phone" placeholder="07xxx xxxxxx">
         </div>
+      </div>
+      <p class="form-hint">Please provide at least an email or phone number.</p>
+      <p class="form-error" id="contactError">Please enter an email address or phone number so we can reach you.</p>
 
-        <button type="submit" class="btn btn-primary btn-large">Place Order</button>
-      </form>
+      <div class="form-group">
+        <label class="form-label" for="notes">Notes</label>
+        <textarea class="form-textarea" id="notes" placeholder="Anything else you'd like us to know (e.g. custom name for keychains, colour preferences)"></textarea>
+      </div>
+
+      <button type="button" class="btn btn-primary btn-large" id="payBtn" onclick="startCheckout()">
+        Pay with Card
+      </button>
+      <p class="form-error" id="payError"></p>
+      <p class="checkout-secure-note">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Secure checkout powered by Square
+      </p>
     </div>
   </div>
 
@@ -83,27 +73,6 @@ permalink: /basket/
 <script>
 (function () {
   var COLOURS = {{ colours.dropdownOptions | dump | safe }};
-
-  // Check for success redirect
-  if (new URLSearchParams(window.location.search).get('success') === 'true') {
-    var savedOrder = [];
-    try { savedOrder = JSON.parse(sessionStorage.getItem('christoOrderSummary')) || []; } catch (e) {}
-    sessionStorage.removeItem('christoOrderSummary');
-    Cart.clear();
-    document.getElementById('cartSuccess').hidden = false;
-
-    if (savedOrder.length > 0) {
-      var summaryHtml = '<div class="order-summary"><h3>Order Summary</h3><ul>';
-      savedOrder.forEach(function (item) {
-        var line = item.qty + 'x ' + item.name + ' (' + item.colour + ') — ' + item.price + ' each';
-        if (item.keychainName) line += ' [Name: ' + item.keychainName + ']';
-        summaryHtml += '<li>' + line + '</li>';
-      });
-      summaryHtml += '</ul></div>';
-      document.getElementById('orderSummary').innerHTML = summaryHtml;
-    }
-    return;
-  }
 
   function render() {
     var items = Cart.getItems();
@@ -170,13 +139,11 @@ permalink: /basket/
       '</div>';
     }).join('');
 
-    // "Add another keychain" button if at least one keychain exists
     var hasKeychain = items.some(function (i) { return i.name === 'Name Keychain'; });
     if (hasKeychain) {
       container.innerHTML += '<button type="button" class="btn btn-secondary btn-add-keychain" onclick="Cart.addItem(\'Name Keychain\', \'£1.00+\', \'product\'); basketRender();">+ Add another keychain</button>';
     }
 
-    // Update total
     var total = Cart.getTotal();
     document.getElementById('cartTotal').innerHTML =
       '<div class="cart-total-row"><span>Estimated Total</span><span class="cart-total-price">£' + total.toFixed(2) + '</span></div>';
@@ -187,33 +154,56 @@ permalink: /basket/
   window.handleKeychainInput = function (id, input) {
     Cart.updateKeychainName(id, input.value);
     var estEl = document.getElementById('keychain-est-' + id);
-    var newPrice = Cart.keychainPrice(input.value);
-    if (estEl) estEl.textContent = 'Est: ' + newPrice;
-    // Update total without full re-render
+    if (estEl) estEl.textContent = 'Est: ' + Cart.keychainPrice(input.value);
     var total = Cart.getTotal();
     document.getElementById('cartTotal').innerHTML =
       '<div class="cart-total-row"><span>Estimated Total</span><span class="cart-total-price">£' + total.toFixed(2) + '</span></div>';
   };
 
-  render();
-
-  // Form validation & submission
-  var form = document.getElementById('basketForm');
-  form.addEventListener('submit', function (e) {
+  window.startCheckout = async function () {
     var email = document.getElementById('email').value.trim();
     var phone = document.getElementById('phone').value.trim();
-    var errorEl = document.getElementById('contactError');
+    var contactError = document.getElementById('contactError');
+    var payError = document.getElementById('payError');
 
     if (!email && !phone) {
-      e.preventDefault();
-      errorEl.classList.add('visible');
+      contactError.classList.add('visible');
       document.getElementById('email').focus();
       return;
     }
-    errorEl.classList.remove('visible');
-    document.getElementById('cartItemsField').value = Cart.toSummaryText();
-    try { sessionStorage.setItem('christoOrderSummary', JSON.stringify(Cart.getItems())); } catch (e) {}
-  });
+    contactError.classList.remove('visible');
+    payError.classList.remove('visible');
+    payError.textContent = '';
+
+    var btn = document.getElementById('payBtn');
+    btn.disabled = true;
+    btn.textContent = 'Redirecting to payment…';
+
+    try {
+      var res = await fetch('/.netlify/functions/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: Cart.getItems(),
+          name: document.getElementById('name').value.trim(),
+          email: email,
+          phone: phone,
+          notes: document.getElementById('notes').value.trim(),
+        }),
+      });
+
+      var data = await res.json();
+      if (!res.ok || !data.url) throw new Error(data.error || 'Could not start payment');
+
+      Cart.clear();
+      window.location.href = data.url;
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = 'Pay with Card';
+      payError.textContent = 'Payment error: ' + err.message;
+      payError.classList.add('visible');
+    }
+  };
 
   document.getElementById('email').addEventListener('input', function () {
     document.getElementById('contactError').classList.remove('visible');
@@ -221,5 +211,7 @@ permalink: /basket/
   document.getElementById('phone').addEventListener('input', function () {
     document.getElementById('contactError').classList.remove('visible');
   });
+
+  render();
 })();
 </script>
