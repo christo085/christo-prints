@@ -43,6 +43,8 @@ collections:
               - name: "badge"
                 label: "Badge"
                 widget: "select"
+                required: false
+                default: ""
                 options:
                   - { label: "None", value: "" }
                   - { label: "Popular", value: "Popular" }
