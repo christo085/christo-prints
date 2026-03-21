@@ -1,10 +1,10 @@
 {
   "items": [
     {
-      "code": "EXAMPLE10",
-      "description": "10% off your order",
+      "code": "FRIENDS25",
+      "description": "Thanks for being a family/friend! Here's 25% off!",
       "type": "percentage",
-      "value": 10,
+      "value": 25,
       "active": true
     }
   ]
