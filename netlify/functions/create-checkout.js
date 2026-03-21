@@ -33,7 +33,6 @@ exports.handler = async function (event) {
       };
     });
 
-    // Build a note from customer details
     var orderNote = [
       name ? 'Name: ' + name : '',
       phone ? 'Phone: ' + phone : '',
@@ -56,12 +55,29 @@ exports.handler = async function (event) {
       },
     });
 
+    // Surface any Square API validation errors
+    if (response.result.errors && response.result.errors.length > 0) {
+      var errorMsg = response.result.errors.map(function (e) {
+        return e.detail || e.code;
+      }).join('; ');
+      return { statusCode: 400, body: JSON.stringify({ error: 'Square: ' + errorMsg }) };
+    }
+
+    if (!response.result.paymentLink || !response.result.paymentLink.url) {
+      return { statusCode: 500, body: JSON.stringify({ error: 'No payment URL returned from Square' }) };
+    }
+
     return {
       statusCode: 200,
       body: JSON.stringify({ url: response.result.paymentLink.url }),
     };
   } catch (err) {
     console.error('Square error:', err);
+    // Square ApiError has errors array
+    if (err.errors && err.errors.length > 0) {
+      var msg = err.errors.map(function (e) { return e.detail || e.code; }).join('; ');
+      return { statusCode: 400, body: JSON.stringify({ error: 'Square: ' + msg }) };
+    }
     return {
       statusCode: 500,
       body: JSON.stringify({ error: err.message || 'Payment error' }),

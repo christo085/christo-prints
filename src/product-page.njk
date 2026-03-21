@@ -62,13 +62,19 @@ permalink: "/products/{{ product.name | slug }}/"
         <a href="/colours/" class="colours-see-all">See all colours in detail &#8594;</a>
       </div>
 
-      <!-- Add to Cart -->
-      <button class="btn btn-primary btn-large btn-add-to-cart"
-        data-name="{{ product.name }}" data-price="{{ product.price }}" data-type="product"
-        onclick="Cart.addItem(this.dataset.name, this.dataset.price, this.dataset.type); Cart.flashAdded(this);"
-        aria-label="Add {{ product.name }} to basket">
-        Add to Basket — {{ product.price }}
-      </button>
+      <!-- Add to Cart / Buy Now -->
+      <div class="product-page-actions">
+        <button class="btn btn-primary btn-large btn-add-to-cart"
+          data-name="{{ product.name }}" data-price="{{ product.price }}" data-type="product"
+          onclick="Cart.addItem(this.dataset.name, this.dataset.price, this.dataset.type); Cart.flashAdded(this);"
+          aria-label="Add {{ product.name }} to basket">
+          Add to Basket — {{ product.price }}
+        </button>
+        <a href="/basket/" class="btn btn-secondary btn-large" id="buyNowBtn"
+          onclick="Cart.addItem('{{ product.name }}', '{{ product.price }}', 'product');">
+          Buy Now
+        </a>
+      </div>
     </div>
 
   </div>

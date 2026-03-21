@@ -57,14 +57,30 @@ permalink: /basket/
         <textarea class="form-textarea" id="notes" placeholder="Anything else you'd like us to know (e.g. custom name for keychains, colour preferences)"></textarea>
       </div>
 
-      <button type="button" class="btn btn-primary btn-large" id="payBtn" onclick="startCheckout()">
-        Pay with Card
-      </button>
+      <div class="checkout-buttons">
+        <button type="button" class="btn btn-primary btn-large" id="payBtn" onclick="startCheckout()">
+          Pay with Card
+        </button>
+        <button type="button" class="btn btn-secondary btn-large" onclick="payAtDelivery()">
+          Pay at Collection / Delivery
+        </button>
+      </div>
       <p class="form-error" id="payError"></p>
       <p class="checkout-secure-note">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        Secure checkout powered by Square
+        Card payments secured by Square
       </p>
+
+      <!-- Hidden Netlify form for pay-at-delivery -->
+      <form name="basket-order" method="POST" data-netlify="true" id="deliveryForm" hidden>
+        <input type="hidden" name="form-name" value="basket-order">
+        <input type="hidden" name="customer-name" id="deliveryName">
+        <input type="hidden" name="email" id="deliveryEmail">
+        <input type="hidden" name="phone" id="deliveryPhone">
+        <input type="hidden" name="notes" id="deliveryNotes">
+        <input type="hidden" name="cart-items" id="deliveryItems">
+        <input type="hidden" name="payment" value="Pay at collection/delivery">
+      </form>
     </div>
   </div>
 
@@ -203,6 +219,28 @@ permalink: /basket/
       payError.textContent = 'Payment error: ' + err.message;
       payError.classList.add('visible');
     }
+  };
+
+  window.payAtDelivery = function () {
+    var email = document.getElementById('email').value.trim();
+    var phone = document.getElementById('phone').value.trim();
+    var contactError = document.getElementById('contactError');
+
+    if (!email && !phone) {
+      contactError.classList.add('visible');
+      document.getElementById('email').focus();
+      return;
+    }
+    contactError.classList.remove('visible');
+
+    document.getElementById('deliveryName').value = document.getElementById('name').value.trim();
+    document.getElementById('deliveryEmail').value = email;
+    document.getElementById('deliveryPhone').value = phone;
+    document.getElementById('deliveryNotes').value = document.getElementById('notes').value.trim();
+    document.getElementById('deliveryItems').value = Cart.toSummaryText();
+
+    Cart.clear();
+    document.getElementById('deliveryForm').submit();
   };
 
   document.getElementById('email').addEventListener('input', function () {

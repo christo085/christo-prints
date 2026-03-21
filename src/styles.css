@@ -304,6 +304,7 @@ img {
   transition: all var(--transition);
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .product-card:hover {
@@ -2045,6 +2046,28 @@ select.form-input {
 
 .colours-see-all:hover {
   color: var(--accent);
+}
+
+/* ===== Product page actions (Add to Basket + Buy Now) ===== */
+.product-page-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.product-page-actions .btn {
+  flex: 1;
+  justify-content: center;
+  min-width: 140px;
+}
+
+/* ===== Checkout buttons ===== */
+.checkout-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
 }
 
 /* ===== Checkout secure note ===== */
