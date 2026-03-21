@@ -5,8 +5,6 @@ backend:
 media_folder: "src/images"
 public_folder: "/images"
 
-logo_url: /CPLogo.png
-
 collections:
   - name: "products"
     label: "Products"
@@ -33,22 +31,18 @@ collections:
                   - { label: "Decor", value: "decor" }
               - { name: "image", label: "Main Image", widget: "image" }
               - name: "images"
-                label: "Extra Photos (gallery on product page)"
+                label: "Extra Photos (gallery)"
                 widget: "list"
-                required: false
                 field: { name: "image", label: "Image", widget: "image" }
               - name: "colours"
                 label: "Available Colours"
-                hint: "Leave empty to show all colours. Add specific colour names (e.g. Red, Rainbow) to restrict."
+                hint: "Leave empty = all colours. Add names like Red, Rainbow to restrict."
                 widget: "list"
-                required: false
-                field: { name: "colour", label: "Colour name", widget: "string" }
+                field: { name: "colour", label: "Colour", widget: "string" }
               - { name: "popular", label: "Popular", widget: "boolean", default: false }
               - name: "badge"
                 label: "Badge"
                 widget: "select"
-                required: false
-                default: ""
                 options:
                   - { label: "None", value: "" }
                   - { label: "Popular", value: "Popular" }
@@ -71,7 +65,7 @@ collections:
             fields:
               - { name: "name", label: "Bundle Name", widget: "string" }
               - { name: "price", label: "Bundle Price (e.g. £4.00)", widget: "string" }
-              - { name: "oldPrice", label: "Original Price (e.g. £5.00)", widget: "string", required: false }
+              - { name: "oldPrice", label: "Original Price (e.g. £5.00)", widget: "string" }
               - { name: "description", label: "Short Description", widget: "string" }
               - name: "items"
                 label: "Included Products (by name)"
@@ -97,7 +91,6 @@ collections:
               - { name: "description", label: "Description", widget: "text" }
           - name: "seasonal"
             label: "Seasonal Products"
-            hint: "Set activeFrom/activeTo to auto-show during a season."
             widget: "list"
             summary: "{{fields.name}} — {{fields.badge}}"
             fields:
@@ -114,18 +107,8 @@ collections:
                   - { label: "Christmas", value: "Christmas" }
                   - { label: "Spring", value: "Spring" }
                   - { label: "Other", value: "Other" }
-              - { name: "activeFrom", label: "Active From (YYYY-MM-DD)", widget: "string", required: false }
-              - { name: "activeTo", label: "Active Until (YYYY-MM-DD)", widget: "string", required: false }
-          - name: "upcomingSeasonals"
-            label: "Upcoming Seasonal Announcements"
-            hint: "Teaser items shown before a season starts."
-            widget: "list"
-            required: false
-            summary: "{{fields.name}}"
-            fields:
-              - { name: "name", label: "Name", widget: "string" }
-              - { name: "expectedDate", label: "Expected Date", widget: "string", required: false }
-              - { name: "description", label: "Description", widget: "string", required: false }
+              - { name: "activeFrom", label: "Active From (YYYY-MM-DD)", widget: "string" }
+              - { name: "activeTo", label: "Active Until (YYYY-MM-DD)", widget: "string" }
 
   - name: "colours"
     label: "Colours"
@@ -142,16 +125,15 @@ collections:
               - { name: "name", label: "Name", widget: "string" }
               - { name: "hex", label: "Hex code (e.g. #e63946)", widget: "string" }
           - name: "special"
-            label: "Special Colours (gradients, effects)"
+            label: "Special Colours"
             widget: "list"
             summary: "{{fields.name}}"
             fields:
               - { name: "name", label: "Name", widget: "string" }
-              - { name: "hex", label: "CSS value (hex or gradient)", widget: "string" }
-              - { name: "description", label: "Description", widget: "string", required: false }
+              - { name: "hex", label: "CSS value", widget: "string" }
+              - { name: "description", label: "Description", widget: "string" }
           - name: "dropdownOptions"
             label: "Basket Colour Dropdown"
-            hint: "The list shown when choosing a colour in the basket."
             widget: "list"
             field: { name: "option", label: "Option", widget: "string" }
 
@@ -178,4 +160,4 @@ collections:
                   - { label: "2 stars", value: 2 }
                   - { label: "1 star", value: 1 }
               - { name: "text", label: "Review Text", widget: "text" }
-              - { name: "date", label: "Date (e.g. March 2025)", widget: "string", required: false }
+              - { name: "date", label: "Date (e.g. March 2025)", widget: "string" }
