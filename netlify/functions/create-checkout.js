@@ -1,14 +1,15 @@
-const { Client, Environment } = require('square');
 const crypto = require('crypto');
-
-const client = new Client({
-  accessToken: process.env.SQUARE_ACCESS_TOKEN,
-  environment: Environment.Production,
-});
 
 exports.handler = async function (event) {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
+  }
+
+  const token = process.env.SQUARE_ACCESS_TOKEN;
+  const locationId = process.env.SQUARE_LOCATION_ID;
+
+  if (!token || !locationId) {
+    return { statusCode: 500, body: JSON.stringify({ error: 'Square credentials not configured on server' }) };
   }
 
   try {
@@ -26,61 +27,60 @@ exports.handler = async function (event) {
       return {
         name: itemName,
         quantity: String(item.qty),
-        basePriceMoney: {
-          amount: BigInt(Math.round(price * 100)),
+        base_price_money: {
+          amount: Math.round(price * 100),
           currency: 'GBP',
         },
       };
     });
 
-    var orderNote = [
+    const orderNote = [
       name ? 'Name: ' + name : '',
       phone ? 'Phone: ' + phone : '',
       notes ? 'Notes: ' + notes : '',
     ].filter(Boolean).join(' | ');
 
-    const response = await client.checkoutApi.createPaymentLink({
-      idempotencyKey: crypto.randomUUID(),
-      order: {
-        locationId: process.env.SQUARE_LOCATION_ID,
-        lineItems: lineItems,
-        referenceId: name || 'Web Order',
-        note: orderNote || undefined,
+    const squareRes = await fetch('https://connect.squareup.com/v2/online-checkout/payment-links', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token,
+        'Square-Version': '2024-10-17',
       },
-      checkoutOptions: {
-        redirectUrl: process.env.URL + '/success/',
-      },
-      prePopulatedData: {
-        buyerEmail: email || undefined,
-      },
+      body: JSON.stringify({
+        idempotency_key: crypto.randomUUID(),
+        order: {
+          location_id: locationId,
+          line_items: lineItems,
+          reference_id: name || 'Web Order',
+          note: orderNote || undefined,
+        },
+        checkout_options: {
+          redirect_url: process.env.URL + '/success/',
+        },
+        pre_populated_data: {
+          buyer_email: email || undefined,
+        },
+      }),
     });
 
-    // Surface any Square API validation errors
-    if (response.result.errors && response.result.errors.length > 0) {
-      var errorMsg = response.result.errors.map(function (e) {
-        return e.detail || e.code;
-      }).join('; ');
-      return { statusCode: 400, body: JSON.stringify({ error: 'Square: ' + errorMsg }) };
-    }
+    const data = await squareRes.json();
 
-    if (!response.result.paymentLink || !response.result.paymentLink.url) {
-      return { statusCode: 500, body: JSON.stringify({ error: 'No payment URL returned from Square' }) };
+    if (!squareRes.ok || data.errors) {
+      var errMsg = data.errors
+        ? data.errors.map(function (e) { return e.detail || e.code; }).join('; ')
+        : 'Square API error ' + squareRes.status;
+      return { statusCode: 400, body: JSON.stringify({ error: errMsg }) };
     }
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ url: response.result.paymentLink.url }),
+      body: JSON.stringify({ url: data.payment_link.url }),
     };
   } catch (err) {
-    console.error('Square error:', err);
-    // Square ApiError has errors array
-    if (err.errors && err.errors.length > 0) {
-      var msg = err.errors.map(function (e) { return e.detail || e.code; }).join('; ');
-      return { statusCode: 400, body: JSON.stringify({ error: 'Square: ' + msg }) };
-    }
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: err.message || 'Payment error' }),
+      body: JSON.stringify({ error: err.message || 'Unexpected error' }),
     };
   }
 };
