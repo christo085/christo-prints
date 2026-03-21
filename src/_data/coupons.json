@@ -6,6 +6,13 @@
       "type": "percentage",
       "value": 25,
       "active": true
+    },
+    {
+      "active": true,
+      "code": "DAMAGES50",
+      "description": "Sorry that you had a damaged or incorrect print. 50% off!",
+      "type": "percentage",
+      "value": 50
     }
   ]
 }
