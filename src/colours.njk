@@ -53,7 +53,7 @@ permalink: /colours/
 
 <!-- Colour Preview Modal -->
 <div id="colourModal" role="dialog" aria-modal="true" aria-labelledby="colourModalName"
-  style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.6); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:16px;">
+  style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.88); align-items:center; justify-content:center; padding:16px;">
   <div id="colourModalCard"
     style="background:var(--surface); border-radius:20px; max-width:560px; width:100%; max-height:85vh; overflow:hidden; box-shadow:0 32px 64px rgba(0,0,0,0.4); display:flex; flex-direction:column;">
 
@@ -106,9 +106,6 @@ permalink: /colours/
 <script>
   var standardColours = {{ colours.standard | dump | safe }};
   var specialColours = {{ colours.special | dump | safe }};
-  var allProducts = {{ products.items | dump | safe }};
-
-  var exampleProducts = allProducts.filter(function(p) { return p.image; }).slice(0, 6);
 
   function renderSwatches(colours, gridId) {
     var grid = document.getElementById(gridId);
@@ -135,14 +132,17 @@ permalink: /colours/
     descEl.textContent = colour.description || 'Available on all products';
 
     productsEl.innerHTML = '';
-    exampleProducts.forEach(function (p) {
-      var item = document.createElement('div');
-      item.style.cssText = 'border-radius:10px; overflow:hidden; background:var(--bg); border:1px solid var(--border);';
-      item.innerHTML =
-        '<img src="/' + p.image + '" alt="' + p.name + '" loading="lazy" style="width:100%; aspect-ratio:1/1; object-fit:cover; display:block;">' +
-        '<div style="padding:6px 8px; font-size:0.78rem; font-weight:500; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + p.name + '</div>';
-      productsEl.appendChild(item);
-    });
+    var examples = colour.examples || [];
+    if (examples.length === 0) {
+      productsEl.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:var(--text-secondary); font-size:0.875rem; padding:16px 0; margin:0;">No example photos yet for this colour.</p>';
+    } else {
+      examples.forEach(function (img) {
+        var item = document.createElement('div');
+        item.style.cssText = 'border-radius:10px; overflow:hidden; background:var(--bg); border:1px solid var(--border);';
+        item.innerHTML = '<img src="/' + img + '" loading="lazy" style="width:100%; aspect-ratio:1/1; object-fit:cover; display:block;">';
+        productsEl.appendChild(item);
+      });
+    }
 
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';

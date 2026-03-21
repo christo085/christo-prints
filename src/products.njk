@@ -27,9 +27,7 @@ permalink: /products/
     <button class="tab-btn" data-filter="flexi">Flexi Prints</button>
     <button class="tab-btn" data-filter="gadget">Gadgets</button>
     <button class="tab-btn" data-filter="decor">Decor</button>
-    {%- if events.seasonal | length > 0 %}
     <button class="tab-btn" data-filter="seasonal">Seasonal</button>
-    {%- endif %}
   </div>
 
   <div class="product-grid" id="productGrid">
@@ -109,9 +107,9 @@ permalink: /products/
 
         var catMatch;
         if (activeFilter === 'all') {
-          catMatch = cat !== 'seasonal';
+          catMatch = cat !== 'seasonal' && cat !== 'decor';
         } else if (activeFilter === 'seasonal') {
-          catMatch = cat === 'seasonal';
+          catMatch = cat === 'seasonal' || cat === 'decor';
         } else {
           catMatch = cat === activeFilter;
         }

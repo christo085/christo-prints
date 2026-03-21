@@ -1,17 +1,17 @@
 {
   "standard": [
-    { "name": "Red", "hex": "#e63946" },
-    { "name": "Orange", "hex": "#f77f00" },
-    { "name": "Yellow", "hex": "#fcbf49" },
-    { "name": "Green", "hex": "#4caf50" },
-    { "name": "Dark Green", "hex": "#1b5e20" },
-    { "name": "White", "hex": "#f1faee" },
-    { "name": "Black", "hex": "#212529" }
+    { "name": "Red", "hex": "#e63946", "examples": [] },
+    { "name": "Orange", "hex": "#f77f00", "examples": [] },
+    { "name": "Yellow", "hex": "#fcbf49", "examples": [] },
+    { "name": "Green", "hex": "#4caf50", "examples": [] },
+    { "name": "Dark Green", "hex": "#1b5e20", "examples": [] },
+    { "name": "White", "hex": "#f1faee", "examples": [] },
+    { "name": "Black", "hex": "#212529", "examples": [] }
   ],
   "special": [
-    { "name": "Silk Green & Blue", "hex": "linear-gradient(135deg, #1b5e20, #0d3b2e, #0d47a1)", "description": "A shiny filament that depending from the direction you look at, you see dark green or dark blue" },
-    { "name": "Rainbow", "hex": "linear-gradient(90deg, #e63946, #f77f00, #fcbf49, #4caf50, #3a86ff, #7209b7)" },
-    { "name": "Marble", "hex": "radial-gradient(ellipse at 25% 35%, rgba(30,25,25,0.55) 0%, transparent 5%), radial-gradient(ellipse at 65% 20%, rgba(20,20,20,0.45) 0%, transparent 4%), radial-gradient(ellipse at 80% 65%, rgba(40,35,35,0.5) 0%, transparent 6%), radial-gradient(ellipse at 40% 75%, rgba(25,20,20,0.4) 0%, transparent 3%), radial-gradient(ellipse at 10% 80%, rgba(15,15,15,0.35) 0%, transparent 4%), #ece7de", "description": "Off-white with black specks for a classic marble look" }
+    { "name": "Silk Green & Blue", "hex": "linear-gradient(135deg, #1b5e20, #0d3b2e, #0d47a1)", "description": "A shiny filament that depending from the direction you look at, you see dark green or dark blue", "examples": [] },
+    { "name": "Rainbow", "hex": "linear-gradient(90deg, #e63946, #f77f00, #fcbf49, #4caf50, #3a86ff, #7209b7)", "examples": [] },
+    { "name": "Marble", "hex": "radial-gradient(ellipse at 25% 35%, rgba(30,25,25,0.55) 0%, transparent 5%), radial-gradient(ellipse at 65% 20%, rgba(20,20,20,0.45) 0%, transparent 4%), radial-gradient(ellipse at 80% 65%, rgba(40,35,35,0.5) 0%, transparent 6%), radial-gradient(ellipse at 40% 75%, rgba(25,20,20,0.4) 0%, transparent 3%), radial-gradient(ellipse at 10% 80%, rgba(15,15,15,0.35) 0%, transparent 4%), #ece7de", "description": "Off-white with black specks for a classic marble look", "examples": [] }
   ],
   "dropdownOptions": [
     "No preference",
