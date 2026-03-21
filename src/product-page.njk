@@ -64,17 +64,17 @@ permalink: "/products/{{ product.name | slug }}/"
 
       <!-- Add to Cart / Buy Now -->
       <div class="product-page-actions">
-        <button class="btn btn-primary btn-large btn-add-to-cart"
+        <button class="btn btn-secondary btn-large btn-add-to-cart"
           data-name="{{ product.name }}" data-price="{{ product.price }}" data-type="product"
           onclick="Cart.addItem(this.dataset.name, this.dataset.price, this.dataset.type); Cart.flashAdded(this);"
           aria-label="Add {{ product.name }} to basket">
-          Add to Basket — {{ product.price }}
+          Add to Basket
         </button>
-        <a href="/basket/" class="btn btn-secondary btn-large" id="buyNowBtn"
-          onclick="Cart.addItem('{{ product.name }}', '{{ product.price }}', 'product');">
-          Buy Now
-        </a>
+        <button class="btn btn-primary btn-large" id="buyNowBtn" onclick="buyNow()">
+          Buy Now — {{ product.price }}
+        </button>
       </div>
+      <p class="form-error" id="buyNowError" style="margin-top:8px;"></p>
     </div>
 
   </div>
@@ -94,5 +94,32 @@ function setGallery(src, btn) {
   document.getElementById('galleryMain').src = src;
   document.querySelectorAll('.gallery-thumb').forEach(function(t) { t.classList.remove('active'); });
   btn.classList.add('active');
+}
+
+async function buyNow() {
+  var btn = document.getElementById('buyNowBtn');
+  var errEl = document.getElementById('buyNowError');
+  btn.disabled = true;
+  btn.textContent = 'Redirecting…';
+  errEl.classList.remove('visible');
+
+  try {
+    var res = await fetch('/.netlify/functions/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ id: '{{ product.name | slug }}', name: '{{ product.name }}', price: '{{ product.price }}', qty: 1, colour: 'No preference', type: 'product' }],
+        name: '', email: '', phone: '', notes: ''
+      })
+    });
+    var data = await res.json();
+    if (!res.ok || !data.url) throw new Error(data.error || 'Could not start payment');
+    window.location.href = data.url;
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = 'Buy Now — {{ product.price }}';
+    errEl.textContent = 'Error: ' + err.message;
+    errEl.classList.add('visible');
+  }
 }
 </script>
