@@ -2050,13 +2050,23 @@ select.form-input {
 
 /* ===== Product page actions (Add to Basket + Buy Now) ===== */
 .product-page-actions {
+  margin-top: 24px;
+}
+
+.buynow-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.buynow-buttons {
   display: flex;
   gap: 12px;
-  margin-top: 24px;
   flex-wrap: wrap;
 }
 
-.product-page-actions .btn {
+.buynow-buttons .btn {
   flex: 1;
   justify-content: center;
   min-width: 140px;

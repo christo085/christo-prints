@@ -20,3 +20,38 @@ permalink: /success/
     <a href="/products/" class="btn btn-primary" style="margin-top: 24px;">Continue Browsing</a>
   </div>
 </section>
+
+<!-- Hidden Netlify form for Square order email notification -->
+<form name="square-order" method="POST" data-netlify="true" id="squareOrderForm" hidden>
+  <input type="hidden" name="form-name" value="square-order">
+  <input type="hidden" name="payment" value="Square (card)">
+  <input type="hidden" name="customer-name" id="soName">
+  <input type="hidden" name="email" id="soEmail">
+  <input type="hidden" name="phone" id="soPhone">
+  <input type="hidden" name="notes" id="soNotes">
+  <input type="hidden" name="cart-items" id="soItems">
+</form>
+
+<script>
+(function () {
+  var raw = sessionStorage.getItem('lastOrder');
+  if (!raw) return;
+  try {
+    sessionStorage.removeItem('lastOrder');
+    var order = JSON.parse(raw);
+    var itemSummary = (order.items || []).map(function (i) {
+      var line = i.name + ' x' + i.qty + ' @ ' + i.price;
+      if (i.colour && i.colour !== 'No preference') line += ' (' + i.colour + ')';
+      if (i.keychainName) line += ' — Name: ' + i.keychainName;
+      return line;
+    }).join('\n');
+
+    document.getElementById('soName').value = order.name || '';
+    document.getElementById('soEmail').value = order.email || '';
+    document.getElementById('soPhone').value = order.phone || '';
+    document.getElementById('soNotes').value = order.notes || '';
+    document.getElementById('soItems').value = itemSummary;
+    document.getElementById('squareOrderForm').submit();
+  } catch (e) {}
+})();
+</script>
