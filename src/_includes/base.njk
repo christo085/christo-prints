@@ -123,18 +123,6 @@ Christo's Prints
     }, true);
   </script>
   <script defer src="/nav.js"></script>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", function(user) {
-        if (!user) {
-          window.netlifyIdentity.on("login", function() {
-            document.location.href = "/admin/";
-          });
-        }
-      });
-    }
-  </script>
   <!-- WhatsApp floating button -->
   <style>
     #wa-btn{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;align-items:center;gap:0;cursor:pointer;text-decoration:none}
