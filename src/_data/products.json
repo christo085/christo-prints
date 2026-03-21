@@ -179,6 +179,42 @@
       "image": "images/whistle.jpg",
       "popular": false,
       "badge": ""
+    },
+    {
+      "name": "Minimalistic Bunny Set",
+      "price": "£6.00",
+      "description": "Set of three cute, modern bunnies — perfect as a springtime centrepiece or window display.",
+      "category": "decor",
+      "image": "images/three-bunnies.jpg",
+      "popular": false,
+      "badge": "Easter"
+    },
+    {
+      "name": "Flower",
+      "price": "£3.00",
+      "description": "A beautiful 3D-printed flower to brighten up any space this spring.",
+      "category": "decor",
+      "image": "images/flower.jpg",
+      "popular": false,
+      "badge": "Easter"
+    },
+    {
+      "name": "Abstract Rabbit",
+      "price": "£4.00",
+      "description": "A charming single rabbit sculpture with abstract ribbon-like technique.",
+      "category": "decor",
+      "image": "images/rabbit.jpg",
+      "popular": false,
+      "badge": "Easter"
+    },
+    {
+      "name": "Geometric Easter Eggs",
+      "price": "£3.50",
+      "description": "A set of three elegantly simple Easter eggs with clean geometric facets. A modern, minimalist twist on a springtime classic — perfect as tabletop or windowsill decor.",
+      "category": "decor",
+      "image": "images/easter-eggs.jpg",
+      "popular": false,
+      "badge": "Easter"
     }
   ]
 }
