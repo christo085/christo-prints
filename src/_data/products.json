@@ -6,6 +6,7 @@
       "description": "The popular mesmerising spiral fidget that keeps your hands busy.",
       "category": "fidget",
       "image": "images/spiral-cone.jpg",
+      "colours": ["red","green"],
       "popular": true,
       "badge": "Popular"
     },
@@ -15,6 +16,7 @@
       "description": "Infinite satisfying clicking on the button fidget.",
       "category": "fidget",
       "image": "images/fidget-button.jpg",
+      "colours": [],
       "popular": false,
       "badge": ""
     },
@@ -24,6 +26,7 @@
       "description": "Satisfying hexagonal fidget toy that looks so cool.",
       "category": "fidget",
       "image": "images/flexagon.jpg",
+      "colours": ["green"],
       "popular": true,
       "badge": "Popular"
     },
@@ -33,6 +36,7 @@
       "description": "Keep twisting forever with the mesmerising twist fidget.",
       "category": "fidget",
       "image": "images/fidget-twist.jpg",
+      "colours": ["rainbow"],
       "popular": true,
       "badge": "Popular"
     },
@@ -42,6 +46,7 @@
       "description": "Small, discreet spinning ring fidget you can wear anywhere.",
       "category": "fidget",
       "image": "images/fidget-ring.jpg",
+      "colours": ["blue","green"],
       "popular": false,
       "badge": ""
     },
@@ -51,6 +56,7 @@
       "description": "Keep sliding forever with this satisfying sensory fidget.",
       "category": "fidget",
       "image": "images/fidget-slider.jpg",
+      "colours": ["blue","white"],
       "popular": false,
       "badge": ""
     },
@@ -60,6 +66,7 @@
       "description": "Endlessly folding cube for satisfying tactile play.",
       "category": "fidget",
       "image": "images/infinity-cube.jpg",
+      "colours": ["white"],
       "popular": false,
       "badge": ""
     },
@@ -69,6 +76,7 @@
       "description": "Triangle twist on the classic infinity fidget.",
       "category": "fidget",
       "image": "images/infinity-triangle.jpg",
+      "colours": ["blue","white"],
       "popular": false,
       "badge": ""
     },
@@ -78,6 +86,7 @@
       "description": "Articulated slug that wiggles and bends in your hands.",
       "category": "flexi",
       "image": "images/flexi-slug.jpg",
+      "colours": ["Silk Green & Blue"],
       "popular": false,
       "badge": ""
     },
@@ -87,6 +96,7 @@
       "description": "Articulated fish skeleton that bends and flexes.",
       "category": "flexi",
       "image": "images/flexi-fish-bone.jpg",
+      "colours": ["blue"],
       "popular": false,
       "badge": ""
     },
@@ -96,6 +106,7 @@
       "description": "Slithering articulated snake with smooth movement.",
       "category": "flexi",
       "image": "images/flexi-snake.jpg",
+      "colours": ["rainbow"],
       "popular": true,
       "badge": "Popular"
     },
@@ -105,6 +116,7 @@
       "description": "Adorable articulated dinosaur with flexible joints.",
       "category": "flexi",
       "image": "images/flexi-dino.jpg",
+      "colours": ["rainbow"],
       "popular": false,
       "badge": ""
     },
@@ -114,6 +126,7 @@
       "description": "Personalised keychain with your name. Price varies by length.",
       "category": "gadget",
       "image": "images/name-keychain.jpg",
+      "colours": ["white"],
       "popular": false,
       "badge": "Custom"
     },
@@ -123,6 +136,7 @@
       "description": "Minimalist 3D-printed card wallet. Slim and practical. Holds 2 cards.",
       "category": "gadget",
       "image": "images/slim-wallet.jpg",
+      "colours": ["rainbow"],
       "popular": false,
       "badge": ""
     },
@@ -132,6 +146,7 @@
       "description": "Foldable phone stand that lies flat when not in use.",
       "category": "gadget",
       "image": "images/flat-phone-stand.jpg",
+      "colours": [],
       "popular": false,
       "badge": ""
     },
@@ -141,6 +156,7 @@
       "description": "It's 'The Rock' on an octopus body! Who wouldn't want that?",
       "category": "flexi",
       "image": "images/rocktopus.jpg",
+      "colours": ["green"],
       "popular": false,
       "badge": ""
     },
@@ -150,6 +166,7 @@
       "description": "Fidget joystick that clicks and tilts in every direction.",
       "category": "fidget",
       "image": "images/joystick.jpg",
+      "colours": [],
       "popular": false,
       "badge": ""
     },
@@ -159,6 +176,7 @@
       "description": "Handy 3D-printed carabiner clip for bags, keys, and gear.",
       "category": "gadget",
       "image": "images/carabiner.jpg",
+      "colours": [],
       "popular": false,
       "badge": ""
     },
@@ -168,6 +186,7 @@
       "description": "Twist-lock carabiner for a more secure hold on your stuff.",
       "category": "gadget",
       "image": "images/screw-lock-carabiner.jpg",
+      "colours": [],
       "popular": false,
       "badge": ""
     },
@@ -177,6 +196,7 @@
       "description": "Loud 3D-printed whistle. Great for outdoors and emergencies.",
       "category": "gadget",
       "image": "images/whistle.jpg",
+      "colours": [],
       "popular": false,
       "badge": ""
     },
@@ -186,6 +206,7 @@
       "description": "Set of three cute, modern bunnies — perfect as a springtime centrepiece or window display.",
       "category": "decor",
       "image": "images/three-bunnies.jpg",
+      "colours": ["marble"],
       "popular": false,
       "badge": "Easter"
     },
@@ -195,6 +216,7 @@
       "description": "A beautiful 3D-printed flower to brighten up any space this spring.",
       "category": "decor",
       "image": "images/flower.jpg",
+      "colours": [],
       "popular": false,
       "badge": "Easter"
     },
@@ -204,6 +226,7 @@
       "description": "A charming single rabbit sculpture with abstract ribbon-like technique.",
       "category": "decor",
       "image": "images/rabbit.jpg",
+      "colours": [],
       "popular": false,
       "badge": "Easter"
     },
@@ -213,6 +236,7 @@
       "description": "A set of three elegantly simple Easter eggs with clean geometric facets. A modern, minimalist twist on a springtime classic — perfect as tabletop or windowsill decor.",
       "category": "decor",
       "image": "images/easter-eggs.jpg",
+      "colours": [],
       "popular": false,
       "badge": "Easter"
     }

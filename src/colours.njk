@@ -53,27 +53,27 @@ permalink: /colours/
 
 <!-- Colour Preview Modal -->
 <div id="colourModal" role="dialog" aria-modal="true" aria-labelledby="colourModalName"
-  style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.88); align-items:center; justify-content:center; padding:16px;">
+  style="display:none; position:fixed; inset:0; z-index:9999; background:#000000dd; align-items:center; justify-content:center; padding:16px;">
   <div id="colourModalCard"
-    style="background:var(--surface); border-radius:20px; max-width:560px; width:100%; max-height:85vh; overflow:hidden; box-shadow:0 32px 64px rgba(0,0,0,0.4); display:flex; flex-direction:column;">
+    style="background:#161e28; border-radius:20px; max-width:560px; width:100%; max-height:85vh; overflow:hidden; box-shadow:0 32px 64px rgba(0,0,0,0.6); display:flex; flex-direction:column;">
 
     <!-- Colour header -->
-    <div id="colourModalHdr" style="position:relative; min-height:120px; display:flex; flex-direction:column; justify-content:flex-end; padding:20px 24px; flex-shrink:0; border-radius:20px 20px 0 0;">
-      <div id="colourModalHdrBg" style="position:absolute; inset:0; border-radius:20px 20px 0 0;"></div>
-      <div style="position:absolute; inset:0; border-radius:20px 20px 0 0; background:linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 60%);"></div>
+    <div style="position:relative; min-height:120px; display:flex; flex-direction:column; justify-content:flex-end; padding:20px 24px; flex-shrink:0; border-radius:20px 20px 0 0; overflow:hidden;">
+      <div id="colourModalHdrBg" style="position:absolute; inset:0;"></div>
+      <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%);"></div>
       <button onclick="closeColourModal()" aria-label="Close"
-        style="position:absolute; top:14px; right:14px; background:rgba(0,0,0,0.3); border:none; color:#fff; width:34px; height:34px; border-radius:50%; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; line-height:1; z-index:1;">&#215;</button>
+        style="position:absolute; top:14px; right:14px; background:rgba(0,0,0,0.35); border:none; color:#fff; width:34px; height:34px; border-radius:50%; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; line-height:1; z-index:1;">&#215;</button>
       <div style="position:relative; z-index:1;">
-        <h2 id="colourModalName" style="margin:0; color:#fff; font-size:1.5rem; text-shadow:0 2px 8px rgba(0,0,0,0.5);"></h2>
-        <p id="colourModalDesc" style="margin:4px 0 0; color:rgba(255,255,255,0.88); font-size:0.875rem; text-shadow:0 1px 4px rgba(0,0,0,0.4);"></p>
+        <h2 id="colourModalName" style="margin:0; color:#fff; font-size:1.5rem; text-shadow:0 2px 8px rgba(0,0,0,0.6);"></h2>
+        <p id="colourModalDesc" style="margin:4px 0 0; color:rgba(255,255,255,0.85); font-size:0.875rem; text-shadow:0 1px 4px rgba(0,0,0,0.5);"></p>
       </div>
     </div>
 
     <!-- Product examples -->
     <div style="padding:20px 24px 24px; overflow-y:auto; flex:1;">
-      <p style="margin:0 0 14px; color:var(--text-secondary); font-size:0.875rem; font-weight:500;">Example prints available in this colour</p>
+      <p style="margin:0 0 14px; color:#8b9fad; font-size:0.875rem; font-weight:500;">Example prints in this colour</p>
       <div id="colourModalProducts" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px;"></div>
-      <p style="margin:16px 0 0; font-size:0.8rem; color:var(--text-secondary); text-align:center;">All products can be printed in any colour — just mention it when you order.</p>
+      <p style="margin:16px 0 0; font-size:0.8rem; color:#8b9fad; text-align:center;">All products can be printed in any colour — just mention it when you order.</p>
     </div>
   </div>
 </div>
@@ -89,23 +89,14 @@ permalink: /colours/
   transition: transform 0.18s ease, box-shadow 0.18s ease;
   position: relative;
 }
-.colour-swatch::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  opacity: 0;
-  transition: opacity 0.18s;
-  background: rgba(255,255,255,0.12);
-}
-.colour-swatch:hover { transform: translateY(-5px) scale(1.06); box-shadow: 0 10px 28px rgba(0,0,0,0.22); }
-.colour-swatch:hover::after { opacity: 1; }
+.colour-swatch:hover { transform: translateY(-5px) scale(1.06); box-shadow: 0 10px 28px rgba(0,0,0,0.3); }
 .colour-swatch:active { transform: scale(0.98); }
 </style>
 
 <script>
   var standardColours = {{ colours.standard | dump | safe }};
   var specialColours = {{ colours.special | dump | safe }};
+  var allProducts = {{ products.items | dump | safe }};
 
   function renderSwatches(colours, gridId) {
     var grid = document.getElementById(gridId);
@@ -131,15 +122,22 @@ permalink: /colours/
     nameEl.textContent = colour.name;
     descEl.textContent = colour.description || 'Available on all products';
 
+    var matches = allProducts.filter(function (p) {
+      return p.colours && p.colours.some(function (c) {
+        return c.toLowerCase() === colour.name.toLowerCase();
+      });
+    });
+
     productsEl.innerHTML = '';
-    var examples = colour.examples || [];
-    if (examples.length === 0) {
-      productsEl.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:var(--text-secondary); font-size:0.875rem; padding:16px 0; margin:0;">No example photos yet for this colour.</p>';
+    if (matches.length === 0) {
+      productsEl.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#8b9fad; font-size:0.875rem; padding:16px 0; margin:0;">No example photos yet for this colour.</p>';
     } else {
-      examples.forEach(function (img) {
+      matches.forEach(function (p) {
         var item = document.createElement('div');
-        item.style.cssText = 'border-radius:10px; overflow:hidden; background:var(--bg); border:1px solid var(--border);';
-        item.innerHTML = '<img src="/' + img + '" loading="lazy" style="width:100%; aspect-ratio:1/1; object-fit:cover; display:block;">';
+        item.style.cssText = 'border-radius:10px; overflow:hidden; background:#0a0f14; border:1px solid #1e2a36;';
+        item.innerHTML =
+          '<img src="/' + p.image + '" alt="' + p.name + '" loading="lazy" style="width:100%; aspect-ratio:1/1; object-fit:cover; display:block;">' +
+          '<div style="padding:6px 8px; font-size:0.78rem; font-weight:500; color:#eaf6f3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + p.name + '</div>';
         productsEl.appendChild(item);
       });
     }
