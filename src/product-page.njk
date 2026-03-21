@@ -46,24 +46,16 @@ permalink: "/products/{{ product.name | slug }}/"
 
       <!-- Colours -->
       <div class="product-page-colours">
-        <h3>
-          {% if product.colours.length == 0 %}
-          All colours available
-          {% else %}
-          Available colours
-          {% endif %}
-        </h3>
-        {% if product.colours.length == 0 %}
+        <h3>All colours available</h3>
         <p class="colours-note">This item can be printed in any colour — pick your preference in the basket, or leave as "No preference" and we'll choose for you.</p>
-        {% endif %}
-        {% set displayColours = product.colours | resolveProductColours(colours) %}
+        {% set allColours = [] | resolveProductColours(colours) %}
         <div class="product-colours-swatches">
-          {% for colour in displayColours %}
+          {% for colour in allColours %}
           <div class="product-colour-dot" title="{{ colour.name }}" style="background: {{ colour.hex }};"></div>
           {% endfor %}
         </div>
         <div class="product-colours-names">
-          {% for colour in displayColours %}
+          {% for colour in allColours %}
           <span class="colour-chip">{{ colour.name }}</span>
           {% endfor %}
         </div>
