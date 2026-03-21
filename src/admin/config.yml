@@ -1,6 +1,5 @@
 backend:
-  name: github
-  repo: christo085/christo-prints
+  name: git-gateway
   branch: main
 
 media_folder: "src/images"
