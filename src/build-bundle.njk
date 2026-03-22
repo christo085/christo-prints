@@ -76,7 +76,7 @@ permalink: /build-bundle/
       <div class="product-card-img">
         <img src="/{{ product.image }}" alt="{{ product.name }}" loading="lazy">
         {%- if product.badge %}
-        <span class="product-card-badge">{{ product.badge }}</span>
+        <span class="product-card-badge{% if product.badge == 'Trending' %} badge-trending{% endif %}">{{ product.badge }}</span>
         {%- endif %}
         <div class="picker-selected-overlay">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -96,10 +96,26 @@ permalink: /build-bundle/
 
 <script>
 (function () {
-  var selected = [null, null, null]; // array of {name, price, image}
+  var selected = [null, null, null]; // array of {name, price, image, colour}
+
+  var COLOURS = {{ colours.dropdownOptions | dump | safe }};
+  var LOW_STOCK = {{ colours.lowStock | dump | safe }};
+
+  var COLOUR_OPTIONS_HTML = COLOURS.map(function (c) {
+    var label = c + (LOW_STOCK.indexOf(c) !== -1 ? ' (Running Low)' : '');
+    return '<option value="' + c + '">' + label + '</option>';
+  }).join('');
 
   function getPrice(priceStr) {
     return parseFloat((priceStr || '0').replace('£', '').replace('+', '')) || 0;
+  }
+
+  function buildSlotColourHtml(slotIndex, selectedColour) {
+    var opts = COLOURS.map(function (c) {
+      var label = c + (LOW_STOCK.indexOf(c) !== -1 ? ' (Running Low)' : '');
+      return '<option value="' + c + '"' + (c === selectedColour ? ' selected' : '') + '>' + label + '</option>';
+    }).join('');
+    return '<select class="form-input form-input-sm bundle-slot-colour" onclick="event.stopPropagation();" onchange="setSlotColour(' + slotIndex + ', this.value)">' + opts + '</select>';
   }
 
   function updateSlots() {
@@ -115,6 +131,7 @@ permalink: /build-bundle/
           '<div class="bundle-slot-info">' +
             '<span class="bundle-slot-name">' + item.name + '</span>' +
             '<span class="bundle-slot-price">' + item.price + '</span>' +
+            buildSlotColourHtml(i, item.colour || 'No preference') +
           '</div>' +
           '<button class="bundle-slot-remove" onclick="removeSlot(' + i + '); event.stopPropagation();" aria-label="Remove">&times;</button>';
       } else {
@@ -151,6 +168,10 @@ permalink: /build-bundle/
     });
   }
 
+  window.setSlotColour = function (i, colour) {
+    if (selected[i]) selected[i].colour = colour;
+  };
+
   window.toggleProduct = function (card) {
     var name = card.dataset.name;
     var price = card.dataset.price;
@@ -170,7 +191,7 @@ permalink: /build-bundle/
 
     // Fill the first empty slot
     var emptyIdx = selected.indexOf(null);
-    selected[emptyIdx] = { name: name, price: price, image: image };
+    selected[emptyIdx] = { name: name, price: price, image: image, colour: 'No preference' };
     updateSlots();
   };
 
@@ -191,12 +212,14 @@ permalink: /build-bundle/
     var items = selected.filter(Boolean);
     if (items.length < 3) return;
 
-    var total = items.reduce(function (s, i) { return s + getPrice(i.price); }, 0);
-    var discounted = (total * 0.9).toFixed(2);
-    var names = items.map(function (i) { return i.name; }).join(' + ');
-    var bundleName = 'Custom Bundle (' + names + ')';
-
-    Cart.addItem(bundleName, '£' + discounted, 'bundle');
+    var bundleId = 'bndl-' + Date.now();
+    items.forEach(function (item, i) {
+      var discountedPrice = '£' + (getPrice(item.price) * 0.9).toFixed(2);
+      Cart.addItem(item.name, discountedPrice, 'product', {
+        colour: item.colour || 'No preference',
+        uniqueId: bundleId + '-' + i
+      });
+    });
 
     // Flash button
     var btn = document.getElementById('bundleAddBtn');

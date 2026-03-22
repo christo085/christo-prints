@@ -20,7 +20,8 @@ window.Cart = (function () {
     } catch (e) { /* storage full / unavailable */ }
   }
 
-  function addItem(name, price, type) {
+  function addItem(name, price, type, opts) {
+    var options = opts || {};
     var items = getItems();
     var isKeychain = name === 'Name Keychain';
 
@@ -33,14 +34,17 @@ window.Cart = (function () {
         count++;
         id = 'name-keychain-' + (count + 1);
       }
-      items.push({ id: id, name: name, price: '£1.00', type: type || 'product', colour: 'No preference', qty: 1, keychainName: '' });
+      items.push({ id: id, name: name, price: '£1.00', type: type || 'product', colour: options.colour || 'No preference', qty: 1, keychainName: '' });
+    } else if (options.uniqueId) {
+      // Force a new entry with a specific ID (used by bundle builder to avoid qty-merging)
+      items.push({ id: options.uniqueId, name: name, price: price, type: type || 'product', colour: options.colour || 'No preference', qty: 1 });
     } else {
       var id = slugify(name);
       var existing = items.find(function (i) { return i.id === id; });
       if (existing) {
         existing.qty += 1;
       } else {
-        items.push({ id: id, name: name, price: price, type: type || 'product', colour: 'No preference', qty: 1 });
+        items.push({ id: id, name: name, price: price, type: type || 'product', colour: options.colour || 'No preference', qty: 1 });
       }
     }
     _save(items);

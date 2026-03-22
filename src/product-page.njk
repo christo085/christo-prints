@@ -15,7 +15,7 @@ permalink: "/products/{{ product.name | slug }}/"
   <a href="/products/" class="back-link">&#8592; All Products</a>
   <h1>{{ product.name }}</h1>
   {% if product.badge %}
-  <span class="product-page-badge">{{ product.badge }}</span>
+  <span class="product-page-badge{% if product.badge == 'Trending' %} badge-trending{% endif %}">{{ product.badge }}</span>
   {% endif %}
 </div>
 
@@ -74,23 +74,25 @@ permalink: "/products/{{ product.name | slug }}/"
               {% endfor %}
             </select>
           </div>
-          <div class="form-group">
-            <label class="form-label" for="buyNowName">Name (optional)</label>
-            <input class="form-input" type="text" id="buyNowName" placeholder="Your name">
-          </div>
-          <div class="form-row">
+          <div id="buyNowExtras" style="display:none;">
             <div class="form-group">
-              <label class="form-label" for="buyNowEmail">Email (optional)</label>
-              <input class="form-input" type="email" id="buyNowEmail" placeholder="you@example.com">
+              <label class="form-label" for="buyNowName">Name (optional)</label>
+              <input class="form-input" type="text" id="buyNowName" placeholder="Your name">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="buyNowEmail">Email (optional)</label>
+                <input class="form-input" type="email" id="buyNowEmail" placeholder="you@example.com">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="buyNowPhone">Phone (optional)</label>
+                <input class="form-input" type="tel" id="buyNowPhone" placeholder="07xxx xxxxxx">
+              </div>
             </div>
             <div class="form-group">
-              <label class="form-label" for="buyNowPhone">Phone (optional)</label>
-              <input class="form-input" type="tel" id="buyNowPhone" placeholder="07xxx xxxxxx">
+              <label class="form-label" for="buyNowNotes">Notes (optional)</label>
+              <textarea class="form-textarea" id="buyNowNotes" placeholder="Any special requests?" rows="2"></textarea>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="buyNowNotes">Notes (optional)</label>
-            <textarea class="form-textarea" id="buyNowNotes" placeholder="Any special requests?" rows="2"></textarea>
           </div>
         </div>
         <div class="buynow-buttons">
@@ -162,12 +164,12 @@ function openLightbox(index) {
   lbIndex = index || 0;
   var lb = document.getElementById('galleryLightbox');
   renderLightboxImage(null);
-  lb.style.display = 'flex';
+  lb.classList.add('lb-open');
   document.body.style.overflow = 'hidden';
 }
 
 function closeLightbox() {
-  document.getElementById('galleryLightbox').style.display = 'none';
+  document.getElementById('galleryLightbox').classList.remove('lb-open');
   document.body.style.overflow = '';
 }
 
@@ -199,15 +201,25 @@ function renderLightboxImage(direction) {
 })();
 
 document.addEventListener('keydown', function (e) {
-  if (document.getElementById('galleryLightbox').style.display === 'none') return;
+  if (!document.getElementById('galleryLightbox').classList.contains('lb-open')) return;
   if (e.key === 'ArrowRight') lightboxNav(1);
   if (e.key === 'ArrowLeft') lightboxNav(-1);
   if (e.key === 'Escape') closeLightbox();
 });
 
 async function buyNow() {
+  var extras = document.getElementById('buyNowExtras');
   var btn = document.getElementById('buyNowBtn');
   var errEl = document.getElementById('buyNowError');
+
+  // First click: reveal the extra fields
+  if (extras.style.display === 'none') {
+    extras.style.display = 'block';
+    btn.textContent = 'Confirm & Pay — {{ product.price }}';
+    extras.querySelector('#buyNowName').focus();
+    return;
+  }
+
   var colour = document.getElementById('buyNowColour').value;
   var notes = document.getElementById('buyNowNotes').value.trim();
   btn.disabled = true;
@@ -234,7 +246,7 @@ async function buyNow() {
     window.location.href = data.url;
   } catch (err) {
     btn.disabled = false;
-    btn.textContent = 'Buy Now — {{ product.price }}';
+    btn.textContent = 'Confirm & Pay — {{ product.price }}';
     errEl.textContent = 'Error: ' + err.message;
     errEl.classList.add('visible');
   }
@@ -242,8 +254,7 @@ async function buyNow() {
 </script>
 
 <!-- Lightbox -->
-<div id="galleryLightbox" role="dialog" aria-modal="true" aria-label="Image viewer"
-  style="display:none; position:fixed; inset:0; z-index:9999; background:#000000f0; align-items:center; justify-content:center; flex-direction:column;">
+<div id="galleryLightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
   <button onclick="closeLightbox()" class="lb-close" aria-label="Close">&times;</button>
   <div class="lb-image-wrap">
     <img id="lbMainImg" src="" alt="{{ product.name }}" class="lb-img">

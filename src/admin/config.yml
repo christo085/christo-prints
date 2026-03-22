@@ -61,6 +61,7 @@ collections:
                 options:
                   - { label: "None", value: "" }
                   - { label: "Popular", value: "Popular" }
+                  - { label: "Trending", value: "Trending" }
                   - { label: "Custom", value: "Custom" }
                   - { label: "Easter", value: "Easter" }
                   - { label: "New", value: "New" }

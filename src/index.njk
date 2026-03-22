@@ -42,7 +42,7 @@ permalink: /
         <div class="product-card-img">
           <img src="/{{ product.image }}" alt="{{ product.name }}" loading="lazy">
           {%- if product.badge %}
-          <span class="product-card-badge">{{ product.badge }}</span>
+          <span class="product-card-badge{% if product.badge == 'Trending' %} badge-trending{% endif %}">{{ product.badge }}</span>
           {%- endif %}
         </div>
       </a>

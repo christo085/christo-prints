@@ -260,7 +260,7 @@
       ],
       "colours": ["marble"],
       "popular": false,
-      "badge": "Easter"
+      "badge": "Trending"
     },
     {
       "name": "Flower",
@@ -287,7 +287,7 @@
     {
       "name": "Spiral Easter Egg",
       "price": "£2.00",
-      "description": "A satisfying spiral fidget in the shape of an Easter egg. Spin it, squeeze it, enjoy it.",
+      "description": "A fun Easter egg-shaped fidget toy — squeeze it, flex it, and enjoy the satisfying feel. A perfect little Easter treat!",
       "category": "fidget",
       "image": "images/easter-eggs.jpg",
       "colourExamples": [],
