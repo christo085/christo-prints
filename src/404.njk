@@ -1,0 +1,146 @@
+---
+layout: base.njk
+title: "Page Not Found - Christo's Prints"
+description: "Sorry, that page doesn't exist. Browse our 3D prints instead."
+permalink: /404.html
+---
+
+<section class="section-404">
+  <div class="fourofour-inner">
+
+    <!-- Animated 404 -->
+    <div class="fourofour-number" aria-hidden="true">
+      <span class="fourofour-digit">4</span>
+      <span class="fourofour-zero">
+        <svg class="fourofour-spiral" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="38" stroke="var(--accent)" stroke-width="6" stroke-dasharray="12 8" stroke-linecap="round"/>
+          <circle cx="50" cy="50" r="24" stroke="var(--accent)" stroke-width="4" stroke-dasharray="8 6" stroke-linecap="round" opacity="0.6"/>
+          <circle cx="50" cy="50" r="10" stroke="var(--accent)" stroke-width="3" opacity="0.35"/>
+        </svg>
+      </span>
+      <span class="fourofour-digit">4</span>
+    </div>
+
+    <h1 class="fourofour-title">This page got lost in the print queue.</h1>
+    <p class="fourofour-sub">It might have been moved, deleted, or maybe it never printed in the first place.</p>
+
+    <div class="fourofour-actions">
+      <a href="/" class="btn btn-secondary btn-large">Go Home</a>
+      <a href="/products/" class="btn btn-primary btn-large">Browse Products</a>
+      <a href="/custom/" class="btn btn-secondary btn-large">Request a Custom Print</a>
+    </div>
+
+    <div class="fourofour-links">
+      <a href="/basket/">View Basket</a>
+      <span>·</span>
+      <a href="/events/">Events</a>
+      <span>·</span>
+      <a href="/colours/">Colours</a>
+      <span>·</span>
+      <a href="/contact/">Contact</a>
+    </div>
+
+  </div>
+</section>
+
+<style>
+.section-404 {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+.fourofour-inner {
+  text-align: center;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.fourofour-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.fourofour-digit {
+  font-size: clamp(5rem, 18vw, 9rem);
+  font-weight: 900;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 3px var(--accent);
+  text-shadow: 0 0 60px var(--accent-glow);
+  animation: fourofour-pulse 3s ease-in-out infinite;
+}
+
+.fourofour-zero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fourofour-spiral {
+  width: clamp(5rem, 18vw, 9rem);
+  height: clamp(5rem, 18vw, 9rem);
+  filter: drop-shadow(0 0 16px var(--accent-glow));
+  animation: fourofour-spin 8s linear infinite;
+}
+
+.fourofour-title {
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 12px;
+}
+
+.fourofour-sub {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin: 0 0 36px;
+  line-height: 1.6;
+}
+
+.fourofour-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+.fourofour-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+}
+
+.fourofour-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.fourofour-links a:hover {
+  color: var(--accent);
+}
+
+.fourofour-links span {
+  color: var(--border-hover);
+}
+
+@keyframes fourofour-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes fourofour-pulse {
+  0%, 100% { opacity: 1; text-shadow: 0 0 60px var(--accent-glow); }
+  50%       { opacity: 0.7; text-shadow: 0 0 120px var(--accent-glow); }
+}
+</style>

@@ -42,8 +42,8 @@
       "image": "images/fidget-twist.jpg",
       "images": [
         { "image": "images/fidget-twist.jpg", "colours": ["Rainbow"] },
-        { "image": "images/fidget-twist2.jpg", "colours": [] },
-        { "image": "images/fidget-twist3.jpg", "colours": [] }
+        { "image": "images/fidget-twist2.jpg", "colours": ["Dark Green"] },
+        { "image": "images/fidget-twist3.jpg", "colours": ["Rainbow"] }
       ],
       "popular": true,
       "badge": "Popular"
@@ -55,7 +55,7 @@
       "category": "fidget",
       "image": "images/fidget-ring.jpg",
       "images": [
-        { "image": "images/fidget-ring.jpg", "colours": ["Green"] }
+        { "image": "images/fidget-ring.jpg", "colours": ["Blue", "Green"] }
       ],
       "popular": false,
       "badge": ""
@@ -67,7 +67,7 @@
       "category": "fidget",
       "image": "images/fidget-slider.jpg",
       "images": [
-        { "image": "images/fidget-slider.jpg", "colours": ["White"] }
+        { "image": "images/fidget-slider.jpg", "colours": ["Blue", "White"] }
       ],
       "popular": false,
       "badge": ""
@@ -91,7 +91,7 @@
       "category": "fidget",
       "image": "images/infinity-triangle.jpg",
       "images": [
-        { "image": "images/infinity-triangle.jpg", "colours": ["White"] }
+        { "image": "images/infinity-triangle.jpg", "colours": ["White", "Blue"] }
       ],
       "popular": false,
       "badge": ""
@@ -103,7 +103,7 @@
       "category": "flexi",
       "image": "images/flexi-slug.jpg",
       "images": [
-        { "image": "images/flexi-slug.jpg", "colours": ["Silk Green & Blue"] }
+        { "image": "images/flexi-slug.jpg", "colours": ["Blue", "Green", "Silk Green & Blue"] }
       ],
       "popular": false,
       "badge": ""
@@ -115,7 +115,7 @@
       "category": "flexi",
       "image": "images/flexi-fish-bone.jpg",
       "images": [
-        { "image": "images/flexi-fish-bone.jpg", "colours": [] }
+        { "image": "images/flexi-fish-bone.jpg", "colours": ["Blue"] }
       ],
       "popular": false,
       "badge": ""
@@ -235,9 +235,12 @@
       "price": "£7.00",
       "description": "Set of three cute, modern bunnies. Perfect as a springtime centrepiece or window display.",
       "category": "decor",
-      "image": "images/three-bunnies.jpg",
+      "image": "images/three-bunnies-main.jpg",
       "images": [
-        { "image": "images/three-bunnies.jpg", "colours": ["Marble"] }
+        { "image": "images/three-bunnies-main.jpg", "colours": ["Marble"] },
+        { "image": "images/three-bunnies-2-closeup.jpeg", "colours": ["Marble"] },
+        { "image": "images/three-bunnies-3.jpeg", "colours": [] },
+        { "image": "images/three-bunnies-4.jpeg", "colours": [] }
       ],
       "popular": false,
       "badge": "Trending"
@@ -272,5 +275,9 @@
       "popular": false,
       "badge": "Easter"
     }
+  ],
+  "colourOnlyExamples": [
+    { "image": "images/sitting-pumpkin.jpg", "name": "Sitting Pumpkin", "colours": ["Orange", "Dark Green"] },
+    { "image": "images/spiral-pumpkin.jpg", "name": "Spiral Pumpkin", "colours": ["Orange", "Green"] }
   ]
 }
