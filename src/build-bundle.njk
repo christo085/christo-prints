@@ -75,8 +75,10 @@ permalink: /build-bundle/
     <div class="product-card picker-card" data-name="{{ product.name }}" data-price="{{ product.price }}" data-image="{{ product.image }}" data-keywords="{{ product.name | lower }} {{ product.description | lower }}" onclick="toggleProduct(this)">
       <div class="product-card-img">
         <img src="/{{ product.image }}" alt="{{ product.name }}" loading="lazy">
-        {%- if product.badge %}
-        <span class="product-card-badge{% if product.badge == 'Trending' %} badge-trending{% endif %}">{{ product.badge }}</span>
+        {%- if product.trending %}
+        <span class="product-card-badge badge-trending">Trending</span>
+        {%- elif product.badge %}
+        <span class="product-card-badge">{{ product.badge }}</span>
         {%- endif %}
         <div class="picker-selected-overlay">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>

@@ -53,8 +53,10 @@ permalink: /products/
       <a href="/products/{{ product.name | slug }}/" class="product-card-img-link" tabindex="-1" aria-hidden="true">
         <div class="product-card-img">
           <img src="/{{ product.image }}" alt="{{ product.name }}" loading="lazy">
-          {%- if product.badge %}
-          <span class="product-card-badge{% if product.badge == 'Trending' %} badge-trending{% endif %}">{{ product.badge }}</span>
+          {%- if product.trending %}
+          <span class="product-card-badge badge-trending">Trending</span>
+          {%- elif product.badge %}
+          <span class="product-card-badge">{{ product.badge }}</span>
           {%- endif %}
         </div>
       </a>

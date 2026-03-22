@@ -260,7 +260,8 @@
       ],
       "colours": ["marble"],
       "popular": false,
-      "badge": "Trending"
+      "trending": true,
+      "badge": "Easter"
     },
     {
       "name": "Flower",

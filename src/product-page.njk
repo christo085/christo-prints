@@ -14,8 +14,10 @@ permalink: "/products/{{ product.name | slug }}/"
 <div class="page-header">
   <a href="/products/" class="back-link">&#8592; All Products</a>
   <h1>{{ product.name }}</h1>
-  {% if product.badge %}
-  <span class="product-page-badge{% if product.badge == 'Trending' %} badge-trending{% endif %}">{{ product.badge }}</span>
+  {% if product.trending %}
+  <span class="product-page-badge badge-trending">Trending</span>
+  {% elif product.badge %}
+  <span class="product-page-badge">{{ product.badge }}</span>
   {% endif %}
 </div>
 
