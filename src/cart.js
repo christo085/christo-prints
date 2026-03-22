@@ -45,6 +45,7 @@ window.Cart = (function () {
     }
     _save(items);
     updateBadge();
+    document.dispatchEvent(new CustomEvent('cartItemAdded', { detail: { name: name } }));
   }
 
   function removeItem(id) {

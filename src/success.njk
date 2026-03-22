@@ -16,14 +16,21 @@ permalink: /success/
       <polyline points="22 4 12 14.01 9 11.01"/>
     </svg>
     <h2>Thanks for your order!</h2>
-    <p>Payment received. We'll get your prints ready and be in touch to arrange collection.</p>
+    <p>We'll get your prints ready and be in touch to arrange collection.</p>
+
+    <div class="success-summary" id="successSummary" style="display:none;">
+      <div class="success-summary-items" id="successItems"></div>
+      <div class="success-summary-total" id="successTotal"></div>
+    </div>
+
     <a href="/products/" class="btn btn-primary" style="margin-top: 24px;">Continue Browsing</a>
   </div>
 </section>
 
 <!-- Hidden Netlify form for Square order email notification -->
-<form name="square-order" method="POST" data-netlify="true" id="squareOrderForm" hidden>
+<form name="square-order" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="squareOrderForm" hidden>
   <input type="hidden" name="form-name" value="square-order">
+  <input type="hidden" name="bot-field">
   <input type="hidden" name="payment" value="Square (card)">
   <input type="hidden" name="customer-name" id="soName">
   <input type="hidden" name="email" id="soEmail">
@@ -39,19 +46,47 @@ permalink: /success/
   try {
     sessionStorage.removeItem('lastOrder');
     var order = JSON.parse(raw);
-    var itemSummary = (order.items || []).map(function (i) {
+    var items = order.items || [];
+
+    var itemSummary = items.map(function (i) {
       var line = i.name + ' x' + i.qty + ' @ ' + i.price;
       if (i.colour && i.colour !== 'No preference') line += ' (' + i.colour + ')';
       if (i.keychainName) line += ' — Name: ' + i.keychainName;
       return line;
     }).join('\n');
 
+    // Submit Netlify notification form
     document.getElementById('soName').value = order.name || '';
     document.getElementById('soEmail').value = order.email || '';
     document.getElementById('soPhone').value = order.phone || '';
     document.getElementById('soNotes').value = order.notes || '';
     document.getElementById('soItems').value = itemSummary;
     document.getElementById('squareOrderForm').submit();
+
+    // Render order summary
+    if (items.length > 0) {
+      var itemsEl = document.getElementById('successItems');
+      itemsEl.innerHTML = items.map(function (i) {
+        var label = i.name;
+        if (i.colour && i.colour !== 'No preference') label += ' <span class="success-item-colour">(' + i.colour + ')</span>';
+        if (i.keychainName) label += ' <span class="success-item-colour">— ' + i.keychainName + '</span>';
+        var price = parseFloat((i.price || '0').replace('£', '')) || 0;
+        return '<div class="success-item">' +
+          '<span class="success-item-name">' + label + '</span>' +
+          '<span class="success-item-qty">x' + i.qty + '</span>' +
+          '<span class="success-item-price">£' + (price * i.qty).toFixed(2) + '</span>' +
+        '</div>';
+      }).join('');
+
+      var total = items.reduce(function (sum, i) {
+        return sum + ((parseFloat((i.price || '0').replace('£', '')) || 0) * i.qty);
+      }, 0);
+
+      var totalEl = document.getElementById('successTotal');
+      totalEl.innerHTML = '<span>Total paid</span><span>£' + total.toFixed(2) + '</span>';
+
+      document.getElementById('successSummary').style.display = 'block';
+    }
   } catch (e) {}
 })();
 </script>

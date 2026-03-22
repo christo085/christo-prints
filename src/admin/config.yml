@@ -41,6 +41,17 @@ collections:
                 hint: "Leave empty = all colours. Add names like Red, Rainbow to restrict."
                 widget: "list"
                 field: { name: "colour", label: "Colour", widget: "string" }
+              - name: "colourExamples"
+                label: "Colour Examples (per photo)"
+                hint: "Tag each photo with the colours shown in it. Used on the Colours page."
+                widget: "list"
+                required: false
+                fields:
+                  - { name: "image", label: "Photo", widget: "image" }
+                  - name: "colours"
+                    label: "Colours shown in this photo"
+                    widget: "list"
+                    field: { name: "colour", label: "Colour name (e.g. Red, Silk Green & Blue)", widget: "string" }
               - { name: "popular", label: "Popular", widget: "boolean", default: false }
               - name: "badge"
                 label: "Badge"
@@ -140,6 +151,11 @@ collections:
             label: "Basket Colour Dropdown"
             widget: "list"
             field: { name: "option", label: "Option", widget: "string" }
+          - name: "lowStock"
+            label: "Running Low"
+            hint: "Colours that are running low on filament. These show a 'Running Low' badge on the colours page and in dropdowns."
+            widget: "list"
+            field: { name: "colour", label: "Colour name (must match exactly, e.g. Silk Green & Blue)", widget: "string" }
 
   - name: "coupons"
     label: "Coupon Codes"

@@ -124,22 +124,36 @@ permalink: /colours/
     nameEl.textContent = colour.name;
     descEl.textContent = colour.description || 'Available on all products';
 
-    var matches = allProducts.filter(function (p) {
-      return p.colours && p.colours.some(function (c) {
-        return c.toLowerCase() === colour.name.toLowerCase();
-      });
+    // Collect tagged colour examples
+    var examples = [];
+    allProducts.forEach(function (p) {
+      if (p.colourExamples && p.colourExamples.length) {
+        p.colourExamples.forEach(function (ex) {
+          if (ex.colours && ex.colours.some(function (c) { return c.toLowerCase() === colour.name.toLowerCase(); })) {
+            examples.push({ image: ex.image, name: p.name });
+          }
+        });
+      }
     });
+    // Fall back to old colours array if nothing tagged yet
+    if (examples.length === 0) {
+      allProducts.forEach(function (p) {
+        if (p.colours && p.colours.some(function (c) { return c.toLowerCase() === colour.name.toLowerCase(); })) {
+          examples.push({ image: p.image, name: p.name });
+        }
+      });
+    }
 
     productsEl.innerHTML = '';
-    if (matches.length === 0) {
+    if (examples.length === 0) {
       productsEl.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#8b9fad; font-size:0.875rem; padding:16px 0; margin:0;">No example photos yet for this colour.</p>';
     } else {
-      matches.forEach(function (p) {
+      examples.forEach(function (ex) {
         var item = document.createElement('div');
         item.style.cssText = 'border-radius:10px; overflow:hidden; background:#0a0f14; border:1px solid #1e2a36;';
         item.innerHTML =
-          '<img src="/' + p.image + '" alt="' + p.name + '" loading="lazy" style="width:100%; aspect-ratio:1/1; object-fit:cover; display:block;">' +
-          '<div style="padding:6px 8px; font-size:0.78rem; font-weight:500; color:#eaf6f3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + p.name + '</div>';
+          '<img src="/' + ex.image + '" alt="' + ex.name + '" loading="lazy" style="width:100%; aspect-ratio:1/1; object-fit:cover; display:block;">' +
+          '<div style="padding:6px 8px; font-size:0.78rem; font-weight:500; color:#eaf6f3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + ex.name + '</div>';
         productsEl.appendChild(item);
       });
     }

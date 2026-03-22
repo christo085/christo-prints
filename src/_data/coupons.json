@@ -1,10 +1,17 @@
 {
   "items": [
     {
-      "code": "EXAMPLE10",
-      "description": "10% off your order",
+      "code": "EASTER2026",
+      "description": "10% Easter discount",
       "type": "percentage",
       "value": 10,
+      "active": true
+    },
+    {
+      "code": "DAMAGES50",
+      "description": "50% damage discount",
+      "type": "percentage",
+      "value": 50,
       "active": true
     }
   ]

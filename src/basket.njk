@@ -86,8 +86,9 @@ permalink: /basket/
       </p>
 
       <!-- Hidden Netlify form for pay-at-delivery -->
-      <form name="basket-order" method="POST" data-netlify="true" id="deliveryForm" action="/success/" hidden>
+      <form name="basket-order" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="deliveryForm" action="/success/" hidden>
         <input type="hidden" name="form-name" value="basket-order">
+        <input type="hidden" name="bot-field">
         <input type="hidden" name="customer-name" id="deliveryName">
         <input type="hidden" name="email" id="deliveryEmail">
         <input type="hidden" name="phone" id="deliveryPhone">

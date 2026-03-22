@@ -31,12 +31,12 @@ permalink: /products/
 
   <!-- Filter Tabs -->
   <div class="category-tabs">
-    <button class="tab-btn active" data-filter="all">All</button>
-    <button class="tab-btn" data-filter="fidget">Fidget Toys</button>
-    <button class="tab-btn" data-filter="flexi">Flexi Prints</button>
-    <button class="tab-btn" data-filter="gadget">Gadgets</button>
-    <button class="tab-btn" data-filter="decor">Decor</button>
-    <button class="tab-btn" data-filter="seasonal">Seasonal</button>
+    <button class="tab-btn active" type="button" data-filter="all">All</button>
+    <button class="tab-btn" type="button" data-filter="fidget">Fidget Toys</button>
+    <button class="tab-btn" type="button" data-filter="flexi">Flexi Prints</button>
+    <button class="tab-btn" type="button" data-filter="gadget">Gadgets</button>
+    <button class="tab-btn" type="button" data-filter="decor">Decor</button>
+    <button class="tab-btn" type="button" data-filter="seasonal">Seasonal</button>
   </div>
 
   <!-- No Results State -->
@@ -184,5 +184,14 @@ permalink: /products/
 
     searchInput.addEventListener('input', filterAndSort);
     sortSelect.addEventListener('change', filterAndSort);
+
+    // Auto-select tab from ?cat= URL param
+    var urlCat = new URLSearchParams(window.location.search).get('cat');
+    if (urlCat) {
+      var matchTab = Array.from(tabs).find(function (t) { return t.dataset.filter === urlCat; });
+      if (matchTab) matchTab.click();
+    } else {
+      filterAndSort();
+    }
   })();
 </script>

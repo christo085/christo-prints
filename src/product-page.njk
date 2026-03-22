@@ -25,13 +25,14 @@ permalink: "/products/{{ product.name | slug }}/"
     <!-- Image Gallery -->
     <div class="product-page-gallery">
       {% set allImages = product.images if product.images else [product.image] %}
-      <div class="gallery-main">
+      <div class="gallery-main" onclick="openLightbox(currentGalleryIndex)" role="button" tabindex="0" aria-label="View full screen" onkeydown="if(event.key==='Enter')openLightbox(currentGalleryIndex)">
         <img src="/{{ allImages[0] }}" alt="{{ product.name }}" id="galleryMain" loading="eager">
+        <div class="gallery-zoom-hint"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
       </div>
       {% if allImages.length > 1 %}
       <div class="gallery-thumbs">
         {% for img in allImages %}
-        <button class="gallery-thumb{% if loop.index == 1 %} active{% endif %}" onclick="setGallery('/{{ img }}', this)" type="button" aria-label="View photo {{ loop.index }}">
+        <button class="gallery-thumb{% if loop.index == 1 %} active{% endif %}" onclick="setGallery('/{{ img }}', this, {{ loop.index0 }})" type="button" aria-label="View photo {{ loop.index }}">
           <img src="/{{ img }}" alt="{{ product.name }} photo {{ loop.index }}" loading="lazy">
         </button>
         {% endfor %}
@@ -46,7 +47,7 @@ permalink: "/products/{{ product.name | slug }}/"
 
       <!-- Colours -->
       <div class="product-page-colours">
-        <button class="colours-toggle" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.nextElementSibling.hidden ? 'true' : 'false'); this.nextElementSibling.hidden = !this.nextElementSibling.hidden;">
+        <button class="colours-toggle" type="button" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.nextElementSibling.hidden ? 'true' : 'false'); this.nextElementSibling.hidden = !this.nextElementSibling.hidden;">
           <span>All colours available</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="colours-toggle-icon"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
@@ -72,6 +73,20 @@ permalink: "/products/{{ product.name | slug }}/"
               <option value="{{ opt }}">{{ opt }}{% if opt in colours.lowStock %} (Running Low){% endif %}</option>
               {% endfor %}
             </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="buyNowName">Name (optional)</label>
+            <input class="form-input" type="text" id="buyNowName" placeholder="Your name">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="buyNowEmail">Email (optional)</label>
+              <input class="form-input" type="email" id="buyNowEmail" placeholder="you@example.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="buyNowPhone">Phone (optional)</label>
+              <input class="form-input" type="tel" id="buyNowPhone" placeholder="07xxx xxxxxx">
+            </div>
           </div>
           <div class="form-group">
             <label class="form-label" for="buyNowNotes">Notes (optional)</label>
@@ -132,11 +147,63 @@ async function shareProduct() {
   }
 }
 
-function setGallery(src, btn) {
+var LB_IMAGES = [{% for img in allImages %}'/{{ img }}'{% if not loop.last %},{% endif %}{% endfor %}];
+var currentGalleryIndex = 0;
+var lbIndex = 0;
+
+function setGallery(src, btn, index) {
   document.getElementById('galleryMain').src = src;
   document.querySelectorAll('.gallery-thumb').forEach(function(t) { t.classList.remove('active'); });
   btn.classList.add('active');
+  currentGalleryIndex = index || 0;
 }
+
+function openLightbox(index) {
+  lbIndex = index || 0;
+  var lb = document.getElementById('galleryLightbox');
+  renderLightboxImage(null);
+  lb.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('galleryLightbox').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function lightboxNav(dir) {
+  lbIndex = (lbIndex + dir + LB_IMAGES.length) % LB_IMAGES.length;
+  renderLightboxImage(dir > 0 ? 'right' : 'left');
+}
+
+function renderLightboxImage(direction) {
+  var img = document.getElementById('lbMainImg');
+  img.classList.remove('lb-slide-right', 'lb-slide-left');
+  void img.offsetWidth;
+  img.src = LB_IMAGES[lbIndex];
+  if (direction) img.classList.add('lb-slide-' + direction);
+  document.getElementById('lbCounter').textContent = LB_IMAGES.length > 1 ? (lbIndex + 1) + ' / ' + LB_IMAGES.length : '';
+  document.getElementById('lbPrev').style.visibility = LB_IMAGES.length > 1 ? 'visible' : 'hidden';
+  document.getElementById('lbNext').style.visibility = LB_IMAGES.length > 1 ? 'visible' : 'hidden';
+}
+
+// Swipe support
+(function () {
+  var lb = document.getElementById('galleryLightbox');
+  var startX = 0;
+  lb.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', function (e) {
+    var dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 40) lightboxNav(dx < 0 ? 1 : -1);
+  }, { passive: true });
+})();
+
+document.addEventListener('keydown', function (e) {
+  if (document.getElementById('galleryLightbox').style.display === 'none') return;
+  if (e.key === 'ArrowRight') lightboxNav(1);
+  if (e.key === 'ArrowLeft') lightboxNav(-1);
+  if (e.key === 'Escape') closeLightbox();
+});
 
 async function buyNow() {
   var btn = document.getElementById('buyNowBtn');
@@ -149,7 +216,10 @@ async function buyNow() {
 
   var orderData = {
     items: [{ id: '{{ product.name | slug }}', name: '{{ product.name }}', price: '{{ product.price }}', qty: 1, colour: colour, type: 'product' }],
-    name: '', email: '', phone: '', notes: notes
+    name: document.getElementById('buyNowName').value.trim(),
+    email: document.getElementById('buyNowEmail').value.trim(),
+    phone: document.getElementById('buyNowPhone').value.trim(),
+    notes: notes
   };
 
   try {
@@ -170,3 +240,15 @@ async function buyNow() {
   }
 }
 </script>
+
+<!-- Lightbox -->
+<div id="galleryLightbox" role="dialog" aria-modal="true" aria-label="Image viewer"
+  style="display:none; position:fixed; inset:0; z-index:9999; background:#000000f0; align-items:center; justify-content:center; flex-direction:column;">
+  <button onclick="closeLightbox()" class="lb-close" aria-label="Close">&times;</button>
+  <div class="lb-image-wrap">
+    <img id="lbMainImg" src="" alt="{{ product.name }}" class="lb-img">
+  </div>
+  <button id="lbPrev" onclick="lightboxNav(-1)" class="lb-nav lb-nav-prev" aria-label="Previous">&#8249;</button>
+  <button id="lbNext" onclick="lightboxNav(1)" class="lb-nav lb-nav-next" aria-label="Next">&#8250;</button>
+  <div id="lbCounter" class="lb-counter"></div>
+</div>
