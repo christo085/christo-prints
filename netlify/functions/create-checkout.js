@@ -85,7 +85,7 @@ exports.handler = async function (event) {
           } : {}),
         },
         checkout_options: {
-          redirect_url: process.env.URL + '/success/',
+          redirect_url: process.env.URL + '/success/?ref=sq',
         },
         pre_populated_data: {
           buyer_email: email || undefined,

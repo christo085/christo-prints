@@ -42,6 +42,7 @@ permalink: /success/
 <script>
 (function () {
   var raw = sessionStorage.getItem('lastOrder');
+  var fromSquare = new URLSearchParams(window.location.search).get('ref') === 'sq';
   if (!raw) return;
   try {
     sessionStorage.removeItem('lastOrder');
@@ -56,7 +57,8 @@ permalink: /success/
       return line;
     }).join('\n');
 
-    // Submit Netlify notification form via fetch (no page navigation)
+    // Submit Netlify notification form only when arriving from Square payment
+    if (!fromSquare) return;
     fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
