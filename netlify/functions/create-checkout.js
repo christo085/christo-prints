@@ -25,12 +25,16 @@ exports.handler = async function (event) {
       ? coupons.items.find(function (c) { return c.code.toUpperCase() === couponCode.toUpperCase() && c.active; })
       : null;
 
+    // For percentage coupons use LINE_ITEM scope so the fee isn't discounted
+    const discountUid = coupon ? 'coupon-' + coupon.code : null;
+    const useLineItemScope = coupon && coupon.type === 'percentage';
+
     const lineItems = items.map(function (item) {
       var price = parseFloat((item.price || '0').replace('£', '').replace('+', '')) || 0;
       var itemName = item.name;
       if (item.colour && item.colour !== 'No preference') itemName += ' (' + item.colour + ')';
       if (item.keychainName) itemName += ' — Name: ' + item.keychainName;
-      return {
+      var lineItem = {
         name: itemName,
         quantity: String(item.qty),
         base_price_money: {
@@ -38,6 +42,10 @@ exports.handler = async function (event) {
           currency: 'GBP',
         },
       };
+      if (useLineItemScope) {
+        lineItem.applied_discounts = [{ discount_uid: discountUid }];
+      }
+      return lineItem;
     });
 
     if (cardFee && cardFee > 0) {
@@ -48,6 +56,7 @@ exports.handler = async function (event) {
           amount: Math.round(cardFee * 100),
           currency: 'GBP',
         },
+        // No applied_discounts — fee is never discounted
       });
     }
 
@@ -74,9 +83,9 @@ exports.handler = async function (event) {
           note: orderNote || undefined,
           ...(coupon ? {
             discounts: [{
-              uid: 'coupon-' + coupon.code,
+              uid: discountUid,
               name: coupon.description,
-              scope: 'ORDER',
+              scope: useLineItemScope ? 'LINE_ITEM' : 'ORDER',
               ...(coupon.type === 'percentage'
                 ? { percentage: String(coupon.value) }
                 : { amount_money: { amount: Math.round(coupon.value * 100), currency: 'GBP' } }
