@@ -56,13 +56,21 @@ permalink: /success/
       return line;
     }).join('\n');
 
-    // Submit Netlify notification form
-    document.getElementById('soName').value = order.name || '';
-    document.getElementById('soEmail').value = order.email || '';
-    document.getElementById('soPhone').value = order.phone || '';
-    document.getElementById('soNotes').value = order.notes || '';
-    document.getElementById('soItems').value = itemSummary;
-    document.getElementById('squareOrderForm').submit();
+    // Submit Netlify notification form via fetch (no page navigation)
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        'form-name': 'square-order',
+        'bot-field': '',
+        'payment': 'Square (card)',
+        'customer-name': order.name || '',
+        'email': order.email || '',
+        'phone': order.phone || '',
+        'notes': order.notes || '',
+        'cart-items': itemSummary
+      }).toString()
+    }).catch(function () {});
 
     // Render order summary
     if (items.length > 0) {
