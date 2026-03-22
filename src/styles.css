@@ -2570,6 +2570,10 @@ select.form-input {
   background: var(--bg-card);
   border: 1px solid var(--border);
   aspect-ratio: 1;
+  padding: 0;
+  display: block;
+  width: 100%;
+  text-align: left;
 }
 
 .gallery-main img {
