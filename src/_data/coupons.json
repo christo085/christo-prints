@@ -12,7 +12,8 @@
       "description": "50% damage discount",
       "type": "percentage",
       "value": 50,
-      "active": true
+      "active": true,
+      "requireReason": true
     }
   ]
 }

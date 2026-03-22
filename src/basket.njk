@@ -42,6 +42,11 @@ permalink: /basket/
         <span id="couponAppliedText"></span>
         <button type="button" class="coupon-remove" onclick="removeCoupon()" aria-label="Remove coupon">&times;</button>
       </div>
+      <div class="coupon-reason-row" id="couponReasonRow" style="display:none;">
+        <label class="form-label" for="couponReason">Which item from your previous order was damaged? <span style="color:var(--accent)">*</span></label>
+        <input class="form-input" type="text" id="couponReason" placeholder="e.g. Infinity Cube, ordered last week" maxlength="200" autocomplete="off">
+        <p class="coupon-error" id="couponReasonError"></p>
+      </div>
     </div>
 
     <!-- Large order banner -->
@@ -165,7 +170,7 @@ permalink: /basket/
     empty.hidden = true;
     wrapper.hidden = false;
 
-    function renderItem(item) {
+    function renderItem(item, hideRemove) {
       var isPresetColour = item.type === 'bundle';
       var isKeychain = item.name === 'Name Keychain';
       var colourHtml;
@@ -195,7 +200,7 @@ permalink: /basket/
           '</div>' +
           '<div class="cart-item-controls">' +
             colourHtml +
-            '<button type="button" class="cart-item-remove" onclick="Cart.removeItem(\'' + item.id + '\'); basketRender();" aria-label="Remove">&times;</button>' +
+            (hideRemove ? '' : '<button type="button" class="cart-item-remove" onclick="Cart.removeItem(\'' + item.id + '\'); basketRender();" aria-label="Remove">&times;</button>') +
           '</div>' +
         '</div>';
       }
@@ -207,12 +212,14 @@ permalink: /basket/
         '</div>' +
         '<div class="cart-item-controls">' +
           colourHtml +
-          '<div class="btn-qty-group">' +
-            '<button type="button" class="btn-qty" onclick="Cart.updateQty(\'' + item.id + '\', -1); basketRender();">&#8722;</button>' +
-            '<span class="btn-qty-count">' + item.qty + '</span>' +
-            '<button type="button" class="btn-qty" onclick="Cart.updateQty(\'' + item.id + '\', 1); basketRender();">+</button>' +
-          '</div>' +
-          '<button type="button" class="cart-item-remove" onclick="Cart.removeItem(\'' + item.id + '\'); basketRender();" aria-label="Remove">&times;</button>' +
+          (hideRemove ? '' :
+            '<div class="btn-qty-group">' +
+              '<button type="button" class="btn-qty" onclick="Cart.updateQty(\'' + item.id + '\', -1); basketRender();">&#8722;</button>' +
+              '<span class="btn-qty-count">' + item.qty + '</span>' +
+              '<button type="button" class="btn-qty" onclick="Cart.updateQty(\'' + item.id + '\', 1); basketRender();">+</button>' +
+            '</div>' +
+            '<button type="button" class="cart-item-remove" onclick="Cart.removeItem(\'' + item.id + '\'); basketRender();" aria-label="Remove">&times;</button>'
+          ) +
         '</div>' +
       '</div>';
     }
@@ -238,13 +245,15 @@ permalink: /basket/
       var bundleTotal = groupItems.reduce(function (s, i) {
         return s + (parseFloat((i.price || '0').replace('£', '')) || 0) * i.qty;
       }, 0);
+      var bundleIds = groupItems.map(function(i) { return '\'' + i.id + '\''; }).join(',');
       html += '<div class="cart-bundle-group">' +
         '<div class="cart-bundle-header">' +
           '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>' +
           '<span>Custom Bundle</span>' +
           '<span class="cart-bundle-total">£' + bundleTotal.toFixed(2) + '</span>' +
+          '<button type="button" class="cart-bundle-remove" onclick="[' + bundleIds + '].forEach(function(id){Cart.removeItem(id);}); basketRender();" aria-label="Remove bundle">&times; Remove</button>' +
         '</div>' +
-        groupItems.map(renderItem).join('') +
+        groupItems.map(function(i) { return renderItem(i, true); }).join('') +
       '</div>';
     });
 
@@ -314,6 +323,10 @@ permalink: /basket/
     document.getElementById('couponApplied').style.display = 'flex';
     document.getElementById('couponAppliedText').textContent =
       '"' + match.code + '" — ' + match.description + ' applied';
+    if (match.requireReason) {
+      document.getElementById('couponReasonRow').style.display = 'block';
+      setTimeout(function () { document.getElementById('couponReason').focus(); }, 50);
+    }
     renderTotal();
   };
 
@@ -323,6 +336,9 @@ permalink: /basket/
     document.getElementById('couponCode').value = '';
     document.getElementById('couponInputRow').style.display = 'flex';
     document.getElementById('couponApplied').style.display = 'none';
+    document.getElementById('couponReasonRow').style.display = 'none';
+    document.getElementById('couponReason').value = '';
+    document.getElementById('couponReasonError').textContent = '';
     renderTotal();
   };
 
@@ -346,6 +362,20 @@ permalink: /basket/
       document.getElementById('email').focus();
       return;
     }
+
+    // Validate damage reason if required
+    var damageReason = '';
+    if (appliedCoupon && appliedCoupon.requireReason) {
+      damageReason = document.getElementById('couponReason').value.trim();
+      if (!damageReason) {
+        var reasonErr = document.getElementById('couponReasonError');
+        reasonErr.textContent = 'Please describe why you\'re using this code.';
+        reasonErr.classList.add('visible');
+        document.getElementById('couponReason').focus();
+        return;
+      }
+    }
+
     contactError.classList.remove('visible');
     payError.classList.remove('visible');
     payError.textContent = '';
@@ -353,6 +383,9 @@ permalink: /basket/
     var btn = document.getElementById('payBtn');
     btn.disabled = true;
     btn.textContent = 'Redirecting to payment…';
+
+    var baseNotes = document.getElementById('notes').value.trim();
+    var fullNotes = damageReason ? (baseNotes ? baseNotes + '\n' : '') + '[Damage reason: ' + damageReason + ']' : baseNotes;
 
     try {
       var res = await fetch('/.netlify/functions/create-checkout', {
@@ -363,7 +396,7 @@ permalink: /basket/
           name: document.getElementById('name').value.trim(),
           email: email,
           phone: phone,
-          notes: document.getElementById('notes').value.trim(),
+          notes: fullNotes,
           couponCode: appliedCoupon ? appliedCoupon.code : null,
         }),
       });
@@ -376,9 +409,9 @@ permalink: /basket/
         name: document.getElementById('name').value.trim(),
         email: email,
         phone: phone,
-        notes: document.getElementById('notes').value.trim(),
+        notes: fullNotes,
       }));
-      Cart.clear();
+      // Cart is cleared on the success page, not here — so it's preserved if the user abandons payment
       window.location.href = data.url;
     } catch (err) {
       btn.disabled = false;
@@ -403,7 +436,10 @@ permalink: /basket/
     document.getElementById('deliveryName').value = document.getElementById('name').value.trim();
     document.getElementById('deliveryEmail').value = email;
     document.getElementById('deliveryPhone').value = phone;
-    document.getElementById('deliveryNotes').value = document.getElementById('notes').value.trim();
+    var baseNotesDelivery = document.getElementById('notes').value.trim();
+    var damageReasonDelivery = (appliedCoupon && appliedCoupon.requireReason) ? document.getElementById('couponReason').value.trim() : '';
+    var fullNotesDelivery = damageReasonDelivery ? (baseNotesDelivery ? baseNotesDelivery + '\n' : '') + '[Damage reason: ' + damageReasonDelivery + ']' : baseNotesDelivery;
+    document.getElementById('deliveryNotes').value = fullNotesDelivery;
     document.getElementById('deliveryItems').value = Cart.toSummaryText();
     document.getElementById('deliveryDiscount').value = appliedCoupon ? appliedCoupon.code + ' (' + appliedCoupon.description + ')' : '';
 
@@ -429,6 +465,9 @@ permalink: /basket/
           document.getElementById('couponInputRow').style.display = 'none';
           document.getElementById('couponApplied').style.display = 'flex';
           document.getElementById('couponAppliedText').textContent = '"' + match.code + '" — ' + match.description + ' applied';
+          if (match.requireReason) {
+            document.getElementById('couponReasonRow').style.display = 'block';
+          }
         }
       }
     } catch(e) {}
@@ -437,4 +476,15 @@ permalink: /basket/
   loadDetails();
   render();
 })();
+
+// Reset pay button if user navigates back from payment without paying
+window.addEventListener('pageshow', function (e) {
+  if (e.persisted) {
+    var btn = document.getElementById('payBtn');
+    if (btn && btn.disabled) {
+      btn.disabled = false;
+      btn.textContent = 'Pay with Card';
+    }
+  }
+});
 </script>

@@ -200,6 +200,17 @@ function renderLightboxImage(direction) {
   }, { passive: true });
 })();
 
+// Reset Buy Now button if user navigates back from payment without paying
+window.addEventListener('pageshow', function (e) {
+  if (e.persisted) {
+    var btn = document.getElementById('buyNowBtn');
+    if (btn && btn.disabled) {
+      btn.disabled = false;
+      btn.textContent = 'Confirm & Pay — {{ product.price }}';
+    }
+  }
+});
+
 document.addEventListener('keydown', function (e) {
   if (!document.getElementById('galleryLightbox').classList.contains('lb-open')) return;
   if (e.key === 'ArrowRight') lightboxNav(1);

@@ -45,6 +45,7 @@ permalink: /success/
   if (!raw) return;
   try {
     sessionStorage.removeItem('lastOrder');
+    Cart.clear(); // Payment confirmed — now safe to clear the cart
     var order = JSON.parse(raw);
     var items = order.items || [];
 

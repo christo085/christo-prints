@@ -43,6 +43,7 @@ exports.handler = async function (event) {
     const orderNote = [
       name ? 'Name: ' + name : '',
       phone ? 'Phone: ' + phone : '',
+      coupon ? '[DISCOUNT CODE: ' + coupon.code + ' — ' + coupon.description + ']' : '',
       notes ? 'Notes: ' + notes : '',
     ].filter(Boolean).join(' | ');
 

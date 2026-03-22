@@ -1437,6 +1437,23 @@ select.form-input {
   color: var(--accent);
 }
 
+.cart-bundle-remove {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+
+.cart-bundle-remove:hover {
+  color: #e63946;
+  border-color: #e63946;
+}
+
 .cart-bundle-group .cart-item {
   border-radius: 0;
   margin: 0;
@@ -2280,6 +2297,13 @@ select.form-input {
   font-size: 1.2rem;
 }
 
+.coupon-reason-row {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 /* ===== Cart Colour Note ===== */
 .cart-colour-note {
   font-size: 0.82rem;
@@ -2678,14 +2702,8 @@ select.form-input {
 .bulk-order-banner-inner {
   padding: 18px 20px;
   display: flex;
-  gap: 20px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.bulk-order-banner-text {
-  flex: 1;
-  min-width: 200px;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .bulk-order-banner-text strong {
@@ -2705,7 +2723,6 @@ select.form-input {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  flex-shrink: 0;
 }
 
 .bulk-card-blocked {
