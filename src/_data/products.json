@@ -216,7 +216,10 @@
       "description": "Twist-lock carabiner for a more secure hold on your stuff.",
       "category": "gadget",
       "image": "images/screw-lock-carabiner.jpg",
-      "images": [],
+      "images": [
+        { "image": "images/screw-lock-carabiner.jpg", "colours": ["Blue", "Yellow"] },
+        { "image": "images/screw-lock-carabiner2.jpg", "colours": ["Blue", "Yellow"] }
+      ],
       "popular": false,
       "badge": ""
     },

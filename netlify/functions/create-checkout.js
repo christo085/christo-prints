@@ -13,7 +13,7 @@ exports.handler = async function (event) {
   }
 
   try {
-    const { items, name, email, phone, notes, couponCode } = JSON.parse(event.body);
+    const { items, name, email, phone, notes, couponCode, cardFee } = JSON.parse(event.body);
 
     if (!items || items.length === 0) {
       return { statusCode: 400, body: JSON.stringify({ error: 'No items in basket' }) };
@@ -39,6 +39,17 @@ exports.handler = async function (event) {
         },
       };
     });
+
+    if (cardFee && cardFee > 0) {
+      lineItems.push({
+        name: 'Card processing fee (1.4% + 25p)',
+        quantity: '1',
+        base_price_money: {
+          amount: Math.round(cardFee * 100),
+          currency: 'GBP',
+        },
+      });
+    }
 
     const orderNote = [
       name ? 'Name: ' + name : '',
