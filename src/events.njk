@@ -48,9 +48,10 @@ permalink: /events/
     <h2>Seasonal Specials</h2>
     <p>Limited edition prints for holidays and special occasions</p>
   </div>
+  {%- set SEASONAL_BADGES = ["Easter", "Halloween", "Christmas", "Spring", "Other"] %}
   {%- set decorItems = [] %}
   {%- for item in products.items %}
-    {%- if item.category == "decor" %}
+    {%- if item.category == "decor" and item.badge and item.badge in SEASONAL_BADGES %}
       {%- set decorItems = decorItems.concat([item]) %}
     {%- endif %}
   {%- endfor %}
@@ -58,7 +59,7 @@ permalink: /events/
   {%- if seasonalItems | length > 0 %}
   <div class="seasonal-groups">
     {%- for group in seasonalItems | groupByBadge %}
-    <div class="seasonal-group" id="seasonal-{{ loop.index }}">
+    <div class="seasonal-group" id="seasonal-{{ loop.index }}" data-badge="{{ group.badge }}">
       <button class="seasonal-group-header" onclick="toggleSeasonalGroup('seasonal-{{ loop.index }}')" aria-expanded="false">
         <div class="seasonal-group-info">
           <h3>{{ group.badge }} Collection</h3>
@@ -128,6 +129,18 @@ permalink: /events/
       });
     }
   }
+  // Auto-open group from ?open= URL param
+  (function () {
+    var open = new URLSearchParams(window.location.search).get('open');
+    if (!open) return;
+    var group = Array.from(document.querySelectorAll('.seasonal-group')).find(function (g) {
+      return (g.dataset.badge || '').toLowerCase() === open.toLowerCase();
+    });
+    if (group) {
+      toggleSeasonalGroup(group.id);
+      setTimeout(function () { group.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+    }
+  })();
   </script>
   {%- else %}
   <p style="text-align: center; color: var(--text-secondary);">Nothing available at the moment — new seasonal collections coming soon!</p>

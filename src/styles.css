@@ -808,6 +808,32 @@ img {
 .spring-banner-text strong { color: var(--text-primary); }
 .spring-banner-arrow { font-size: 0.9rem; color: var(--text-muted); flex-shrink: 0; }
 
+.seasonal-products-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 20px;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(247, 197, 159, 0.12));
+  border: 1px solid rgba(255, 107, 53, 0.35);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.seasonal-products-banner:hover {
+  border-color: rgba(255, 107, 53, 0.6);
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(247, 197, 159, 0.18));
+}
+
+.seasonal-products-banner-label {
+  font-weight: 700;
+  color: #ff6b35;
+}
+
 .cta-banner {
   background: linear-gradient(135deg, var(--accent-dim), rgba(0, 230, 195, 0.08));
   border: 1px solid rgba(0, 230, 195, 0.2);
@@ -1384,6 +1410,41 @@ select.form-input {
   font-weight: 700;
   font-size: 1rem;
   color: var(--accent);
+}
+
+/* ===== Cart Bundle Group ===== */
+.cart-bundle-group {
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.cart-bundle-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid var(--accent);
+}
+
+.cart-bundle-total {
+  margin-left: auto;
+  color: var(--accent);
+}
+
+.cart-bundle-group .cart-item {
+  border-radius: 0;
+  margin: 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.cart-bundle-group .cart-item:last-child {
+  border-bottom: none;
 }
 
 /* ===== Cart Items ===== */
@@ -2603,6 +2664,55 @@ select.form-input {
   flex-direction: column;
   gap: 10px;
   margin-top: 4px;
+}
+
+/* ===== Bulk order banner ===== */
+.bulk-order-banner {
+  margin: 16px 0 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid rgba(255, 107, 53, 0.4);
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.12), rgba(247, 197, 159, 0.1));
+}
+
+.bulk-order-banner-inner {
+  padding: 18px 20px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.bulk-order-banner-text {
+  flex: 1;
+  min-width: 200px;
+}
+
+.bulk-order-banner-text strong {
+  display: block;
+  font-size: 1rem;
+  color: #ff6b35;
+  margin-bottom: 4px;
+}
+
+.bulk-order-banner-text p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+
+.bulk-order-banner-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.bulk-card-blocked {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+  text-align: center;
 }
 
 /* ===== Checkout secure note ===== */

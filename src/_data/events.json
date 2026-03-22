@@ -7,7 +7,15 @@
         "location": "Boroughmuir High School"
       }
     ],
-    "seasonal": [],
+    "seasonal": [
+      {
+        "name": "Minimalistic Bunny Set",
+        "price": "£7.00",
+        "description": "Set of three cute, modern bunnies. Perfect as a springtime centrepiece or window display.",
+        "image": "images/three-bunnies.jpg",
+        "badge": "Easter"
+      }
+    ],
     "upcomingSeasonal": [
       {
         "name": "Halloween",

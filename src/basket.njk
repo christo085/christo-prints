@@ -44,6 +44,20 @@ permalink: /basket/
       </div>
     </div>
 
+    <!-- Large order banner -->
+    <div class="bulk-order-banner" id="bulkOrderBanner" style="display:none;">
+      <div class="bulk-order-banner-inner">
+        <div class="bulk-order-banner-text">
+          <strong>That's a big one! 🎉</strong>
+          <p>For larger orders it's much easier to sort things out directly — we can make sure everything's perfect for you.</p>
+        </div>
+        <div class="bulk-order-banner-actions">
+          <a id="bulkWhatsApp" href="#" target="_blank" rel="noopener" class="btn btn-primary">Message on WhatsApp</a>
+          <a href="/contact/" class="btn btn-secondary">Get in touch</a>
+        </div>
+      </div>
+    </div>
+
     <div class="cart-divider"></div>
     <h3 class="cart-section-title">Your Details</h3>
 
@@ -79,8 +93,9 @@ permalink: /basket/
           Pay at Collection / Delivery
         </button>
       </div>
+      <p class="bulk-card-blocked" id="bulkCardBlocked" style="display:none;">Card payment unavailable for large orders — use the options above or pay at collection.</p>
       <p class="form-error" id="payError"></p>
-      <p class="checkout-secure-note">
+      <p class="checkout-secure-note" id="squareNote">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         Card payments secured by Square
       </p>
@@ -109,6 +124,33 @@ permalink: /basket/
   var COUPONS = {{ coupons.items | dump | safe }};
   var appliedCoupon = null;
 
+  // Restore saved details
+  var DETAILS_KEY = 'christoDetails';
+  var COUPON_KEY = 'christoCoupon';
+  function saveDetails() {
+    try {
+      localStorage.setItem(DETAILS_KEY, JSON.stringify({
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        notes: document.getElementById('notes').value
+      }));
+    } catch(e) {}
+  }
+  function loadDetails() {
+    try {
+      var saved = JSON.parse(localStorage.getItem(DETAILS_KEY));
+      if (!saved) return;
+      if (saved.name)  document.getElementById('name').value  = saved.name;
+      if (saved.email) document.getElementById('email').value = saved.email;
+      if (saved.phone) document.getElementById('phone').value = saved.phone;
+      if (saved.notes) document.getElementById('notes').value = saved.notes;
+    } catch(e) {}
+  }
+  ['name','email','phone','notes'].forEach(function(id) {
+    document.getElementById(id).addEventListener('input', saveDetails);
+  });
+
   function render() {
     var items = Cart.getItems();
     var empty = document.getElementById('cartEmpty');
@@ -123,8 +165,8 @@ permalink: /basket/
     empty.hidden = true;
     wrapper.hidden = false;
 
-    container.innerHTML = items.map(function (item) {
-      var isPresetColour = item.type === 'bundle' || item.type === 'seasonal';
+    function renderItem(item) {
+      var isPresetColour = item.type === 'bundle';
       var isKeychain = item.name === 'Name Keychain';
       var colourHtml;
 
@@ -173,7 +215,40 @@ permalink: /basket/
           '<button type="button" class="cart-item-remove" onclick="Cart.removeItem(\'' + item.id + '\'); basketRender();" aria-label="Remove">&times;</button>' +
         '</div>' +
       '</div>';
-    }).join('');
+    }
+
+    // Separate bundle items (id starts with 'bndl-') from regular items
+    var bundleGroups = {};
+    var regularItems = [];
+    items.forEach(function (item) {
+      var m = item.id.match(/^(bndl-\d+)-\d+$/);
+      if (m) {
+        var key = m[1];
+        if (!bundleGroups[key]) bundleGroups[key] = [];
+        bundleGroups[key].push(item);
+      } else {
+        regularItems.push(item);
+      }
+    });
+
+    var html = regularItems.map(renderItem).join('');
+
+    Object.keys(bundleGroups).forEach(function (key, idx) {
+      var groupItems = bundleGroups[key];
+      var bundleTotal = groupItems.reduce(function (s, i) {
+        return s + (parseFloat((i.price || '0').replace('£', '')) || 0) * i.qty;
+      }, 0);
+      html += '<div class="cart-bundle-group">' +
+        '<div class="cart-bundle-header">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>' +
+          '<span>Custom Bundle</span>' +
+          '<span class="cart-bundle-total">£' + bundleTotal.toFixed(2) + '</span>' +
+        '</div>' +
+        groupItems.map(renderItem).join('') +
+      '</div>';
+    });
+
+    container.innerHTML = html;
 
     var hasKeychain = items.some(function (i) { return i.name === 'Name Keychain'; });
     if (hasKeychain) {
@@ -199,6 +274,25 @@ permalink: /basket/
     var finalTotal = Math.max(0, subtotal - discount);
     html += '<div class="cart-total-row"><span>Estimated Total</span><span class="cart-total-price">£' + finalTotal.toFixed(2) + '</span></div>';
     document.getElementById('cartTotal').innerHTML = html;
+
+    // Large order check: over £20 OR 10+ total items
+    var totalQty = Cart.getItems().reduce(function(s, i) { return s + i.qty; }, 0);
+    var isBulk = finalTotal > 20 || totalQty >= 10;
+    var payBtn = document.getElementById('payBtn');
+    var banner = document.getElementById('bulkOrderBanner');
+    var blocked = document.getElementById('bulkCardBlocked');
+    var squareNote = document.getElementById('squareNote');
+    payBtn.disabled = isBulk;
+    banner.style.display = isBulk ? 'block' : 'none';
+    blocked.style.display = isBulk ? 'block' : 'none';
+    squareNote.style.display = isBulk ? 'none' : '';
+    if (isBulk) {
+      var summary = Cart.getItems().map(function(i) {
+        return i.qty + 'x ' + i.name + ' (' + (i.colour || 'No preference') + ') @ ' + i.price;
+      }).join('%0A');
+      var waMsg = 'Hi Christo! I%27d like to place a larger order:%0A' + summary + '%0A%0ATotal: %C2%A3' + finalTotal.toFixed(2);
+      document.getElementById('bulkWhatsApp').href = 'https://wa.me/447435976773?text=' + waMsg;
+    }
   }
 
   window.basketRender = render;
@@ -213,6 +307,7 @@ permalink: /basket/
       return;
     }
     appliedCoupon = match;
+    try { localStorage.setItem(COUPON_KEY, match.code); } catch(e) {}
     errEl.textContent = '';
     errEl.classList.remove('visible');
     document.getElementById('couponInputRow').style.display = 'none';
@@ -224,6 +319,7 @@ permalink: /basket/
 
   window.removeCoupon = function () {
     appliedCoupon = null;
+    try { localStorage.removeItem(COUPON_KEY); } catch(e) {}
     document.getElementById('couponCode').value = '';
     document.getElementById('couponInputRow').style.display = 'flex';
     document.getElementById('couponApplied').style.display = 'none';
@@ -238,6 +334,8 @@ permalink: /basket/
   };
 
   window.startCheckout = async function () {
+    var totalQty = Cart.getItems().reduce(function(s, i) { return s + i.qty; }, 0);
+    if (Cart.getTotal() > 20 || totalQty >= 10) return; // blocked by bulk notice
     var email = document.getElementById('email').value.trim();
     var phone = document.getElementById('phone').value.trim();
     var contactError = document.getElementById('contactError');
@@ -320,6 +418,23 @@ permalink: /basket/
     document.getElementById('contactError').classList.remove('visible');
   });
 
+  // Restore saved coupon
+  (function() {
+    try {
+      var saved = localStorage.getItem(COUPON_KEY);
+      if (saved) {
+        var match = COUPONS.find(function(c) { return c.code === saved && c.active; });
+        if (match) {
+          appliedCoupon = match;
+          document.getElementById('couponInputRow').style.display = 'none';
+          document.getElementById('couponApplied').style.display = 'flex';
+          document.getElementById('couponAppliedText').textContent = '"' + match.code + '" — ' + match.description + ' applied';
+        }
+      }
+    } catch(e) {}
+  })();
+
+  loadDetails();
   render();
 })();
 </script>

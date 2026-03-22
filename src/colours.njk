@@ -149,11 +149,13 @@ permalink: /colours/
       productsEl.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#8b9fad; font-size:0.875rem; padding:16px 0; margin:0;">No example photos yet for this colour.</p>';
     } else {
       examples.forEach(function (ex) {
-        var item = document.createElement('div');
-        item.style.cssText = 'border-radius:10px; overflow:hidden; background:#0a0f14; border:1px solid #1e2a36;';
+        var slug = ex.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        var item = document.createElement('a');
+        item.href = '/products/' + slug + '/';
+        item.style.cssText = 'border-radius:10px; overflow:hidden; background:#0a0f14; border:1px solid #1e2a36; text-decoration:none; display:block;';
         item.innerHTML =
           '<img src="/' + ex.image + '" alt="' + ex.name + '" loading="lazy" style="width:100%; aspect-ratio:1/1; object-fit:cover; display:block;">' +
-          '<div style="padding:6px 8px; font-size:0.78rem; font-weight:500; color:#eaf6f3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + ex.name + '</div>';
+          '<div style="padding:6px 8px; font-size:0.78rem; font-weight:500; color:#eaf6f3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + ex.name + ' &#8594;</div>';
         productsEl.appendChild(item);
       });
     }

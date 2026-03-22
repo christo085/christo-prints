@@ -36,8 +36,27 @@ permalink: /products/
     <button class="tab-btn" type="button" data-filter="flexi">Flexi Prints</button>
     <button class="tab-btn" type="button" data-filter="gadget">Gadgets</button>
     <button class="tab-btn" type="button" data-filter="decor">Decor</button>
-    <button class="tab-btn" type="button" data-filter="seasonal">Seasonal</button>
   </div>
+
+  <!-- Seasonal banner(s) -->
+  {%- set SEASONAL_BADGES = ["Easter", "Halloween", "Christmas", "Spring", "Other"] %}
+  {%- set activeBadges = [] %}
+  {%- for item in events.seasonal %}
+    {%- if item.badge and item.badge not in activeBadges %}
+      {%- set activeBadges = activeBadges.concat([item.badge]) %}
+    {%- endif %}
+  {%- endfor %}
+  {%- for item in products.items %}
+    {%- if item.badge and item.badge in SEASONAL_BADGES and item.badge not in activeBadges %}
+      {%- set activeBadges = activeBadges.concat([item.badge]) %}
+    {%- endif %}
+  {%- endfor %}
+  {%- for badge in activeBadges %}
+  <a href="/events/?open={{ badge }}" class="seasonal-products-banner">
+    <span class="seasonal-products-banner-label">{{ badge }} Collection</span>
+    <span>See our seasonal specials &#8594;</span>
+  </a>
+  {%- endfor %}
 
   <!-- No Results State -->
   <div class="no-results" id="noResults" hidden>
@@ -139,12 +158,8 @@ permalink: /products/
         var keywords = card.dataset.keywords || '';
         var catMatch;
 
-        var SEASONAL_BADGES = ['Easter', 'Halloween', 'Christmas', 'Spring', 'Other'];
-        var badge = card.dataset.badge || '';
         if (activeFilter === 'all') {
           catMatch = cat !== 'seasonal';
-        } else if (activeFilter === 'seasonal') {
-          catMatch = cat === 'seasonal' || SEASONAL_BADGES.indexOf(badge) !== -1;
         } else {
           catMatch = cat === activeFilter;
         }
