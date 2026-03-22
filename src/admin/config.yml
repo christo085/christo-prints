@@ -33,25 +33,18 @@ collections:
                   - { label: "Decor", value: "decor" }
               - { name: "image", label: "Main Image", widget: "image" }
               - name: "images"
-                label: "Extra Photos (gallery)"
-                widget: "list"
-                field: { name: "image", label: "Image", widget: "image" }
-              - name: "colours"
-                label: "Available Colours"
-                hint: "Leave empty = all colours. Add names like Red, Rainbow to restrict."
-                widget: "list"
-                field: { name: "colour", label: "Colour", widget: "string" }
-              - name: "colourExamples"
-                label: "Colour Examples (per photo)"
-                hint: "Tag each photo with the colours shown in it. Used on the Colours page."
+                label: "Extra Photos"
+                hint: "Add extra gallery photos. For each photo, tag which colours are shown — this powers the Colours page examples."
                 widget: "list"
                 required: false
                 fields:
                   - { name: "image", label: "Photo", widget: "image" }
                   - name: "colours"
                     label: "Colours shown in this photo"
+                    hint: "e.g. Red, Rainbow, Silk Green & Blue — must match colour names exactly"
                     widget: "list"
-                    field: { name: "colour", label: "Colour name (e.g. Red, Silk Green & Blue)", widget: "string" }
+                    required: false
+                    field: { name: "colour", label: "Colour name", widget: "string" }
               - { name: "popular", label: "Popular", widget: "boolean", default: false }
               - name: "badge"
                 label: "Badge"

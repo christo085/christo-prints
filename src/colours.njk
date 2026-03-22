@@ -124,25 +124,18 @@ permalink: /colours/
     nameEl.textContent = colour.name;
     descEl.textContent = colour.description || 'Available on all products';
 
-    // Collect tagged colour examples
+    // Collect tagged colour examples from images array
     var examples = [];
     allProducts.forEach(function (p) {
-      if (p.colourExamples && p.colourExamples.length) {
-        p.colourExamples.forEach(function (ex) {
-          if (ex.colours && ex.colours.some(function (c) { return c.toLowerCase() === colour.name.toLowerCase(); })) {
-            examples.push({ image: ex.image, name: p.name });
+      if (p.images && p.images.length) {
+        p.images.forEach(function (img) {
+          var imgColours = img.colours || [];
+          if (imgColours.some(function (c) { return c.toLowerCase() === colour.name.toLowerCase(); })) {
+            examples.push({ image: img.image, name: p.name });
           }
         });
       }
     });
-    // Fall back to old colours array if nothing tagged yet
-    if (examples.length === 0) {
-      allProducts.forEach(function (p) {
-        if (p.colours && p.colours.some(function (c) { return c.toLowerCase() === colour.name.toLowerCase(); })) {
-          examples.push({ image: p.image, name: p.name });
-        }
-      });
-    }
 
     productsEl.innerHTML = '';
     if (examples.length === 0) {

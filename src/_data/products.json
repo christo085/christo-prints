@@ -6,10 +6,9 @@
       "description": "The popular mesmerising spiral fidget that keeps your hands busy.",
       "category": "fidget",
       "image": "images/spiral-cone.jpg",
-      "colourExamples": [
+      "images": [
         { "image": "images/spiral-cone.jpg", "colours": ["Red", "Green"] }
       ],
-      "colours": ["red", "green"],
       "popular": true,
       "badge": "Popular"
     },
@@ -19,8 +18,7 @@
       "description": "Infinite satisfying clicking on the button fidget.",
       "category": "fidget",
       "image": "images/fidget-button.jpg",
-      "colourExamples": [],
-      "colours": [],
+      "images": [],
       "popular": false,
       "badge": ""
     },
@@ -30,10 +28,9 @@
       "description": "Satisfying hexagonal fidget toy that looks so cool.",
       "category": "fidget",
       "image": "images/flexagon.jpg",
-      "colourExamples": [
+      "images": [
         { "image": "images/flexagon.jpg", "colours": ["Green"] }
       ],
-      "colours": ["green"],
       "popular": true,
       "badge": "Popular"
     },
@@ -43,11 +40,11 @@
       "description": "Keep twisting forever with the mesmerising twist fidget.",
       "category": "fidget",
       "image": "images/fidget-twist.jpg",
-      "images": ["images/fidget-twist.jpg", "images/fidget-twist2.jpg", "images/fidget-twist3.jpg"],
-      "colourExamples": [
-        { "image": "images/fidget-twist.jpg", "colours": ["Rainbow"] }
+      "images": [
+        { "image": "images/fidget-twist.jpg", "colours": ["Rainbow"] },
+        { "image": "images/fidget-twist2.jpg", "colours": [] },
+        { "image": "images/fidget-twist3.jpg", "colours": [] }
       ],
-      "colours": ["rainbow"],
       "popular": true,
       "badge": "Popular"
     },
@@ -57,10 +54,9 @@
       "description": "Small, discreet spinning ring fidget you can wear anywhere.",
       "category": "fidget",
       "image": "images/fidget-ring.jpg",
-      "colourExamples": [
-        { "image": "images/fidget-ring.jpg", "colours": ["Blue", "Green"] }
+      "images": [
+        { "image": "images/fidget-ring.jpg", "colours": ["Green"] }
       ],
-      "colours": ["blue", "green"],
       "popular": false,
       "badge": ""
     },
@@ -70,10 +66,9 @@
       "description": "Keep sliding forever with this satisfying sensory fidget.",
       "category": "fidget",
       "image": "images/fidget-slider.jpg",
-      "colourExamples": [
-        { "image": "images/fidget-slider.jpg", "colours": ["Blue", "White"] }
+      "images": [
+        { "image": "images/fidget-slider.jpg", "colours": ["White"] }
       ],
-      "colours": ["blue", "white"],
       "popular": false,
       "badge": ""
     },
@@ -83,10 +78,9 @@
       "description": "Endlessly folding cube for satisfying tactile play.",
       "category": "fidget",
       "image": "images/infinity-cube.jpg",
-      "colourExamples": [
+      "images": [
         { "image": "images/infinity-cube.jpg", "colours": ["White"] }
       ],
-      "colours": ["white"],
       "popular": false,
       "badge": ""
     },
@@ -96,10 +90,9 @@
       "description": "Triangle twist on the classic infinity fidget.",
       "category": "fidget",
       "image": "images/infinity-triangle.jpg",
-      "colourExamples": [
-        { "image": "images/infinity-triangle.jpg", "colours": ["Blue", "White"] }
+      "images": [
+        { "image": "images/infinity-triangle.jpg", "colours": ["White"] }
       ],
-      "colours": ["blue", "white"],
       "popular": false,
       "badge": ""
     },
@@ -109,10 +102,9 @@
       "description": "Articulated slug that wiggles and bends in your hands.",
       "category": "flexi",
       "image": "images/flexi-slug.jpg",
-      "colourExamples": [
+      "images": [
         { "image": "images/flexi-slug.jpg", "colours": ["Silk Green & Blue"] }
       ],
-      "colours": ["Silk Green & Blue"],
       "popular": false,
       "badge": ""
     },
@@ -122,10 +114,9 @@
       "description": "Articulated fish skeleton that bends and flexes.",
       "category": "flexi",
       "image": "images/flexi-fish-bone.jpg",
-      "colourExamples": [
-        { "image": "images/flexi-fish-bone.jpg", "colours": ["Blue"] }
+      "images": [
+        { "image": "images/flexi-fish-bone.jpg", "colours": [] }
       ],
-      "colours": ["blue"],
       "popular": false,
       "badge": ""
     },
@@ -135,10 +126,9 @@
       "description": "Slithering articulated snake with smooth movement.",
       "category": "flexi",
       "image": "images/flexi-snake.jpg",
-      "colourExamples": [
+      "images": [
         { "image": "images/flexi-snake.jpg", "colours": ["Rainbow"] }
       ],
-      "colours": ["rainbow"],
       "popular": true,
       "badge": "Popular"
     },
@@ -148,10 +138,9 @@
       "description": "Adorable articulated dinosaur with flexible joints.",
       "category": "flexi",
       "image": "images/flexi-dino.jpg",
-      "colourExamples": [
+      "images": [
         { "image": "images/flexi-dino.jpg", "colours": ["Rainbow"] }
       ],
-      "colours": ["rainbow"],
       "popular": false,
       "badge": ""
     },
@@ -161,10 +150,9 @@
       "description": "Personalised keychain with your name. Price varies by length.",
       "category": "gadget",
       "image": "images/name-keychain.jpg",
-      "colourExamples": [
+      "images": [
         { "image": "images/name-keychain.jpg", "colours": ["White"] }
       ],
-      "colours": ["white"],
       "popular": false,
       "badge": "Custom"
     },
@@ -174,10 +162,9 @@
       "description": "Minimalist 3D-printed card wallet. Slim and practical. Holds 2 cards.",
       "category": "gadget",
       "image": "images/slim-wallet.jpg",
-      "colourExamples": [
+      "images": [
         { "image": "images/slim-wallet.jpg", "colours": ["Rainbow"] }
       ],
-      "colours": ["rainbow"],
       "popular": false,
       "badge": ""
     },
@@ -187,8 +174,7 @@
       "description": "Foldable phone stand that lies flat when not in use.",
       "category": "gadget",
       "image": "images/flat-phone-stand.jpg",
-      "colourExamples": [],
-      "colours": [],
+      "images": [],
       "popular": false,
       "badge": ""
     },
@@ -198,10 +184,9 @@
       "description": "It's 'The Rock' on an octopus body! Who wouldn't want that?",
       "category": "flexi",
       "image": "images/rocktopus.jpg",
-      "colourExamples": [
+      "images": [
         { "image": "images/rocktopus.jpg", "colours": ["Green"] }
       ],
-      "colours": ["green"],
       "popular": false,
       "badge": ""
     },
@@ -211,8 +196,7 @@
       "description": "Fidget joystick that clicks and tilts in every direction.",
       "category": "fidget",
       "image": "images/joystick.jpg",
-      "colourExamples": [],
-      "colours": [],
+      "images": [],
       "popular": false,
       "badge": ""
     },
@@ -222,8 +206,7 @@
       "description": "Handy 3D-printed carabiner clip for bags, keys, and gear.",
       "category": "gadget",
       "image": "images/carabiner.jpg",
-      "colourExamples": [],
-      "colours": [],
+      "images": [],
       "popular": false,
       "badge": ""
     },
@@ -233,8 +216,7 @@
       "description": "Twist-lock carabiner for a more secure hold on your stuff.",
       "category": "gadget",
       "image": "images/screw-lock-carabiner.jpg",
-      "colourExamples": [],
-      "colours": [],
+      "images": [],
       "popular": false,
       "badge": ""
     },
@@ -244,8 +226,7 @@
       "description": "Loud 3D-printed whistle. Great for outdoors and emergencies.",
       "category": "gadget",
       "image": "images/whistle.jpg",
-      "colourExamples": [],
-      "colours": [],
+      "images": [],
       "popular": false,
       "badge": ""
     },
@@ -255,10 +236,9 @@
       "description": "Set of three cute, modern bunnies. Perfect as a springtime centrepiece or window display.",
       "category": "decor",
       "image": "images/three-bunnies.jpg",
-      "colourExamples": [
+      "images": [
         { "image": "images/three-bunnies.jpg", "colours": ["Marble"] }
       ],
-      "colours": ["marble"],
       "popular": false,
       "badge": "Trending"
     },
@@ -268,8 +248,7 @@
       "description": "A beautiful 3D-printed flower to brighten up any space this spring.",
       "category": "decor",
       "image": "images/flower.jpg",
-      "colourExamples": [],
-      "colours": [],
+      "images": [],
       "popular": false,
       "badge": "Easter"
     },
@@ -279,8 +258,7 @@
       "description": "A charming single rabbit sculpture with abstract ribbon-like technique.",
       "category": "decor",
       "image": "images/rabbit.jpg",
-      "colourExamples": [],
-      "colours": [],
+      "images": [],
       "popular": false,
       "badge": "Easter"
     },
@@ -290,8 +268,7 @@
       "description": "A fun Easter egg-shaped fidget toy — squeeze it, flex it, and enjoy the satisfying feel. A perfect little Easter treat!",
       "category": "fidget",
       "image": "images/easter-eggs.jpg",
-      "colourExamples": [],
-      "colours": [],
+      "images": [],
       "popular": false,
       "badge": "Easter"
     }
