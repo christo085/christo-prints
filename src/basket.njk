@@ -239,7 +239,7 @@ permalink: /basket/
       }
     });
 
-    var html = regularItems.map(renderItem).join('');
+    var html = regularItems.map(function(item) { return renderItem(item); }).join('');
 
     Object.keys(bundleGroups).forEach(function (key, idx) {
       var groupItems = bundleGroups[key];
