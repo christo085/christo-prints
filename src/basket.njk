@@ -239,9 +239,10 @@ permalink: /basket/
       }
     });
 
-    var html = regularItems.map(renderItem).join('');
+    var html = regularItems.map(function(item, idx) { return renderItem(item, idx !== 0); }).join('');
 
     Object.keys(bundleGroups).forEach(function (key, idx) {
+      var isTopBundle = regularItems.length === 0 && idx === 0;
       var groupItems = bundleGroups[key];
       var bundleTotal = groupItems.reduce(function (s, i) {
         return s + (parseFloat((i.price || '0').replace('£', '')) || 0) * i.qty;
@@ -252,7 +253,7 @@ permalink: /basket/
           '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>' +
           '<span>Custom Bundle</span>' +
           '<span class="cart-bundle-total">£' + bundleTotal.toFixed(2) + '</span>' +
-          '<button type="button" class="cart-bundle-remove" onclick="[' + bundleIds + '].forEach(function(id){Cart.removeItem(id);}); basketRender();" aria-label="Remove bundle">&times; Remove</button>' +
+          (isTopBundle ? '<button type="button" class="cart-bundle-remove" onclick="[' + bundleIds + '].forEach(function(id){Cart.removeItem(id);}); basketRender();" aria-label="Remove bundle">&times; Remove</button>' : '') +
         '</div>' +
         groupItems.map(function(i) { return renderItem(i, true); }).join('') +
       '</div>';
