@@ -123,6 +123,8 @@ permalink: /basket/
     empty.hidden = true;
     wrapper.hidden = false;
 
+    var hasKeychain = items.some(function (i) { return i.name === 'Name Keychain'; });
+
     container.innerHTML = items.map(function (item) {
       var isPresetColour = item.type === 'bundle' || item.type === 'seasonal';
       var isKeychain = item.name === 'Name Keychain';
@@ -135,7 +137,7 @@ permalink: /basket/
           var label = c + (LOW_STOCK.indexOf(c) !== -1 ? ' (Running Low)' : '');
           return '<option value="' + c + '"' + (item.colour === c ? ' selected' : '') + '>' + label + '</option>';
         }).join('');
-        colourHtml = '<select class="form-input form-input-sm" onchange="Cart.updateColour(\'' + item.id + '\', this.value)">' + colourOptions + '</select>';
+        colourHtml = '<select class="form-input form-input-sm" data-colour-id="' + item.id + '">' + colourOptions + '</select>';
       }
 
       if (isKeychain) {
@@ -147,13 +149,12 @@ permalink: /basket/
             '<span class="cart-item-price">£1.00+</span>' +
           '</div>' +
           '<div class="cart-keychain-row">' +
-            '<input type="text" class="form-input form-input-sm" placeholder="Enter name" value="' + nameVal.replace(/"/g, '&quot;') + '" ' +
-              'oninput="handleKeychainInput(\'' + item.id + '\', this)" maxlength="15">' +
+            '<input type="text" class="form-input form-input-sm" data-keychain-id="' + item.id + '" placeholder="Enter name" value="' + nameVal.replace(/"/g, '&quot;') + '" maxlength="15">' +
             '<span class="cart-keychain-estimate" id="keychain-est-' + item.id + '">Est: ' + estPrice + '</span>' +
           '</div>' +
           '<div class="cart-item-controls">' +
             colourHtml +
-            '<button type="button" class="cart-item-remove" onclick="Cart.removeItem(\'' + item.id + '\'); basketRender();" aria-label="Remove">&times;</button>' +
+            '<button type="button" class="cart-item-remove" data-action="remove" aria-label="Remove">&times;</button>' +
           '</div>' +
         '</div>';
       }
@@ -166,19 +167,14 @@ permalink: /basket/
         '<div class="cart-item-controls">' +
           colourHtml +
           '<div class="btn-qty-group">' +
-            '<button type="button" class="btn-qty" onclick="Cart.updateQty(\'' + item.id + '\', -1); basketRender();">&#8722;</button>' +
+            '<button type="button" class="btn-qty" data-action="qty-down">&#8722;</button>' +
             '<span class="btn-qty-count">' + item.qty + '</span>' +
-            '<button type="button" class="btn-qty" onclick="Cart.updateQty(\'' + item.id + '\', 1); basketRender();">+</button>' +
+            '<button type="button" class="btn-qty" data-action="qty-up">+</button>' +
           '</div>' +
-          '<button type="button" class="cart-item-remove" onclick="Cart.removeItem(\'' + item.id + '\'); basketRender();" aria-label="Remove">&times;</button>' +
+          '<button type="button" class="cart-item-remove" data-action="remove" aria-label="Remove">&times;</button>' +
         '</div>' +
       '</div>';
-    }).join('');
-
-    var hasKeychain = items.some(function (i) { return i.name === 'Name Keychain'; });
-    if (hasKeychain) {
-      container.innerHTML += '<button type="button" class="btn btn-secondary btn-add-keychain" onclick="Cart.addItem(\'Name Keychain\', \'£1.00+\', \'product\'); basketRender();">+ Add another keychain</button>';
-    }
+    }).join('') + (hasKeychain ? '<button type="button" class="btn btn-secondary btn-add-keychain" data-action="add-keychain">+ Add another keychain</button>' : '');
 
     renderTotal();
   }
@@ -202,6 +198,41 @@ permalink: /basket/
   }
 
   window.basketRender = render;
+
+  // Event delegation — handles all cart item interactions without inline onclick
+  var cartItemsEl = document.getElementById('cartItems');
+
+  cartItemsEl.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    var action = btn.dataset.action;
+    if (action === 'add-keychain') {
+      Cart.addItem('Name Keychain', '£1.00+', 'product');
+      render();
+      return;
+    }
+    var cartItem = btn.closest('[data-id]');
+    if (!cartItem) return;
+    var id = cartItem.dataset.id;
+    if (action === 'qty-up') { Cart.updateQty(id, 1); render(); }
+    else if (action === 'qty-down') { Cart.updateQty(id, -1); render(); }
+    else if (action === 'remove') { Cart.removeItem(id); render(); }
+  });
+
+  cartItemsEl.addEventListener('change', function (e) {
+    var sel = e.target.closest('select[data-colour-id]');
+    if (sel) Cart.updateColour(sel.dataset.colourId, sel.value);
+  });
+
+  cartItemsEl.addEventListener('input', function (e) {
+    var input = e.target.closest('input[data-keychain-id]');
+    if (!input) return;
+    var id = input.dataset.keychainId;
+    Cart.updateKeychainName(id, input.value);
+    var estEl = document.getElementById('keychain-est-' + id);
+    if (estEl) estEl.textContent = 'Est: ' + Cart.keychainPrice(input.value);
+    renderTotal();
+  });
 
   window.applyCoupon = function () {
     var code = document.getElementById('couponCode').value.trim().toUpperCase();
@@ -227,13 +258,6 @@ permalink: /basket/
     document.getElementById('couponCode').value = '';
     document.getElementById('couponInputRow').style.display = 'flex';
     document.getElementById('couponApplied').style.display = 'none';
-    renderTotal();
-  };
-
-  window.handleKeychainInput = function (id, input) {
-    Cart.updateKeychainName(id, input.value);
-    var estEl = document.getElementById('keychain-est-' + id);
-    if (estEl) estEl.textContent = 'Est: ' + Cart.keychainPrice(input.value);
     renderTotal();
   };
 
