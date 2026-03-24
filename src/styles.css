@@ -353,8 +353,8 @@ img {
 .hero-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 16px;
+  gap: 4px;
+  padding: 6px 14px;
   background: var(--accent-dim);
   color: var(--accent);
   border-radius: 100px;
@@ -362,6 +362,7 @@ img {
   font-weight: 600;
   margin-bottom: 10px;
   border: 1px solid rgba(0, 230, 195, 0.15);
+  text-decoration: none;
 }
 .hero-rating {
   font-size: 0.78rem;
@@ -862,8 +863,8 @@ img {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: linear-gradient(90deg, rgba(134, 239, 172, 0.08), rgba(251, 191, 36, 0.08));
-  border: 1px solid rgba(134, 239, 172, 0.2);
+  background: var(--bg-card);
+  border: 1px solid rgba(134, 239, 172, 0.3);
   border-radius: var(--radius-lg);
   padding: 12px 20px;
   text-decoration: none;
@@ -871,13 +872,12 @@ img {
   transition: border-color 0.2s, background 0.2s;
 }
 .spring-banner:hover {
-  border-color: rgba(134, 239, 172, 0.4);
-  background: linear-gradient(90deg, rgba(134, 239, 172, 0.13), rgba(251, 191, 36, 0.13));
+  border-color: rgba(134, 239, 172, 0.5);
+  background: var(--bg-card-hover);
 }
 .spring-banner-icon { font-size: 1.1rem; flex-shrink: 0; }
 .spring-banner-text { font-size: 0.9rem; color: var(--text-secondary); flex: 1; }
 .spring-banner-text strong { color: var(--text-primary); }
-.spring-banner-arrow { font-size: 0.9rem; color: var(--text-muted); flex-shrink: 0; }
 
 .seasonal-products-banner {
   display: flex;
