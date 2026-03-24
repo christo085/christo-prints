@@ -124,6 +124,51 @@ permalink: "/products/{{ product.name | slug }}/"
   </div>
 </section>
 
+{%- set related = [] %}
+{%- for p in products.items %}
+  {%- if p.name != product.name and p.category == product.category and related.length < 3 %}
+    {%- set related = related.concat([p]) %}
+  {%- endif %}
+{%- endfor %}
+{%- if related.length > 0 %}
+<!-- You might also like -->
+<section class="section" style="padding-top: 0;">
+  <div class="section-header">
+    <h2>You might also like</h2>
+  </div>
+  <div class="product-grid">
+    {%- for p in related %}
+    <div class="product-card">
+      <a href="/products/{{ p.name | slug }}/" class="product-card-img-link" tabindex="-1" aria-hidden="true">
+        <div class="product-card-img">
+          <img src="/{{ p.image }}" alt="{{ p.name }}" loading="lazy">
+          {%- if p.badge %}
+          <span class="product-card-badge{% if p.badge == 'Trending' %} badge-trending{% endif %}">{{ p.badge }}</span>
+          {%- endif %}
+        </div>
+      </a>
+      <div class="product-card-body">
+        <a href="/products/{{ p.name | slug }}/" class="product-card-title-link"><h3>{{ p.name }}</h3></a>
+        <p class="description">{{ p.description }}</p>
+        <div class="product-card-footer">
+          <span class="price">{{ p.price }}</span>
+          <div class="btn-group">
+            <a href="/products/{{ p.name | slug }}/" class="btn btn-secondary btn-small" aria-label="View {{ p.name }} details">Details</a>
+            <button class="btn btn-primary btn-small btn-add-to-cart"
+              data-name="{{ p.name }}" data-price="{{ p.price }}" data-type="product"
+              onclick="Cart.addItem(this.dataset.name, this.dataset.price, this.dataset.type); Cart.flashAdded(this);"
+              aria-label="Add {{ p.name }} to basket">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="9" y1="6" x2="15" y2="6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {%- endfor %}
+  </div>
+</section>
+{%- endif %}
+
 <!-- CTA -->
 <section class="section" style="padding-top: 0;">
   <div class="cta-banner">

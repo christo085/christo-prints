@@ -133,7 +133,7 @@ window.Cart = (function () {
     setTimeout(function () {
       buttonEl.innerHTML = originalHTML;
       buttonEl.classList.remove('btn-added');
-    }, 1200);
+    }, 600);
   }
 
   document.addEventListener('DOMContentLoaded', updateBadge);

@@ -1,7 +1,7 @@
 ---
 layout: base.njk
 title: "Products - Christo's Prints"
-description: "Browse all 3D-printed fidget toys and practical gadgets from Christo's Prints."
+description: "Browse all 3D-printed fidget toys, flexi prints, gadgets, and decor from Christo's Prints."
 activePage: products
 permalink: /products/
 ---
@@ -9,7 +9,7 @@ permalink: /products/
 <!-- Page Header -->
 <div class="page-header">
   <h1>All Products</h1>
-  <p>Fidget toys, practical gadgets, and more</p>
+  <p>Fidget toys, flexi prints, gadgets, decor, and more</p>
 </div>
 
 <!-- Products -->
@@ -27,15 +27,6 @@ permalink: /products/
       <option value="price-desc">Price: High to Low</option>
       <option value="popular">Popular First</option>
     </select>
-  </div>
-
-  <!-- Filter Tabs -->
-  <div class="category-tabs">
-    <button class="tab-btn active" type="button" data-filter="all">All</button>
-    <button class="tab-btn" type="button" data-filter="fidget">Fidget Toys</button>
-    <button class="tab-btn" type="button" data-filter="flexi">Flexi Prints</button>
-    <button class="tab-btn" type="button" data-filter="gadget">Gadgets</button>
-    <button class="tab-btn" type="button" data-filter="decor">Decor</button>
   </div>
 
   <!-- Seasonal banner(s) -->
@@ -57,6 +48,15 @@ permalink: /products/
     <span>See our seasonal specials &#8594;</span>
   </a>
   {%- endfor %}
+
+  <!-- Filter Tabs -->
+  <div class="category-tabs">
+    <button class="tab-btn active" type="button" data-filter="all">All</button>
+    <button class="tab-btn" type="button" data-filter="fidget">Fidget Toys</button>
+    <button class="tab-btn" type="button" data-filter="flexi">Flexi Prints</button>
+    <button class="tab-btn" type="button" data-filter="gadget">Gadgets</button>
+    <button class="tab-btn" type="button" data-filter="decor">Decor</button>
+  </div>
 
   <!-- No Results State -->
   <div class="no-results" id="noResults" hidden>
