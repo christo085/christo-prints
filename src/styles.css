@@ -6,8 +6,8 @@
   right: 0;
   z-index: 1001;
   height: 40px;
-  background: linear-gradient(90deg, rgba(167, 139, 250, 0.12), rgba(196, 181, 253, 0.08), rgba(167, 139, 250, 0.12));
-  border-bottom: 1px solid rgba(167, 139, 250, 0.22);
+  background: linear-gradient(90deg, #2d1f4e, #3b2870, #2d1f4e);
+  border-bottom: 1px solid #5b3fa0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,8 +16,8 @@
 }
 .promo-bar strong { color: var(--text-primary); }
 .promo-bar-code {
-  background: rgba(167, 139, 250, 0.18);
-  border: 1px solid rgba(167, 139, 250, 0.38);
+  background: #4c2f8a;
+  border: 1px solid #7c5cbf;
   border-radius: 4px;
   padding: 1px 7px;
   font-family: monospace;
@@ -49,7 +49,7 @@
   align-items: center;
   transition: opacity 0.15s, border-color 0.15s;
 }
-.promo-bar-copy:hover { opacity: 1; border-color: rgba(167, 139, 250, 0.65); }
+.promo-bar-copy:hover { opacity: 1; border-color: #a78bfa; }
 .promo-bar-short { display: none; }
 body.has-promo-bar .navbar { top: 40px; }
 @media (max-width: 540px) {
