@@ -8,6 +8,13 @@
       "active": true
     },
     {
+      "code": "THANKYOU10",
+      "description": "10% loyalty discount",
+      "type": "percentage",
+      "value": 10,
+      "active": true
+    },
+    {
       "code": "DAMAGES50",
       "description": "50% damage discount",
       "type": "percentage",
