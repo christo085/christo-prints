@@ -281,7 +281,7 @@
       "images": [],
       "popular": false,
       "badge": ""
-    },
+    }
   ],
   "colourOnlyExamples": [
     { "image": "images/sitting-pumpkin.jpg", "name": "Sitting Pumpkin", "colours": ["Orange", "Dark Green"] },
