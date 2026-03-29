@@ -477,6 +477,18 @@ img {
   gap: 20px;
 }
 
+.product-grid--centered {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.product-grid--centered .product-card {
+  flex: 0 1 260px;
+  min-width: 0;
+}
+
 .product-card {
   background: var(--bg-card);
   border: 1px solid var(--border);

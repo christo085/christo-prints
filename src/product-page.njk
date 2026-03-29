@@ -54,10 +54,25 @@ permalink: "/products/{{ product.name | slug }}/"
       <!-- Colours -->
       <div class="product-page-colours">
         <button class="colours-toggle" type="button" aria-expanded="false" onclick="this.setAttribute('aria-expanded', this.nextElementSibling.hidden ? 'true' : 'false'); this.nextElementSibling.hidden = !this.nextElementSibling.hidden;">
+          {% if product.colours %}
+          <span>Only available in: {{ product.coloursLabel if product.coloursLabel else product.colours | join(", ") }}</span>
+          {% else %}
           <span>All colours available</span>
+          {% endif %}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="colours-toggle-icon"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="colours-body" hidden>
+          {% if product.colours %}
+          <p class="colours-note">This item is only available in {{ product.coloursLabel if product.coloursLabel else "the following colours" }}.</p>
+          <div class="product-colours-swatches">
+            {% set allColours = colours.standard.concat(colours.special) %}
+            {% for colour in allColours %}
+              {% if colour.name in product.colours %}
+              <div class="product-colour-dot" title="{{ colour.name }}" style="background: {{ colour.hex }};"></div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          {% else %}
           <p class="colours-note">This item can be printed in any colour — pick your preference in the basket, or leave as "No preference" and we'll choose for you.</p>
           {% set allColours = [] | resolveProductColours(colours) %}
           <div class="product-colours-swatches">
@@ -66,6 +81,7 @@ permalink: "/products/{{ product.name | slug }}/"
             {% endfor %}
           </div>
           <a href="/colours/" class="colours-see-all">See all colours in detail &#8594;</a>
+          {% endif %}
         </div>
       </div>
 
@@ -75,7 +91,8 @@ permalink: "/products/{{ product.name | slug }}/"
           <div class="form-group">
             <label class="form-label" for="buyNowColour">Colour</label>
             <select class="form-input" id="buyNowColour">
-              {% for opt in colours.dropdownOptions %}
+              {% set colourList = product.colours if product.colours else colours.dropdownOptions %}
+              {% for opt in colourList %}
               <option value="{{ opt }}">{{ opt }}{% if opt in colours.lowStock %} (Running Low){% endif %}</option>
               {% endfor %}
             </select>
@@ -136,7 +153,7 @@ permalink: "/products/{{ product.name | slug }}/"
   <div class="section-header">
     <h2>You might also like</h2>
   </div>
-  <div class="product-grid">
+  <div class="product-grid product-grid--centered">
     {%- for p in related %}
     <div class="product-card">
       <a href="/products/{{ p.name | slug }}/" class="product-card-img-link" tabindex="-1" aria-hidden="true">

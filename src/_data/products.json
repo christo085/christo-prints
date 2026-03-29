@@ -108,7 +108,8 @@
       ],
       "popular": false,
       "badge": "",
-      "colours": ["Silk Green & Blue"]
+      "colours": ["Silk Green & Blue"],
+      "coloursLabel": "Silk"
     },
     {
       "name": "Fidget Slider",
