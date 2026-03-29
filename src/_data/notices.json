@@ -1,0 +1,6 @@
+{
+  "highVolume": {
+    "enabled": true,
+    "message": "We're currently experiencing a high volume of orders. Please allow a little extra time — we'll be in touch as soon as your order is ready!"
+  }
+}
