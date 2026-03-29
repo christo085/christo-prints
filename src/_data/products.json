@@ -107,7 +107,8 @@
         { "image": "images/fidget-ring.jpg", "colours": ["Blue", "Green"] }
       ],
       "popular": false,
-      "badge": ""
+      "badge": "",
+      "colours": ["Silk Green & Blue"]
     },
     {
       "name": "Fidget Slider",

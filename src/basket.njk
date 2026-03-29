@@ -128,6 +128,12 @@ permalink: /basket/
 (function () {
   var COLOURS = {{ colours.dropdownOptions | dump | safe }};
   var LOW_STOCK = {{ colours.lowStock | dump | safe }};
+  var PRODUCT_COLOURS = {};
+  {%- for item in products.items %}
+  {%- if item.colours %}
+  PRODUCT_COLOURS[{{ item.name | dump | safe }}] = {{ item.colours | dump | safe }};
+  {%- endif %}
+  {%- endfor %}
   var COUPONS = {{ coupons.items | dump | safe }};
   var appliedCoupon = null;
   var cardFeeAmount = 0;
@@ -181,7 +187,8 @@ permalink: /basket/
       if (isPresetColour) {
         colourHtml = '<div class="cart-colour-note">Colour is pre-set. Add custom colour requests in notes below.</div>';
       } else {
-        var colourOptions = COLOURS.map(function (c) {
+        var availableColours = PRODUCT_COLOURS[item.name] || COLOURS;
+        var colourOptions = availableColours.map(function (c) {
           var label = c + (LOW_STOCK.indexOf(c) !== -1 ? ' (Running Low)' : '');
           return '<option value="' + c + '"' + (item.colour === c ? ' selected' : '') + '>' + label + '</option>';
         }).join('');
