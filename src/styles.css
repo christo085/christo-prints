@@ -2041,6 +2041,45 @@ select.form-input {
   color: #f59e0b;
 }
 
+.notice-banner--critical {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: var(--text-primary);
+}
+
+.notice-banner--critical svg {
+  color: #ef4444;
+}
+
+/* ===== Pause Banner (sitewide) ===== */
+.pause-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: rgba(239, 68, 68, 0.1);
+  border-bottom: 1px solid rgba(239, 68, 68, 0.3);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.pause-banner svg {
+  flex-shrink: 0;
+  color: #ef4444;
+}
+
+/* ===== Orders Paused on product page ===== */
+.orders-paused-notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  color: #ef4444;
+  margin-bottom: 8px;
+}
+
 /* ===== FAQ List ===== */
 .faq-list {
   display: flex;

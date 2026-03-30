@@ -181,6 +181,19 @@ collections:
         label: "Site Notices"
         file: "src/_data/notices.json"
         fields:
+          - name: "pauseOrders"
+            label: "Pause All Orders"
+            widget: "object"
+            fields:
+              - name: "enabled"
+                label: "Pause Orders"
+                widget: "boolean"
+                default: false
+                hint: "Toggle this on to block all ordering sitewide and show a banner. Turn off when ready to take orders again."
+              - name: "message"
+                label: "Banner Message"
+                widget: "text"
+                hint: "Shown sitewide when orders are paused."
           - name: "highVolume"
             label: "High Volume Notice"
             widget: "object"

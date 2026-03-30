@@ -119,6 +119,14 @@ permalink: "/products/{{ product.name | slug }}/"
           </div>
         </div>
         <div class="buynow-buttons">
+          {%- if notices.pauseOrders.enabled %}
+          <div class="orders-paused-notice">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Orders are currently paused — check back soon!
+          </div>
+          <button class="btn btn-secondary btn-large" disabled>Add to Basket</button>
+          <button class="btn btn-primary btn-large" disabled>Buy Now — {{ product.price }}</button>
+          {%- else %}
           <button class="btn btn-secondary btn-large btn-add-to-cart"
             data-name="{{ product.name }}" data-price="{{ product.price }}" data-type="product"
             onclick="Cart.addItem(this.dataset.name, this.dataset.price, this.dataset.type); Cart.flashAdded(this);"
@@ -128,6 +136,7 @@ permalink: "/products/{{ product.name | slug }}/"
           <button class="btn btn-primary btn-large" id="buyNowBtn" onclick="buyNow()">
             Buy Now — {{ product.price }}
           </button>
+          {%- endif %}
         </div>
       </div>
       <p class="form-error" id="buyNowError" style="margin-top:8px;"></p>

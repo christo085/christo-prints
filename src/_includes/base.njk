@@ -83,6 +83,15 @@
     })();
   </script>
 
+  <!-- Orders Paused Banner -->
+  {%- if notices.pauseOrders.enabled %}
+  <div class="pause-banner" role="alert">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <span>{{ notices.pauseOrders.message }}</span>
+  </div>
+  {%- endif %}
+  <script>window.ORDERS_PAUSED = {{ "true" if notices.pauseOrders.enabled else "false" }};</script>
+
   <!-- Navigation -->
   <header>
   <nav class="navbar" aria-label="Main navigation">
@@ -202,6 +211,18 @@ Christo's Prints
       }, 2200);
     });
   </script>
+
+  <!-- Disable add-to-cart buttons when orders paused -->
+  {%- if notices.pauseOrders.enabled %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.btn-add-to-cart').forEach(function (btn) {
+        btn.disabled = true;
+        btn.title = 'Orders are currently paused';
+      });
+    });
+  </script>
+  {%- endif %}
 
   <!-- WhatsApp floating button -->
   <style>
