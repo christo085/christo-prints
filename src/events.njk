@@ -50,12 +50,12 @@ permalink: /events/
   </div>
   {%- set SEASONAL_BADGES = ["Easter", "Halloween", "Christmas", "Spring", "Other"] %}
   {%- set decorItems = [] %}
-  {%- for item in products.items %}
+  {%- for item in products.items | rejectattr("active", "equalto", false) %}
     {%- if item.category == "decor" and item.badge and item.badge in SEASONAL_BADGES %}
       {%- set decorItems = decorItems.concat([item]) %}
     {%- endif %}
   {%- endfor %}
-  {%- set seasonalItems = events.seasonal.concat(decorItems) %}
+  {%- set seasonalItems = (events.seasonal | rejectattr("active", "equalto", false)).concat(decorItems) %}
   {%- if seasonalItems | length > 0 %}
   <div class="seasonal-groups">
     {%- for group in seasonalItems | groupByBadge %}

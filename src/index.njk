@@ -21,14 +21,6 @@ permalink: /
   </div>
 </section>
 
-<!-- Spring Banner -->
-<section class="section" style="padding-bottom: 0;">
-  <a href="/events/?open=Easter" class="spring-banner">
-    <span class="spring-banner-icon">🌸</span>
-    <span class="spring-banner-text"><strong>New for Spring</strong> — Easter & seasonal decor prints now available</span>
-  </a>
-</section>
-
 <!-- Featured Products -->
 <section class="section">
   <div class="section-header">
@@ -75,14 +67,15 @@ permalink: /
 </section>
 
 {%- set futureEvents = events.upcoming | filterPastEvents %}
+{%- set activeSeasonal = events.seasonal | rejectattr("active", "equalto", false) %}
 {%- set SEASONAL_BADGES = ["Easter", "Halloween", "Christmas", "Spring", "Other"] %}
 {%- set firstSeasonalBadge = "" %}
-{%- for item in events.seasonal %}
+{%- for item in activeSeasonal %}
   {%- if not firstSeasonalBadge and item.badge and item.badge in SEASONAL_BADGES %}
     {%- set firstSeasonalBadge = item.badge %}
   {%- endif %}
 {%- endfor %}
-{%- if futureEvents | length > 0 or events.seasonal | length > 0 %}
+{%- if futureEvents | length > 0 or activeSeasonal | length > 0 %}
 <!-- Events & Seasonal Banner -->
 <section class="section" style="padding-top: 0;">
   <div class="cta-banner events-banner">

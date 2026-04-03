@@ -32,12 +32,12 @@ permalink: /products/
   <!-- Seasonal banner(s) -->
   {%- set SEASONAL_BADGES = ["Easter", "Halloween", "Christmas", "Spring", "Other"] %}
   {%- set activeBadges = [] %}
-  {%- for item in events.seasonal %}
+  {%- for item in events.seasonal | rejectattr("active", "equalto", false) %}
     {%- if item.badge and item.badge not in activeBadges %}
       {%- set activeBadges = activeBadges.concat([item.badge]) %}
     {%- endif %}
   {%- endfor %}
-  {%- for item in products.items %}
+  {%- for item in products.items | rejectattr("active", "equalto", false) %}
     {%- if item.badge and item.badge in SEASONAL_BADGES and item.badge not in activeBadges %}
       {%- set activeBadges = activeBadges.concat([item.badge]) %}
     {%- endif %}
@@ -67,7 +67,7 @@ permalink: /products/
   </div>
 
   <div class="product-grid" id="productGrid">
-    {%- for product in products.items %}
+    {%- for product in products.items | rejectattr("active", "equalto", false) %}
     <div class="product-card" data-category="{{ product.category }}" data-badge="{{ product.badge }}" data-keywords="{{ product.name | lower }} {{ product.description | lower }} {{ product.category }}" data-price="{{ product.price | replace('£','') }}" data-popular="{{ product.popular }}">
       <a href="/products/{{ product.name | slug }}/" class="product-card-img-link" tabindex="-1" aria-hidden="true">
         <div class="product-card-img">
@@ -97,7 +97,7 @@ permalink: /products/
       </div>
     </div>
     {%- endfor %}
-    {%- for item in events.seasonal %}
+    {%- for item in events.seasonal | rejectattr("active", "equalto", false) %}
     <div class="product-card" data-category="seasonal" data-keywords="{{ item.name | lower }} {{ item.description | lower }} seasonal" data-price="{{ item.price | replace('£','') }}" data-popular="false" style="display:none">
       {%- if item.image %}
       <div class="product-card-img">

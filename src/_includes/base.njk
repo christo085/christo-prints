@@ -44,45 +44,6 @@
 </head>
 <body>
 
-  <!-- Easter Promo Bar -->
-  <div class="promo-bar" id="promoBar">
-    <span class="promo-bar-full">🐣 <strong>Easter Sale</strong> &nbsp;— 10% off with code&nbsp;</span>
-    <span class="promo-bar-short">🐣 <strong>Easter Sale</strong> &nbsp;— </span>
-    <button class="promo-bar-code promo-bar-copy" id="promoBarCopy" aria-label="Copy discount code EASTER2026" title="Copy code">EASTER2026<svg id="promoCopyIcon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-left:4px;vertical-align:middle;flex-shrink:0"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg id="promoCheckIcon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden style="margin-left:4px;vertical-align:middle;flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg></button>
-    <span class="promo-bar-full">&nbsp;at checkout</span>
-    <button class="promo-bar-close" id="promoBarClose" aria-label="Dismiss promotion">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-  </div>
-  <script>
-    (function(){
-      var bar = document.getElementById('promoBar');
-      var btn = document.getElementById('promoBarClose');
-      if (localStorage.getItem('promoBar') === 'EASTER2026') {
-        bar.remove();
-      } else {
-        document.body.classList.add('has-promo-bar');
-        btn.addEventListener('click', function() {
-          document.body.classList.remove('has-promo-bar');
-          bar.remove();
-          localStorage.setItem('promoBar', 'EASTER2026');
-        });
-        var copyBtn = document.getElementById('promoBarCopy');
-        copyBtn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          navigator.clipboard.writeText('EASTER2026').then(function() {
-            document.getElementById('promoCopyIcon').hidden = true;
-            document.getElementById('promoCheckIcon').hidden = false;
-            setTimeout(function() {
-              document.getElementById('promoCopyIcon').hidden = false;
-              document.getElementById('promoCheckIcon').hidden = true;
-            }, 1500);
-          }).catch(function(){});
-        });
-      }
-    })();
-  </script>
-
   <!-- Orders Paused Banner -->
   {%- if notices.pauseOrders.enabled %}
   <div class="pause-banner" role="alert">

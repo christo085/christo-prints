@@ -12,7 +12,8 @@
         { "image": "images/spiral-easter-egg-3.jpg", "colours": ["Rainbow"] }
       ],
       "popular": false,
-      "badge": "Easter"
+      "badge": "Easter",
+      "active": false
     },
     {
       "name": "Minimalistic Bunny Set",
@@ -27,7 +28,8 @@
         { "image": "images/three-bunnies-4.jpeg", "colours": [] }
       ],
       "popular": false,
-      "badge": "Trending"
+      "badge": "Trending",
+      "active": false
     },
     {
       "name": "Flower",
@@ -37,7 +39,8 @@
       "image": "images/flower.jpg",
       "images": [],
       "popular": false,
-      "badge": "Easter"
+      "badge": "Easter",
+      "active": false
     },
     {
       "name": "Abstract Rabbit",
@@ -47,7 +50,8 @@
       "image": "images/rabbit.jpg",
       "images": [],
       "popular": false,
-      "badge": "Easter"
+      "badge": "Easter",
+      "active": false
     },
     {
       "name": "Spiral Cone",
