@@ -1973,21 +1973,39 @@ select.form-input {
 
 /* ===== Pause Banner (sitewide) ===== */
 .pause-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1001;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   padding: 12px 20px;
-  background: rgba(239, 68, 68, 0.1);
-  border-bottom: 1px solid rgba(239, 68, 68, 0.3);
-  color: var(--text-primary);
+  background: #78350f;
+  border-bottom: 1px solid #92400e;
+  color: #fff;
   font-size: 0.9rem;
   text-align: center;
 }
 
+body.orders-paused {
+  --banner-offset: 46px;
+}
+body.orders-paused .navbar {
+  top: var(--banner-offset);
+}
+body.orders-paused .hero {
+  padding-top: calc(140px + var(--banner-offset));
+}
+body.orders-paused .page-header {
+  padding-top: calc(120px + var(--banner-offset));
+}
+
 .pause-banner svg {
   flex-shrink: 0;
-  color: #ef4444;
+  color: #fcd34d;
 }
 
 /* ===== Orders Paused on product page ===== */
