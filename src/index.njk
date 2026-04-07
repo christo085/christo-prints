@@ -66,8 +66,89 @@ permalink: /
   </div>
 </section>
 
+<!-- Product Marquee -->
+{%- set marqueeItems = [] %}
+{%- for p in products.items | activeOnly %}
+  {%- if p.images and p.images.length > 0 %}
+    {%- set marqueeItems = marqueeItems.concat([p]) %}
+  {%- endif %}
+{%- endfor %}
+<div class="product-marquee" aria-hidden="true" id="productMarquee">
+  <div class="product-marquee-track" id="marqueeTrack">
+    {%- for p in marqueeItems %}
+    <a href="/products/{{ p.name | slug }}/" class="product-marquee-item" tabindex="-1">
+      <div class="product-marquee-img"><img src="/{{ p.image }}" alt="{{ p.name }}" loading="lazy"></div>
+      <div class="product-marquee-label">{{ p.name }}</div>
+    </a>
+    {%- endfor %}
+    {%- for p in marqueeItems %}
+    <a href="/products/{{ p.name | slug }}/" class="product-marquee-item" tabindex="-1">
+      <div class="product-marquee-img"><img src="/{{ p.image }}" alt="" loading="lazy"></div>
+      <div class="product-marquee-label">{{ p.name }}</div>
+    </a>
+    {%- endfor %}
+  </div>
+</div>
+<script>
+(function () {
+  var track = document.getElementById('marqueeTrack');
+  if (!track) return;
+  var pos = 0;
+  var speed = 0.4;
+  var dragging = false;
+  var dragStartX = 0;
+  var dragStartPos = 0;
+  var halfWidth = 0;
+
+  function getHalf() {
+    halfWidth = track.scrollWidth / 2;
+  }
+
+  function tick() {
+    if (!dragging) {
+      pos += speed;
+      if (pos >= halfWidth) pos -= halfWidth;
+      track.style.transform = 'translateX(-' + pos + 'px)';
+    }
+    requestAnimationFrame(tick);
+  }
+
+  window.addEventListener('load', function () {
+    getHalf();
+    tick();
+  });
+
+  track.addEventListener('mousedown', function (e) {
+    dragging = true;
+    dragStartX = e.clientX;
+    dragStartPos = pos;
+    track.classList.add('dragging');
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', function (e) {
+    if (!dragging) return;
+    var delta = dragStartX - e.clientX;
+    pos = ((dragStartPos + delta) % halfWidth + halfWidth) % halfWidth;
+    track.style.transform = 'translateX(-' + pos + 'px)';
+  });
+
+  document.addEventListener('mouseup', function () {
+    if (!dragging) return;
+    dragging = false;
+    track.classList.remove('dragging');
+  });
+
+  // Prevent click-through after drag
+  var didDrag = false;
+  track.addEventListener('mousedown', function () { didDrag = false; });
+  document.addEventListener('mousemove', function (e) { if (dragging && Math.abs(e.movementX) > 2) didDrag = true; });
+  track.addEventListener('click', function (e) { if (didDrag) e.preventDefault(); }, true);
+})();
+</script>
+
 {%- set futureEvents = events.upcoming | filterPastEvents %}
-{%- set activeSeasonal = events.seasonal | rejectattr("active", "equalto", false) %}
+{%- set activeSeasonal = events.seasonal | activeOnly %}
 {%- set SEASONAL_BADGES = ["Easter", "Halloween", "Christmas", "Spring", "Other"] %}
 {%- set firstSeasonalBadge = "" %}
 {%- for item in activeSeasonal %}
@@ -140,7 +221,7 @@ permalink: /
     <h2>Printing for Business</h2>
     <p>Beyond the shop — complex commercial prints done right</p>
   </div>
-  <div class="features-grid" style="grid-template-columns: repeat(3, 1fr);">
+  <div class="features-grid">
     <div class="feature-card">
       <div class="feature-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>

@@ -32,12 +32,12 @@ permalink: /products/
   <!-- Seasonal banner(s) -->
   {%- set SEASONAL_BADGES = ["Easter", "Halloween", "Christmas", "Spring", "Other"] %}
   {%- set activeBadges = [] %}
-  {%- for item in events.seasonal | rejectattr("active", "equalto", false) %}
+  {%- for item in events.seasonal | activeOnly %}
     {%- if item.badge and item.badge not in activeBadges %}
       {%- set activeBadges = activeBadges.concat([item.badge]) %}
     {%- endif %}
   {%- endfor %}
-  {%- for item in products.items | rejectattr("active", "equalto", false) %}
+  {%- for item in products.items | activeOnly %}
     {%- if item.badge and item.badge in SEASONAL_BADGES and item.badge not in activeBadges %}
       {%- set activeBadges = activeBadges.concat([item.badge]) %}
     {%- endif %}
@@ -56,6 +56,7 @@ permalink: /products/
     <button class="tab-btn" type="button" data-filter="flexi">Flexi Prints</button>
     <button class="tab-btn" type="button" data-filter="gadget">Gadgets</button>
     <button class="tab-btn" type="button" data-filter="decor">Decor</button>
+    <button class="surprise-btn" type="button" onclick="surpriseMe()" aria-label="Go to a random product">🎲 Surprise me</button>
   </div>
 
   <!-- No Results State -->
@@ -67,13 +68,15 @@ permalink: /products/
   </div>
 
   <div class="product-grid" id="productGrid">
-    {%- for product in products.items | rejectattr("active", "equalto", false) %}
+    {%- for product in products.items | activeOnly %}
     <div class="product-card" data-category="{{ product.category }}" data-badge="{{ product.badge }}" data-keywords="{{ product.name | lower }} {{ product.description | lower }} {{ product.category }}" data-price="{{ product.price | replace('£','') }}" data-popular="{{ product.popular }}">
       <a href="/products/{{ product.name | slug }}/" class="product-card-img-link" tabindex="-1" aria-hidden="true">
         <div class="product-card-img">
           <img src="/{{ product.image }}" alt="{{ product.name }}" loading="lazy">
           {%- if product.badge %}
           <span class="product-card-badge{% if product.badge == 'Trending' %} badge-trending{% endif %}">{{ product.badge }}</span>
+          {%- elif product.dateAdded %}
+          <span class="product-card-badge badge-new" data-added="{{ product.dateAdded }}">New</span>
           {%- endif %}
         </div>
       </a>
@@ -82,6 +85,9 @@ permalink: /products/
           <h3>{{ product.name }}</h3>
         </a>
         <p class="description">{{ product.description }}</p>
+        {%- if product.lowStock %}
+        <p class="badge-low-stock" style="margin-bottom: 8px;">⚠ Only a few left</p>
+        {%- endif %}
         <div class="product-card-footer">
           <span class="price">{{ product.price }}</span>
           <div class="btn-group">
@@ -97,7 +103,7 @@ permalink: /products/
       </div>
     </div>
     {%- endfor %}
-    {%- for item in events.seasonal | rejectattr("active", "equalto", false) %}
+    {%- for item in events.seasonal | activeOnly %}
     <div class="product-card" data-category="seasonal" data-keywords="{{ item.name | lower }} {{ item.description | lower }} seasonal" data-price="{{ item.price | replace('£','') }}" data-popular="false" style="display:none">
       {%- if item.image %}
       <div class="product-card-img">
@@ -201,6 +207,20 @@ permalink: /products/
 
     searchInput.addEventListener('input', filterAndSort);
     sortSelect.addEventListener('change', filterAndSort);
+
+    // Hide "New" badges older than 30 days
+    var now = Date.now();
+    document.querySelectorAll('.badge-new[data-added]').forEach(function (b) {
+      var d = new Date(b.dataset.added);
+      if (!isNaN(d) && now - d > 30 * 86400000) b.style.display = 'none';
+    });
+
+    window.surpriseMe = function () {
+      var links = Array.from(grid.querySelectorAll('.product-card:not([style*="display: none"]) .product-card-img-link'));
+      if (!links.length) return;
+      var pick = links[Math.floor(Math.random() * links.length)];
+      window.location.href = pick.href;
+    };
 
     // Auto-select tab from ?cat= URL param
     var urlCat = new URLSearchParams(window.location.search).get('cat');

@@ -19,6 +19,11 @@
     ],
     "upcomingSeasonal": [
       {
+        "name": "Easter",
+        "description": "Easter eggs, bunnies, and springtime prints",
+        "expected": "Easter 2027"
+      },
+      {
         "name": "Halloween",
         "description": "Spooky prints and creepy collectibles",
         "expected": "October 2026"

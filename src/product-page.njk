@@ -16,6 +16,11 @@ permalink: "/products/{{ product.name | slug }}/"
   <h1>{{ product.name }}</h1>
   {% if product.badge %}
   <span class="product-page-badge{% if product.badge == 'Trending' %} badge-trending{% endif %}">{{ product.badge }}</span>
+  {% elif product.dateAdded %}
+  <span class="product-page-badge badge-new" data-added="{{ product.dateAdded }}">New</span>
+  <script>
+  (function(){var b=document.querySelector('.product-page-badge.badge-new');if(b){var d=new Date(b.dataset.added);if(!isNaN(d)&&Date.now()-d>30*86400000)b.style.display='none';}})();
+  </script>
   {% endif %}
 </div>
 
@@ -86,6 +91,19 @@ permalink: "/products/{{ product.name | slug }}/"
       </div>
 
       <!-- Add to Cart / Buy Now -->
+      {%- if product.lowStock %}
+      <div class="low-stock-notice">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Only a few left — order soon!
+      </div>
+      {%- endif %}
+      {%- if product.active == false %}
+      <div class="orders-paused-notice" style="margin-top: 16px; font-size: 0.95rem;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        This is a seasonal product — check back next Easter!
+      </div>
+      <a href="/products/" class="btn btn-secondary btn-large" style="margin-top: 12px;">Browse All Products</a>
+      {%- else %}
       <div class="product-page-actions">
         <div class="buynow-options">
           <div class="form-group">
@@ -139,6 +157,7 @@ permalink: "/products/{{ product.name | slug }}/"
           {%- endif %}
         </div>
       </div>
+      {%- endif %}
       <p class="form-error" id="buyNowError" style="margin-top:8px;"></p>
 
       <button class="share-btn" onclick="shareProduct()" type="button" aria-label="Share this product">
@@ -207,9 +226,9 @@ permalink: "/products/{{ product.name | slug }}/"
 
 <script>
 async function shareProduct() {
-  var url = window.location.href;
+  var url = 'https://christoprints.com/products/{{ product.name | slug }}/';
   var title = '{{ product.name }} — Christo\'s Prints';
-  var text = '{{ product.description }}';
+  var text = '{{ product.name }} — {{ product.price }} 🖨️\n{{ product.description }}\n\n' + url;
   var btnText = document.getElementById('shareBtnText');
 
   if (navigator.share) {
@@ -219,9 +238,9 @@ async function shareProduct() {
     return;
   }
   try {
-    await navigator.clipboard.writeText(url);
-    btnText.textContent = 'Link copied!';
-    setTimeout(function () { btnText.textContent = 'Share'; }, 2000);
+    await navigator.clipboard.writeText(text);
+    btnText.textContent = '✓ Copied!';
+    setTimeout(function () { btnText.textContent = 'Share'; }, 2500);
   } catch (e) {
     btnText.textContent = 'Share';
   }

@@ -164,10 +164,12 @@ img {
 /* Nav dropdown (Bundles) */
 .nav-has-dropdown {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .nav-dropdown-trigger {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 4px;
   background: none;
@@ -858,6 +860,159 @@ img {
   margin-right: auto;
 }
 
+/* ===== Product Marquee ===== */
+.product-marquee {
+  overflow: hidden;
+  padding: 24px 0;
+  max-width: 860px;
+  margin: 0 auto;
+  mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+}
+
+.product-marquee-track {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  cursor: grab;
+  user-select: none;
+}
+
+.product-marquee-track.dragging {
+  cursor: grabbing;
+}
+
+.product-marquee-item {
+  width: 160px;
+  flex-shrink: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: transform var(--transition), border-color var(--transition);
+}
+
+.product-marquee-item:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+}
+
+.product-marquee-img {
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+
+.product-marquee-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-marquee-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 8px 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-secondary);
+}
+
+
+/* ===== Low Stock Badge ===== */
+.badge-low-stock {
+  background: #f59e0b;
+  color: #000;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.low-stock-notice {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #f59e0b;
+  margin-bottom: 8px;
+}
+
+/* ===== Scroll Reveal ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== New In Badge ===== */
+.badge-new {
+  background: #10b981;
+  color: #fff;
+}
+
+/* ===== Event Countdown ===== */
+.event-countdown {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-dim);
+  border-radius: 20px;
+  padding: 3px 10px;
+  margin-top: 8px;
+  letter-spacing: 0.02em;
+}
+
+/* ===== Confetti ===== */
+.confetti-piece {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  top: -20px;
+  border-radius: 2px;
+  animation: confettiFall linear forwards;
+  z-index: 9999;
+  pointer-events: none;
+}
+@keyframes confettiFall {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+  85%  { opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* ===== Surprise Me Button ===== */
+.surprise-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+.surprise-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 /* ===== Footer ===== */
 .footer {
   border-top: 1px solid var(--border);
@@ -1029,6 +1184,14 @@ img {
 
   .hero h1 {
     font-size: 2.2rem;
+  }
+
+  .page-header {
+    padding: 100px 20px 36px;
+  }
+
+  .page-header h1 {
+    font-size: 1.9rem;
   }
 
   .section {
@@ -1989,7 +2152,7 @@ select.form-input {
 }
 
 body.orders-paused {
-  --banner-offset: 46px;
+  --banner-offset: 46px; /* fallback — overridden by JS to match actual banner height */
 }
 body.orders-paused .navbar {
   top: var(--banner-offset);

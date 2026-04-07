@@ -51,6 +51,12 @@ module.exports = function (eleventyConfig) {
     });
   });
 
+  eleventyConfig.addFilter("activeOnly", function (items) {
+    return (items || []).filter(function (item) {
+      return item.active !== false;
+    });
+  });
+
   eleventyConfig.addFilter("groupByBadge", function (items) {
     const groups = {};
     (items || []).forEach(function (item) {

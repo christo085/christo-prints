@@ -52,7 +52,20 @@
     <span>{{ notices.pauseOrders.message }}</span>
   </div>
   {%- endif %}
-  <script>window.ORDERS_PAUSED = {{ "true" if notices.pauseOrders.enabled else "false" }};</script>
+  <script>window.ORDERS_PAUSED = {{ "true" if notices.pauseOrders.enabled else "false" }};
+  {%- if notices.pauseOrders.enabled %}
+  (function () {
+    function syncBannerOffset() {
+      var banner = document.querySelector('.pause-banner');
+      if (banner) {
+        document.body.style.setProperty('--banner-offset', banner.offsetHeight + 'px');
+      }
+    }
+    syncBannerOffset();
+    window.addEventListener('resize', syncBannerOffset, { passive: true });
+  })();
+  {%- endif %}
+  </script>
 
   <!-- Navigation -->
   <header>
@@ -120,9 +133,10 @@ Christo's Prints
         <li><a href="/reviews/">Reviews</a></li>
         <li><a href="/order-help/">Order Help</a></li>
         <li><a href="/terms/">Terms</a></li>
+        <li><a href="/custom-review/">Custom Order Feedback</a></li>
       </ul>
     </div>
-    <div class="footer-credit">Made by <a href="https://forthdigital.uk" target="_blank" rel="noopener">Forth Digital</a></div>
+    <div class="footer-credit">&copy; 2026 Christo's Prints &nbsp;&middot;&nbsp; Made by <a href="https://forthdigital.uk" target="_blank" rel="noopener">Forth Digital</a></div>
   </footer>
 
   <!-- Back to Top -->
@@ -145,6 +159,44 @@ Christo's Prints
     }, true);
   </script>
   <script defer src="/nav.js"></script>
+  <script>
+  // Scroll reveal
+  (function () {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.feature-card, .product-card, .review-card, .section-header, .cta-banner, .bundle-card').forEach(function (el) {
+        el.classList.add('reveal');
+        observer.observe(el);
+      });
+    });
+  })();
+
+  // Confetti
+  window.launchConfetti = function () {
+    var colors = ['#00e6c3','#ffffff','#fcd34d','#f87171','#60a5fa','#a78bfa'];
+    for (var i = 0; i < 90; i++) {
+      (function (i) {
+        setTimeout(function () {
+          var el = document.createElement('div');
+          el.className = 'confetti-piece';
+          el.style.left = Math.random() * 100 + 'vw';
+          el.style.background = colors[Math.floor(Math.random() * colors.length)];
+          el.style.width = (6 + Math.random() * 8) + 'px';
+          el.style.height = (6 + Math.random() * 8) + 'px';
+          el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+          var duration = 1.8 + Math.random() * 1.4;
+          el.style.animationDuration = duration + 's';
+          document.body.appendChild(el);
+          setTimeout(function () { el.remove(); }, duration * 1000 + 100);
+        }, i * 18);
+      })(i);
+    }
+  };
+  </script>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>
     if (window.netlifyIdentity) {

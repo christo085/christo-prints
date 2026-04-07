@@ -113,7 +113,8 @@
       "popular": false,
       "badge": "",
       "colours": ["Silk Green & Blue"],
-      "coloursLabel": "Silk"
+      "coloursLabel": "Silk",
+      "dateAdded": "2026-04-01"
     },
     {
       "name": "Fidget Slider",
@@ -161,7 +162,8 @@
         { "image": "images/flexi-slug.jpg", "colours": ["Silk Green & Blue"] }
       ],
       "popular": false,
-      "badge": ""
+      "badge": "",
+      "lowStock": true
     },
     {
       "name": "Flexi Fish Bone",

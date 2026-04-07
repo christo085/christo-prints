@@ -144,8 +144,14 @@ permalink: /custom/
 <style>
 .custom-steps-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .custom-steps-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .custom-step-card {
@@ -169,7 +175,7 @@ permalink: /custom/
 .custom-biz-callout {
   max-width: 600px;
   margin: 0 auto 32px;
-  text-align: left;
+  text-align: center;
 }
 
 .custom-biz-label {

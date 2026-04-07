@@ -33,6 +33,14 @@ permalink: /success/
     </div>
 
     <a href="/products/" class="btn btn-primary" style="margin-top: 8px;">Continue Browsing</a>
+
+    <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center;">
+      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 12px;">Know someone who'd love this? Share Christo's Prints!</p>
+      <a href="https://wa.me/?text=Hey!%20I%20just%20ordered%20some%20awesome%203D-printed%20stuff%20from%20Christo%27s%20Prints%20in%20Edinburgh%20%F0%9F%96%A8%EF%B8%8F%20Really%20good%20quality%20and%20affordable%20prices.%20Check%20them%20out%3A%20https%3A%2F%2Fchristoprints.com" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Tell a Friend on WhatsApp
+      </a>
+    </div>
   </div>
 </section>
 
@@ -50,6 +58,7 @@ permalink: /success/
 
 <script>
 (function () {
+  if (window.launchConfetti) window.launchConfetti();
   var raw = sessionStorage.getItem('lastOrder');
   var fromSquare = new URLSearchParams(window.location.search).get('ref') === 'sq';
   if (!raw) return;
