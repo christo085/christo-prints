@@ -1,0 +1,208 @@
+---
+layout: base.njk
+title: "For Business - Christo's Prints"
+description: "Commercial 3D printing in Edinburgh. Bulk orders, branded items, specialist components, and event merch for businesses, schools, and organisations."
+activePage: business
+permalink: /business/
+---
+
+<div class="page-header">
+  <h1>For Business</h1>
+  <p>Bulk production, branded merch, specialist parts — printed locally in Edinburgh.</p>
+</div>
+
+<section class="section" style="padding-top: 0;">
+  <div class="section-header">
+    <h2>What We Do For Businesses</h2>
+    <p>From 10 units to 500+, we handle commercial runs of all sizes</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+      </div>
+      <h3>Bulk Orders</h3>
+      <p>Need 50, 100, or 500 of something? We run large batches for businesses, clubs, and schools at competitive rates.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+      </div>
+      <h3>Branded &amp; Promotional Items</h3>
+      <p>Custom keychains, desk accessories, branded fidgets, event giveaways — your logo, your colours, your design.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+      </div>
+      <h3>Specialist Components</h3>
+      <p>Modular systems, bespoke parts, housings, and fittings. We've worked on everything from hydroponic systems to display pieces.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h3>Schools &amp; Organisations</h3>
+      <p>Classroom resources, club merch, charity fundraisers, staff gifts. We support local groups with flexible quantities and pricing.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top: 0;">
+  <div class="section-header">
+    <h2>How It Works</h2>
+    <p>Simple from brief to collection</p>
+  </div>
+  <div class="custom-steps-grid">
+    <div class="feature-card custom-step-card">
+      <div class="custom-step-number">1</div>
+      <h3>Submit Your Brief</h3>
+      <p>Tell us what you need — quantity, design, deadline, and budget. No need to have every detail figured out yet.</p>
+    </div>
+    <div class="feature-card custom-step-card">
+      <div class="custom-step-number">2</div>
+      <h3>We Quote &amp; Confirm</h3>
+      <p>We'll come back with a price and timeline. We keep commercial projects affordable without cutting corners on quality.</p>
+    </div>
+    <div class="feature-card custom-step-card">
+      <div class="custom-step-number">3</div>
+      <h3>Printed &amp; Delivered</h3>
+      <p>We print your run, you collect in Edinburgh or we arrange delivery for larger orders. Simple as that.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Form -->
+<section class="section" style="padding-top: 0;">
+
+  <div class="cart-success" id="bizSuccess" hidden>
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+      <polyline points="22 4 12 14.01 9 11.01"/>
+    </svg>
+    <h2>Enquiry received!</h2>
+    <p>Thanks for getting in touch. We'll review your brief and reach out within 1–2 working days.</p>
+    <a href="/products/" class="btn btn-primary" style="margin-top: 16px;">Browse Products</a>
+  </div>
+
+  <div class="form-container" id="bizFormContainer">
+    <div style="margin-bottom: 24px;">
+      <h2 style="margin: 0 0 6px;">Send Us Your Brief</h2>
+      <p style="color: var(--text-secondary); margin: 0;">Fill in as much detail as you can and we'll get back to you quickly.</p>
+    </div>
+
+    <form name="business-enquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/business/?success=true" id="bizForm">
+      <input type="hidden" name="form-name" value="business-enquiry">
+      <p class="visually-hidden"><label>Don't fill this in: <input name="bot-field"></label></p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="name">Your Name <span style="color:var(--accent)">*</span></label>
+          <input class="form-input" type="text" id="name" name="name" placeholder="Your name" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="company">Company / Organisation</label>
+          <input class="form-input" type="text" id="company" name="company" placeholder="Business or school name">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="email">Email</label>
+          <input class="form-input" type="email" id="email" name="email" placeholder="you@company.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="phone">Phone</label>
+          <input class="form-input" type="tel" id="phone" name="phone" placeholder="07xxx xxxxxx">
+        </div>
+      </div>
+      <p class="form-hint">Please provide at least an email or phone number.</p>
+      <p class="form-error" id="bizContactError">Please enter an email address or phone number so we can reach you.</p>
+
+      <div class="form-group">
+        <label class="form-label" for="project">What do you need printed? <span style="color:var(--accent)">*</span></label>
+        <textarea class="form-textarea" id="project" name="project" placeholder="Describe your project — what it is, what it's for, any design files or references you have." required style="min-height: 130px;"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="quantity">Quantity <span style="color:var(--accent)">*</span></label>
+          <input class="form-input" type="number" id="quantity" name="quantity" min="1" placeholder="How many units?" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="deadline">Deadline</label>
+          <input class="form-input" type="text" id="deadline" name="deadline" placeholder="When do you need them by?">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="budget">Budget (optional)</label>
+        <input class="form-input" type="text" id="budget" name="budget" placeholder="Approximate budget, if you have one in mind">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="notes">Anything else?</label>
+        <textarea class="form-textarea" id="notes" name="notes" placeholder="Preferred colours, material, packaging, or any other details"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-large">Send Enquiry</button>
+    </form>
+  </div>
+
+</section>
+
+<style>
+.custom-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+@media (max-width: 768px) {
+  .custom-steps-grid { grid-template-columns: 1fr; }
+}
+.custom-step-card { text-align: center; }
+.custom-step-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0 auto 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--accent-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
+
+<script>
+(function () {
+  if (new URLSearchParams(window.location.search).get('success') === 'true') {
+    document.getElementById('bizSuccess').hidden = false;
+    document.getElementById('bizFormContainer').hidden = true;
+    return;
+  }
+
+  var form = document.getElementById('bizForm');
+  form.addEventListener('submit', function (e) {
+    var email = document.getElementById('email').value.trim();
+    var phone = document.getElementById('phone').value.trim();
+    var errorEl = document.getElementById('bizContactError');
+    if (!email && !phone) {
+      e.preventDefault();
+      errorEl.classList.add('visible');
+      document.getElementById('email').focus();
+      return;
+    }
+    errorEl.classList.remove('visible');
+  });
+
+  document.getElementById('email').addEventListener('input', function () {
+    document.getElementById('bizContactError').classList.remove('visible');
+  });
+  document.getElementById('phone').addEventListener('input', function () {
+    document.getElementById('bizContactError').classList.remove('visible');
+  });
+})();
+</script>
