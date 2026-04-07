@@ -1,17 +1,81 @@
 ---
 layout: base.njk
-title: "Custom Print Request - Christo's Prints"
-description: "Submit a custom 3D print request and we'll bring your idea to life."
+title: "Custom & Commercial Orders - Christo's Prints"
+description: "Custom and commercial 3D printing in Edinburgh. One-off parts, modular systems, bulk production runs, and large orders for businesses, schools, and events."
 activePage: custom
 permalink: /custom/
 ---
 
 <!-- Page Header -->
 <div class="page-header">
-  <h1>Custom Print Request</h1>
-  <p>Tell us your idea and we'll make it happen</p>
+  <h1>Custom &amp; Large Order Request</h1>
+  <p>One-off parts, complex commissions, bulk runs, school orders. We can do it all.</p>
 </div>
 
+<!-- What we can do -->
+<section class="section" style="padding-top: 0;">
+  <div class="section-header">
+    <h2>What We Can Do</h2>
+    <p>No order is too small or too large</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+      </div>
+      <h3>One-Off Parts</h3>
+      <p>Need a specific part, prop, or piece made? Describe it and we'll print it to your spec.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+      </div>
+      <h3>Bulk Orders</h3>
+      <p>Need 50, 100, or 500 of something? We handle large runs for schools, clubs, and businesses.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h3>Event Merch</h3>
+      <p>Party favours, event giveaways, branded items. Custom prints for any occasion.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+      </div>
+      <h3>Business Commissions</h3>
+      <p>Modular systems, specialist components, display pieces. Bring us your brief and we'll figure it out.</p>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="section" style="padding-top: 0;">
+  <div class="section-header">
+    <h2>How It Works</h2>
+    <p>Simple from start to finish</p>
+  </div>
+  <div class="custom-steps-grid">
+    <div class="feature-card custom-step-card">
+      <div class="custom-step-number">1</div>
+      <h3>Submit a Request</h3>
+      <p>Fill in the form below with as much detail as you can. No need to have everything figured out yet.</p>
+    </div>
+    <div class="feature-card custom-step-card">
+      <div class="custom-step-number">2</div>
+      <h3>We Get in Touch</h3>
+      <p>We'll reach out to discuss your idea, confirm details, and give you a price and timeline.</p>
+    </div>
+    <div class="feature-card custom-step-card">
+      <div class="custom-step-number">3</div>
+      <h3>We Print &amp; You Collect</h3>
+      <p>Once agreed, we get printing. You collect in Edinburgh when it's ready, or we arrange delivery for larger orders.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Form -->
 <section class="section" style="padding-top: 0;">
 
   <!-- Success State -->
@@ -25,8 +89,15 @@ permalink: /custom/
     <a href="/products/" class="btn btn-primary" style="margin-top: 16px;">Browse Products</a>
   </div>
 
+  <!-- Commercial callout -->
+  <div class="cta-banner custom-biz-callout" id="customFormWrapper">
+    <p class="custom-biz-label">For businesses</p>
+    <h3>We work on commercial projects too</h3>
+    <p>We've printed modular hydroponic systems, specialist components, and custom parts for local businesses. If you have a brief, a drawing, or just an idea, get in touch and we'll figure out the rest.</p>
+  </div>
+
   <!-- Form -->
-  <div class="form-container" id="customFormWrapper">
+  <div class="form-container" id="customFormContainer">
     <form name="custom-print" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/custom/?success=true" id="customForm">
       <input type="hidden" name="form-name" value="custom-print">
       <p class="visually-hidden"><label>Don't fill this in: <input name="bot-field"></label></p>
@@ -55,6 +126,11 @@ permalink: /custom/
       </div>
 
       <div class="form-group">
+        <label class="form-label" for="quantity">Quantity</label>
+        <input class="form-input" type="number" id="quantity" name="quantity" min="1" placeholder="How many do you need? (leave blank if unsure)">
+      </div>
+
+      <div class="form-group">
         <label class="form-label" for="notes">Anything else?</label>
         <textarea class="form-textarea" id="notes" name="notes" placeholder="Preferred colours, deadline, budget, or any other details"></textarea>
       </div>
@@ -65,11 +141,63 @@ permalink: /custom/
 
 </section>
 
+<style>
+.custom-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.custom-step-card {
+  text-align: center;
+}
+
+.custom-step-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0 auto 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--accent-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-biz-callout {
+  max-width: 600px;
+  margin: 0 auto 32px;
+  text-align: left;
+}
+
+.custom-biz-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  margin-bottom: 8px !important;
+}
+
+.custom-biz-callout h3 {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+}
+
+.custom-biz-callout > p:last-child {
+  margin: 0;
+  color: var(--text-secondary);
+}
+</style>
+
 <script>
 (function () {
   if (new URLSearchParams(window.location.search).get('success') === 'true') {
     document.getElementById('customSuccess').hidden = false;
     document.getElementById('customFormWrapper').hidden = true;
+    document.getElementById('customFormContainer').hidden = true;
     return;
   }
 
