@@ -1,22 +1,22 @@
 ---
 layout: base.njk
-title: "Custom & Commercial Orders - Christo's Prints"
-description: "Custom and commercial 3D printing in Edinburgh. One-off parts, modular systems, bulk production runs, and large orders for businesses, schools, and events."
+title: "Custom Orders - Christo's Prints"
+description: "Custom and commercial 3D printing in Edinburgh. One-off parts, bulk orders, event merch, and business commissions — personal and commercial welcome."
 activePage: custom
 permalink: /custom/
 ---
 
 <!-- Page Header -->
 <div class="page-header">
-  <h1>Custom &amp; Large Order Request</h1>
-  <p>One-off parts, complex commissions, bulk runs, school orders. We can do it all.</p>
+  <h1>Custom Print Request</h1>
+  <p>One-off parts, bulk runs, event merch, or a business commission — tell us what you need.</p>
 </div>
 
 <!-- What we can do -->
 <section class="section" style="padding-top: 0;">
   <div class="section-header">
     <h2>What We Can Do</h2>
-    <p>No order is too small or too large</p>
+    <p>Personal orders, bulk runs, and commercial projects all welcome</p>
   </div>
   <div class="features-grid">
     <div class="feature-card">
@@ -37,8 +37,8 @@ permalink: /custom/
       <div class="feature-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       </div>
-      <h3>Event Merch</h3>
-      <p>Party favours, event giveaways, branded items. Custom prints for any occasion.</p>
+      <h3>Event &amp; Promo Items</h3>
+      <p>Party favours, event giveaways, branded items. Custom prints for any occasion or organisation.</p>
     </div>
     <div class="feature-card">
       <div class="feature-icon">
@@ -70,7 +70,7 @@ permalink: /custom/
     <div class="feature-card custom-step-card">
       <div class="custom-step-number">3</div>
       <h3>We Print &amp; You Collect</h3>
-      <p>Once agreed, we get printing. You collect in Edinburgh when it's ready, or we arrange delivery for larger orders.</p>
+      <p>Once agreed, we get printing. Collect in Edinburgh when it's ready, or we arrange delivery for larger orders.</p>
     </div>
   </div>
 </section>
@@ -85,15 +85,8 @@ permalink: /custom/
       <polyline points="22 4 12 14.01 9 11.01"/>
     </svg>
     <h2>Request submitted!</h2>
-    <p>Thanks for your custom print idea. We'll be in touch soon to discuss the details.</p>
+    <p>Thanks for your custom print request. We'll be in touch soon to discuss the details.</p>
     <a href="/products/" class="btn btn-primary" style="margin-top: 16px;">Browse Products</a>
-  </div>
-
-  <!-- Commercial callout -->
-  <div class="cta-banner custom-biz-callout" id="customFormWrapper">
-    <p class="custom-biz-label">For businesses</p>
-    <h3>We work on commercial projects too</h3>
-    <p>We've printed modular hydroponic systems, specialist components, and custom parts for local businesses. If you have a brief, a drawing, or just an idea, get in touch and we'll figure out the rest.</p>
   </div>
 
   <!-- Form -->
@@ -102,9 +95,15 @@ permalink: /custom/
       <input type="hidden" name="form-name" value="custom-print">
       <p class="visually-hidden"><label>Don't fill this in: <input name="bot-field"></label></p>
 
-      <div class="form-group">
-        <label class="form-label" for="name">Name</label>
-        <input class="form-input" type="text" id="name" name="name" placeholder="Your name" required>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="name">Name <span style="color:var(--accent)">*</span></label>
+          <input class="form-input" type="text" id="name" name="name" placeholder="Your name" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="company">Company / Organisation <span class="form-label-optional">(optional)</span></label>
+          <input class="form-input" type="text" id="company" name="company" placeholder="Business or school name">
+        </div>
       </div>
 
       <div class="form-row">
@@ -121,18 +120,24 @@ permalink: /custom/
       <p class="form-error" id="contactError">Please enter an email address or phone number so we can reach you.</p>
 
       <div class="form-group">
-        <label class="form-label" for="description">What would you like printed? <span style="color: var(--text-muted); font-weight: 400;">*</span></label>
-        <textarea class="form-textarea" id="description" name="description" placeholder="Describe your custom print idea — what it is, how big, what it's for, etc." required style="min-height: 120px;"></textarea>
+        <label class="form-label" for="description">What would you like printed? <span style="color:var(--accent)">*</span></label>
+        <textarea class="form-textarea" id="description" name="description" placeholder="Describe your idea — what it is, how big, what it's for, etc." required style="min-height: 120px;"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="quantity">Quantity</label>
+          <input class="form-input" type="number" id="quantity" name="quantity" min="1" placeholder="How many? (leave blank if unsure)">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="deadline">Deadline <span class="form-label-optional">(optional)</span></label>
+          <input class="form-input" type="text" id="deadline" name="deadline" placeholder="When do you need them by?">
+        </div>
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="quantity">Quantity</label>
-        <input class="form-input" type="number" id="quantity" name="quantity" min="1" placeholder="How many do you need? (leave blank if unsure)">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="notes">Anything else?</label>
-        <textarea class="form-textarea" id="notes" name="notes" placeholder="Preferred colours, deadline, budget, or any other details"></textarea>
+        <label class="form-label" for="notes">Anything else? <span class="form-label-optional">(optional)</span></label>
+        <textarea class="form-textarea" id="notes" name="notes" placeholder="Preferred colours, budget, material, or any other details"></textarea>
       </div>
 
       <button type="submit" class="btn btn-primary btn-large">Submit Request</button>
@@ -172,29 +177,10 @@ permalink: /custom/
   justify-content: center;
 }
 
-.custom-biz-callout {
-  max-width: 600px;
-  margin: 0 auto 32px;
-  text-align: center;
-}
-
-.custom-biz-label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--accent);
-  margin-bottom: 8px !important;
-}
-
-.custom-biz-callout h3 {
-  margin: 0 0 8px;
-  font-size: 1.2rem;
-}
-
-.custom-biz-callout > p:last-child {
-  margin: 0;
-  color: var(--text-secondary);
+.form-label-optional {
+  color: var(--text-muted);
+  font-weight: 400;
+  font-size: 0.85em;
 }
 </style>
 
@@ -202,7 +188,6 @@ permalink: /custom/
 (function () {
   if (new URLSearchParams(window.location.search).get('success') === 'true') {
     document.getElementById('customSuccess').hidden = false;
-    document.getElementById('customFormWrapper').hidden = true;
     document.getElementById('customFormContainer').hidden = true;
     return;
   }
