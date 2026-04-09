@@ -74,7 +74,7 @@ permalink: /build-bundle/
   </div>
 
   <div class="product-grid" id="pickerGrid">
-    {%- for product in products.items %}
+    {%- for product in products.items | activeOnly %}
     <div class="product-card picker-card" data-name="{{ product.name }}" data-price="{{ product.price }}" data-image="{{ product.image }}" data-keywords="{{ product.name | lower }} {{ product.description | lower }}" onclick="toggleProduct(this)">
       <div class="product-card-img">
         <img src="/{{ product.image }}" alt="{{ product.name }}" loading="lazy">

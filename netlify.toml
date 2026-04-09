@@ -20,3 +20,13 @@
   from = "/business"
   to = "/custom/"
   status = 301
+
+[[redirects]]
+  from = "/custom-review/"
+  to = "/feedback/"
+  status = 301
+
+[[redirects]]
+  from = "/custom-review"
+  to = "/feedback/"
+  status = 301

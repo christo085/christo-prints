@@ -2169,6 +2169,60 @@ body.orders-paused .page-header {
   color: #fcd34d;
 }
 
+.pause-banner-close {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #fff;
+  opacity: 0.7;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  transition: opacity 0.2s;
+}
+
+.pause-banner-close:hover {
+  opacity: 1;
+}
+
+/* ===== WhatsApp button — hide label on touch devices ===== */
+@media (hover: none) {
+  #wa-label {
+    display: none;
+  }
+}
+
+/* ===== Why cards — mobile horizontal scroll ===== */
+@media (max-width: 768px) {
+  .why-cards-mobile {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 16px;
+    padding-bottom: 12px;
+    scrollbar-width: none;
+    /* override grid columns */
+    grid-template-columns: unset;
+  }
+
+  .why-cards-mobile::-webkit-scrollbar {
+    display: none;
+  }
+
+  .why-cards-mobile > .feature-card {
+    min-width: 72vw;
+    max-width: 280px;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+}
+
 /* ===== Orders Paused on product page ===== */
 .orders-paused-notice {
   display: flex;

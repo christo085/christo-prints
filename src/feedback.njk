@@ -1,0 +1,288 @@
+---
+layout: base.njk
+title: "Feedback - Christo's Prints"
+description: "Leave feedback on your custom order, write a Google review, or get in touch with Christo's Prints."
+permalink: /feedback/
+---
+
+<div class="page-header">
+  <h1>Feedback</h1>
+  <p>Let us know how we did, leave a review, or get in touch</p>
+</div>
+
+<!-- Options -->
+<section class="section" style="padding-top: 0;">
+  <div class="feedback-options">
+
+    <div class="feedback-option">
+      <div class="feedback-option-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      </div>
+      <h3>Custom Order Feedback</h3>
+      <p>Had a custom print made? Tell us how it went — quality, communication, and anything else.</p>
+      <a href="#feedback-form" class="btn btn-primary">Leave Feedback &#8595;</a>
+    </div>
+
+    <div class="feedback-option feedback-option-google">
+      <div class="feedback-option-icon feedback-option-icon-google">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <h3>Leave a Google Review</h3>
+      <p>Happy with your order? A review helps other customers find us and means a lot to a small business.</p>
+      <a href="https://g.page/r/CSaLSWP76TUAEBM/review" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Leave a Review &#8594;</a>
+    </div>
+
+    <div class="feedback-option">
+      <div class="feedback-option-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <h3>Get in Touch</h3>
+      <p>Have a question, issue, or something else on your mind? We're happy to hear from you.</p>
+      <a href="/contact/" class="btn btn-secondary">Contact Us &#8594;</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- Feedback Form -->
+<section class="section" id="feedback-form" style="padding-top: 0;">
+  <div class="section-header">
+    <h2>Custom Order Feedback</h2>
+    <p>Tell us how your order went</p>
+  </div>
+
+  <!-- Success State -->
+  <div class="cart-success" id="customReviewSuccess" hidden>
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+      <polyline points="22 4 12 14.01 9 11.01"/>
+    </svg>
+    <h2>Thanks for the feedback!</h2>
+    <p>It genuinely helps us improve. If you're happy with how everything went, a Google review means a lot to a small business.</p>
+    <a href="https://g.page/r/CSaLSWP76TUAEBM/review" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="margin-top: 16px;">Leave a Google Review &#8594;</a>
+  </div>
+
+  <!-- Form -->
+  <div class="form-container" id="customReviewFormWrapper">
+    <form name="custom-order-feedback" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/feedback/?success=true" id="customReviewForm">
+      <input type="hidden" name="form-name" value="custom-order-feedback">
+      <p class="visually-hidden"><label>Don't fill this in: <input name="bot-field"></label></p>
+
+      <div class="form-group">
+        <label class="form-label" for="name">Name <span style="color: var(--text-muted); font-weight: 400;">(optional)</span></label>
+        <input class="form-input" type="text" id="name" name="name" placeholder="Your name">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="customer-type">Individual or business?</label>
+        <select class="form-input" id="customer-type" name="customer-type" required>
+          <option value="" disabled selected>Select one</option>
+          <option value="individual">Individual</option>
+          <option value="business">Business</option>
+          <option value="school-organisation">School / Organisation</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="heard-from">How did you hear about us?</label>
+        <select class="form-input" id="heard-from" name="heard-from" required>
+          <option value="" disabled selected>Select one</option>
+          <option value="google">Google Search</option>
+          <option value="google-maps">Google Maps</option>
+          <option value="instagram">Instagram</option>
+          <option value="word-of-mouth">Word of mouth / recommendation</option>
+          <option value="whatsapp">WhatsApp</option>
+          <option value="returning-customer">Returning customer</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="what-ordered">What did you order?</label>
+        <input class="form-input" type="text" id="what-ordered" name="what-ordered" placeholder="Describe what you had made" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">How would you rate the quality?</label>
+        <div class="star-rating" id="qualityRating" role="radiogroup" aria-label="Quality rating">
+          <input type="hidden" name="quality-rating" id="qualityRatingValue" required>
+          {%- for i in range(1, 6) %}
+          <button type="button" class="star-btn" data-value="{{ i }}" aria-label="{{ i }} star{% if i > 1 %}s{% endif %}">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </button>
+          {%- endfor %}
+        </div>
+        <p class="form-error" id="ratingError">Please select a star rating.</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="communication">How was communication? <span style="color: var(--text-muted); font-weight: 400;">(optional)</span></label>
+        <select class="form-input" id="communication" name="communication">
+          <option value="" disabled selected>Select one</option>
+          <option value="excellent">Excellent — quick and clear</option>
+          <option value="good">Good</option>
+          <option value="ok">OK — could be better</option>
+          <option value="poor">Poor</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="comments">Any other thoughts? <span style="color: var(--text-muted); font-weight: 400;">(optional)</span></label>
+        <textarea class="form-textarea" id="comments" name="comments" placeholder="What went well, what could be improved, would you order again…" style="min-height: 100px;"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-large">Submit Feedback</button>
+    </form>
+  </div>
+</section>
+
+<style>
+.feedback-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .feedback-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+.feedback-option {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.feedback-option h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.feedback-option > p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.feedback-option-google {
+  border-color: rgba(0, 230, 195, 0.25);
+  background: linear-gradient(135deg, var(--accent-dim), rgba(0, 230, 195, 0.04));
+}
+
+.feedback-option-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  color: var(--accent);
+}
+
+.feedback-option-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.feedback-option-icon-google {
+  background: var(--accent-dim);
+  border-color: rgba(0, 230, 195, 0.3);
+}
+
+/* Star rating (copied from custom-review) */
+.star-rating {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--text-muted);
+  transition: color var(--transition), transform var(--transition);
+  line-height: 1;
+}
+
+.star-btn:hover,
+.star-btn.active {
+  color: var(--accent);
+}
+
+.star-btn:hover {
+  transform: scale(1.15);
+}
+
+.star-btn.filled svg {
+  fill: var(--accent);
+  stroke: var(--accent);
+}
+</style>
+
+<script>
+(function () {
+  if (new URLSearchParams(window.location.search).get('success') === 'true') {
+    document.getElementById('customReviewSuccess').hidden = false;
+    document.getElementById('customReviewFormWrapper').hidden = true;
+    return;
+  }
+
+  var stars = document.querySelectorAll('.star-btn');
+  var ratingInput = document.getElementById('qualityRatingValue');
+  var selected = 0;
+
+  stars.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      selected = parseInt(btn.dataset.value);
+      ratingInput.value = selected;
+      updateStars(selected);
+      document.getElementById('ratingError').classList.remove('visible');
+    });
+
+    btn.addEventListener('mouseenter', function () {
+      highlightStars(parseInt(btn.dataset.value));
+    });
+  });
+
+  document.getElementById('qualityRating').addEventListener('mouseleave', function () {
+    updateStars(selected);
+  });
+
+  function highlightStars(n) {
+    stars.forEach(function (s, i) {
+      s.classList.toggle('filled', i < n);
+      s.classList.toggle('active', i < n);
+    });
+  }
+
+  function updateStars(n) {
+    stars.forEach(function (s, i) {
+      s.classList.toggle('filled', i < n);
+      s.classList.toggle('active', i < n);
+    });
+  }
+
+  document.getElementById('customReviewForm').addEventListener('submit', function (e) {
+    if (!ratingInput.value) {
+      e.preventDefault();
+      document.getElementById('ratingError').classList.add('visible');
+      document.getElementById('qualityRating').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+})();
+</script>
