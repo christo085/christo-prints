@@ -58,9 +58,16 @@
   <script>window.ORDERS_PAUSED = {{ "true" if notices.pauseOrders.enabled else "false" }};
   {%- if notices.pauseOrders.enabled %}
   (function () {
+    var BANNER_KEY = 'cpBannerDismissed';
+    var banner = document.getElementById('pauseBanner');
+    function hideBanner() {
+      if (banner) banner.style.display = 'none';
+      document.body.style.setProperty('--banner-offset', '0px');
+    }
+    // If previously dismissed, hide immediately
+    try { if (localStorage.getItem(BANNER_KEY)) { hideBanner(); return; } } catch(e) {}
     function syncBannerOffset() {
-      var banner = document.querySelector('.pause-banner');
-      if (banner) {
+      if (banner && banner.style.display !== 'none') {
         document.body.style.setProperty('--banner-offset', banner.offsetHeight + 'px');
       }
     }
@@ -69,9 +76,8 @@
     var closeBtn = document.getElementById('pauseBannerClose');
     if (closeBtn) {
       closeBtn.addEventListener('click', function () {
-        var banner = document.getElementById('pauseBanner');
-        if (banner) banner.style.display = 'none';
-        document.body.style.setProperty('--banner-offset', '0px');
+        try { localStorage.setItem(BANNER_KEY, '1'); } catch(e) {}
+        hideBanner();
       });
     }
   })();

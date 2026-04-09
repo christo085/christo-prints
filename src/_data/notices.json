@@ -1,7 +1,7 @@
 {
   "pauseOrders": {
     "enabled": true,
-    "message": "We're not currently taking orders — we'll be back soon! Feel free to browse in the meantime."
+    "message": "Orders are paused — back soon!"
   },
   "highVolume": {
     "enabled": false,

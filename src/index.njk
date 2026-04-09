@@ -118,6 +118,7 @@ permalink: /
     tick();
   });
 
+  // Mouse drag
   track.addEventListener('mousedown', function (e) {
     dragging = true;
     dragStartX = e.clientX;
@@ -134,6 +135,27 @@ permalink: /
   });
 
   document.addEventListener('mouseup', function () {
+    if (!dragging) return;
+    dragging = false;
+    track.classList.remove('dragging');
+  });
+
+  // Touch drag
+  track.addEventListener('touchstart', function (e) {
+    dragging = true;
+    dragStartX = e.touches[0].clientX;
+    dragStartPos = pos;
+    track.classList.add('dragging');
+  }, { passive: true });
+
+  document.addEventListener('touchmove', function (e) {
+    if (!dragging) return;
+    var delta = dragStartX - e.touches[0].clientX;
+    pos = ((dragStartPos + delta) % halfWidth + halfWidth) % halfWidth;
+    track.style.transform = 'translateX(-' + pos + 'px)';
+  }, { passive: true });
+
+  document.addEventListener('touchend', function () {
     if (!dragging) return;
     dragging = false;
     track.classList.remove('dragging');
