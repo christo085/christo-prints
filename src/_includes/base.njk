@@ -20,7 +20,7 @@
     "name": "Christo's Prints",
     "description": "Affordable, high-quality 3D-printed toys, gadgets, flexi prints, and decor. Printing happiness, one layer at a time.",
     "url": "https://christoprints.com",
-    "email": "christo3dprints@gmail.com",
+
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Edinburgh",
@@ -146,7 +146,7 @@ Christo's Prints
       <div>
         <div class="footer-brand">Christo's Prints</div>
         <div class="footer-tagline">Printing Happiness</div>
-        <a href="mailto:christo3dprints@gmail.com" class="footer-email">christo3dprints@gmail.com</a>
+        <a href="#" class="footer-email obf-email" data-n="christo3dprints" data-d="gmail.com" data-show="1"></a>
       </div>
       <ul class="footer-links">
         <li><a href="/products/">Products</a></li>
@@ -235,6 +235,18 @@ Christo's Prints
       });
     }
   </script>
+  <!-- Email obfuscation — assembled at runtime so the address isn't in page source -->
+  <script>
+    (function () {
+      function decodeEmail(n, d) { return n + String.fromCharCode(64) + d; }
+      document.querySelectorAll('.obf-email').forEach(function (el) {
+        var addr = decodeEmail(el.dataset.n, el.dataset.d);
+        el.href = 'mailto:' + addr;
+        if (el.dataset.show) el.textContent = addr;
+      });
+    })();
+  </script>
+
   <!-- Toast notifications -->
   <div id="toastContainer" aria-live="polite"></div>
   <script>
