@@ -8,6 +8,9 @@ eleventyExcludeFromCollections: true
   {%- if page.url and page.url != '/admin/' %}
   <url>
     <loc>{{ site.url }}{{ page.url }}</loc>
+    {%- if page.date %}
+    <lastmod>{{ page.date | htmlDateString }}</lastmod>
+    {%- endif %}
   </url>
   {%- endif %}
   {%- endfor %}
