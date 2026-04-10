@@ -140,25 +140,50 @@ permalink: /
     track.classList.remove('dragging');
   });
 
-  // Touch drag
+  // Touch drag — direction-aware so vertical swipes still scroll the page
+  var touchStartX = 0;
+  var touchStartY = 0;
+  var touchIntent = null; // 'drag' | 'scroll' | null
+
   track.addEventListener('touchstart', function (e) {
-    dragging = true;
-    dragStartX = e.touches[0].clientX;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
     dragStartPos = pos;
-    track.classList.add('dragging');
+    touchIntent = null;
+    dragging = false;
   }, { passive: true });
 
   document.addEventListener('touchmove', function (e) {
-    if (!dragging) return;
-    var delta = dragStartX - e.touches[0].clientX;
-    pos = ((dragStartPos + delta) % halfWidth + halfWidth) % halfWidth;
-    track.style.transform = 'translateX(-' + pos + 'px)';
-  }, { passive: true });
+    if (touchIntent === 'scroll') return;
+
+    var dx = touchStartX - e.touches[0].clientX;
+    var dy = touchStartY - e.touches[0].clientY;
+
+    // Wait for enough movement to determine intent
+    if (touchIntent === null) {
+      if (Math.abs(dx) < 5 && Math.abs(dy) < 5) return;
+      touchIntent = Math.abs(dx) > Math.abs(dy) ? 'drag' : 'scroll';
+      if (touchIntent === 'drag') {
+        dragging = true;
+        dragStartX = touchStartX;
+        track.classList.add('dragging');
+      }
+    }
+
+    if (touchIntent === 'drag') {
+      e.preventDefault();
+      var delta = touchStartX - e.touches[0].clientX;
+      pos = ((dragStartPos + delta) % halfWidth + halfWidth) % halfWidth;
+      track.style.transform = 'translateX(-' + pos + 'px)';
+    }
+  }, { passive: false });
 
   document.addEventListener('touchend', function () {
-    if (!dragging) return;
-    dragging = false;
-    track.classList.remove('dragging');
+    if (dragging) {
+      dragging = false;
+      track.classList.remove('dragging');
+    }
+    touchIntent = null;
   });
 
   // Prevent click-through after drag

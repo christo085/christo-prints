@@ -383,6 +383,7 @@ permalink: /custom/
 
 <script>
 (function () {
+  var pageLoadTime = Date.now();
   var btns = document.querySelectorAll('.custom-toggle-btn');
   var tabs = document.querySelectorAll('.custom-tab');
 
@@ -428,6 +429,7 @@ permalink: /custom/
   var personalErr = document.getElementById('personalContactError');
 
   personalForm.addEventListener('submit', function (e) {
+    if (Date.now() - pageLoadTime < 3000) { e.preventDefault(); return; }
     if (!personalEmailEl.value.trim() && !personalPhoneEl.value.trim()) {
       e.preventDefault();
       personalErr.classList.add('visible');
@@ -446,6 +448,7 @@ permalink: /custom/
   var bizErr = document.getElementById('bizContactError');
 
   bizForm.addEventListener('submit', function (e) {
+    if (Date.now() - pageLoadTime < 3000) { e.preventDefault(); return; }
     if (!bizEmailEl.value.trim() && !bizPhoneEl.value.trim()) {
       e.preventDefault();
       bizErr.classList.add('visible');

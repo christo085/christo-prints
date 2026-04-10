@@ -236,6 +236,7 @@ permalink: /feedback/
 
 <script>
 (function () {
+  var pageLoadTime = Date.now();
   if (new URLSearchParams(window.location.search).get('success') === 'true') {
     document.getElementById('customReviewSuccess').hidden = false;
     document.getElementById('customReviewFormWrapper').hidden = true;
@@ -278,6 +279,7 @@ permalink: /feedback/
   }
 
   document.getElementById('customReviewForm').addEventListener('submit', function (e) {
+    if (Date.now() - pageLoadTime < 3000) { e.preventDefault(); return; }
     if (!ratingInput.value) {
       e.preventDefault();
       document.getElementById('ratingError').classList.add('visible');
