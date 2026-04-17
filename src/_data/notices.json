@@ -1,6 +1,6 @@
 {
   "pauseOrders": {
-    "enabled": true,
+    "enabled": false,
     "message": "Orders are paused — back soon!"
   },
   "highVolume": {

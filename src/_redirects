@@ -7,7 +7,11 @@
 /basket.html   /basket/    301
 /reviews.html  /reviews/   301
 /custom.html   /custom/    301
+/business.html /custom/    301
+/business/     /custom/    301
+/feedback.html /feedback/  301
 /terms.html    /terms/     301
+/custom-review/ /feedback/ 301
 /order/        /basket/    301
 /order.html    /basket/    301
 /receipt/*     https://app.squareup.com/receipt/preview/:splat  302
