@@ -1,37 +1,39 @@
 {
-    "upcoming": [
-      {
-        "name": "BHS Summer Fayre",
-        "date": "2 July 2026",
-        "description": "Come find us at the school summer fair with a full range of fidgets. Card accepted",
-        "location": "Boroughmuir High School"
-      }
-    ],
-    "seasonal": [
-      {
-        "name": "Minimalistic Bunny Set",
-        "price": "£7.00",
-        "description": "Set of three cute, modern bunnies. Perfect as a springtime centrepiece or window display.",
-        "image": "images/three-bunnies-main.jpg",
-        "badge": "Easter",
-        "active": false
-      }
-    ],
-    "upcomingSeasonal": [
-      {
-        "name": "Easter",
-        "description": "Easter eggs, bunnies, and springtime prints",
-        "expected": "Easter 2027"
-      },
-      {
-        "name": "Halloween",
-        "description": "Spooky prints and creepy collectibles",
-        "expected": "October 2026"
-      },
-      {
-        "name": "Christmas",
-        "description": "Festive prints, decorations and stocking fillers",
-        "expected": "December 2026"
-      }
-    ]
-  }
+  "upcoming": [
+    {
+      "name": "BHS Summer Fayre",
+      "date": "20 June 2026",
+      "description": "Come find us at the school summer fair with a full range of fidgets. Card accepted",
+      "location": "Boroughmuir High School"
+    }
+  ],
+  "seasonal": [
+    {
+      "name": "Minimalistic Bunny Set",
+      "price": "£7.00",
+      "description": "Set of three cute, modern bunnies. Perfect as a springtime centrepiece or window display.",
+      "image": "images/three-bunnies-main.jpg",
+      "badge": "Easter",
+      "active": false,
+      "activeTo": "2026-04-12",
+      "activeFrom": "2026-03-20"
+    }
+  ],
+  "upcomingSeasonal": [
+    {
+      "name": "Easter",
+      "description": "Easter eggs, bunnies, and springtime prints",
+      "expected": "Easter 2027"
+    },
+    {
+      "name": "Halloween",
+      "description": "Spooky prints and creepy collectibles",
+      "expected": "October 2026"
+    },
+    {
+      "name": "Christmas",
+      "description": "Festive prints, decorations and stocking fillers",
+      "expected": "December 2026"
+    }
+  ]
+}
