@@ -29,6 +29,10 @@ permalink: /basket/
   <div id="cartWrapper" hidden>
     <div id="cartItems"></div>
     <div class="cart-total" id="cartTotal"></div>
+    <div class="basket-share-row">
+      <button type="button" class="basket-share-link" onclick="shareBasket()">Share basket link</button>
+      <p class="basket-share-note" id="basketShareNote">Create a link that restores this basket on another device.</p>
+    </div>
 
     <!-- Coupon code -->
     <div class="coupon-row" id="couponRow">
@@ -257,14 +261,14 @@ permalink: /basket/
     Object.keys(bundleGroups).forEach(function (key, idx) {
       var groupItems = bundleGroups[key];
       var bundleTotal = groupItems.reduce(function (s, i) {
-        return s + (parseFloat((i.price || '0').replace('£', '')) || 0) * i.qty;
+        return s + Cart.itemUnitPence(i) * i.qty;
       }, 0);
       var bundleIds = groupItems.map(function(i) { return '\'' + i.id + '\''; }).join(',');
       html += '<div class="cart-bundle-group">' +
         '<div class="cart-bundle-header">' +
           '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>' +
           '<span>Custom Bundle</span>' +
-          '<span class="cart-bundle-total">£' + bundleTotal.toFixed(2) + '</span>' +
+          '<span class="cart-bundle-total">' + Cart.formatPence(bundleTotal) + '</span>' +
           '<button type="button" class="cart-bundle-remove" onclick="[' + bundleIds + '].forEach(function(id){Cart.removeItem(id);}); basketRender();" aria-label="Remove bundle">&times; Remove</button>' +
         '</div>' +
         groupItems.map(function(i) { return renderItem(i, true); }).join('') +
@@ -333,6 +337,28 @@ permalink: /basket/
   }
 
   window.basketRender = render;
+
+  window.shareBasket = async function () {
+    var note = document.getElementById('basketShareNote');
+    var url = window.location.origin + '/basket/?cart=' + Cart.encodeShare();
+    var shareData = { title: 'Christo\'s Prints Basket', text: 'Here is my Christo\'s Prints basket:', url: url };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+        Cart.track('share_basket', { method: 'native' });
+        return;
+      } catch (e) {}
+    }
+
+    try {
+      await navigator.clipboard.writeText(url);
+      note.textContent = 'Basket link copied.';
+      Cart.track('share_basket', { method: 'clipboard' });
+    } catch (e) {
+      note.textContent = url;
+    }
+  };
 
   window.applyCoupon = function () {
     var code = document.getElementById('couponCode').value.trim().toUpperCase();
@@ -411,6 +437,7 @@ permalink: /basket/
     var btn = document.getElementById('payBtn');
     btn.disabled = true;
     btn.textContent = 'Redirecting to payment…';
+    Cart.track('begin_checkout', { method: 'card', total: Cart.getTotal(), items: Cart.getCount() });
 
     var baseNotes = document.getElementById('notes').value.trim();
     var fullNotes = damageReason ? (baseNotes ? baseNotes + '\n' : '') + '[Damage reason: ' + damageReason + ']' : baseNotes;
@@ -461,6 +488,7 @@ permalink: /basket/
       return;
     }
     contactError.classList.remove('visible');
+    Cart.track('begin_checkout', { method: 'pay_at_collection', total: Cart.getTotal(), items: Cart.getCount() });
 
     document.getElementById('deliveryName').value = document.getElementById('name').value.trim();
     document.getElementById('deliveryEmail').value = email;
@@ -472,6 +500,7 @@ permalink: /basket/
     document.getElementById('deliveryItems').value = Cart.toSummaryText();
     document.getElementById('deliveryDiscount').value = appliedCoupon ? appliedCoupon.code + ' (' + appliedCoupon.description + ')' : '';
 
+    Cart.track('purchase', { method: 'pay_at_collection', total: Cart.getTotal(), items: Cart.getCount() });
     Cart.clear();
     document.getElementById('deliveryForm').submit();
   };
@@ -503,6 +532,13 @@ permalink: /basket/
   })();
 
   loadDetails();
+  (function restoreSharedBasket() {
+    var sharedCart = new URLSearchParams(window.location.search).get('cart');
+    if (!sharedCart) return;
+    if (Cart.restoreShare(sharedCart)) {
+      history.replaceState(null, '', '/basket/');
+    }
+  })();
   render();
 })();
 

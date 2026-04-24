@@ -24,6 +24,27 @@ permalink: "/products/{{ product.name | slug }}/"
   {% endif %}
 </div>
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": {{ product.name | dump | safe }},
+  "description": {{ product.description | dump | safe }},
+  "image": "https://christoprints.com/{{ product.image }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "Christo's Prints"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "https://christoprints.com/products/{{ product.name | slug }}/",
+    "priceCurrency": "GBP",
+    "price": "{{ product.price | priceNumber }}",
+    "availability": "{% if product.active == false %}https://schema.org/OutOfStock{% else %}https://schema.org/InStock{% endif %}"
+  }
+}
+</script>
+
 <section class="section" style="padding-top: 0;">
   <div class="product-page-grid">
 
@@ -38,13 +59,13 @@ permalink: "/products/{{ product.name | slug }}/"
         {%- set allImages = [product.image] %}
       {%- endif %}
       <div class="gallery-main">
-        <img src="/{{ allImages[0] }}" alt="{{ product.name }}" id="galleryMain" loading="eager">
+        <img src="/{{ allImages[0] }}" alt="{{ product.name }}" id="galleryMain" loading="eager" fetchpriority="high" decoding="async">
       </div>
       {% if allImages.length > 1 %}
       <div class="gallery-thumbs">
         {% for img in allImages %}
         <button class="gallery-thumb{% if loop.index == 1 %} active{% endif %}" onclick="setGallery('/{{ img }}', this, {{ loop.index0 }})" type="button" aria-label="View photo {{ loop.index }}">
-          <img src="/{{ img }}" alt="{{ product.name }} photo {{ loop.index }}" loading="lazy">
+          <img src="/{{ img }}" alt="{{ product.name }} photo {{ loop.index }}" loading="lazy" decoding="async">
         </button>
         {% endfor %}
       </div>
@@ -186,7 +207,7 @@ permalink: "/products/{{ product.name | slug }}/"
     <div class="product-card">
       <a href="/products/{{ p.name | slug }}/" class="product-card-img-link" tabindex="-1" aria-hidden="true">
         <div class="product-card-img">
-          <img src="/{{ p.image }}" alt="{{ p.name }}" loading="lazy">
+                  <img src="/{{ p.image }}" alt="{{ p.name }}" loading="lazy" decoding="async">
           {%- if p.badge %}
           <span class="product-card-badge{% if p.badge == 'Trending' %} badge-trending{% endif %}">{{ p.badge }}</span>
           {%- endif %}
@@ -225,6 +246,8 @@ permalink: "/products/{{ product.name | slug }}/"
 
 
 <script>
+Cart.track('view_product', { name: {{ product.name | dump | safe }}, price: {{ product.price | priceNumber }} });
+
 async function shareProduct() {
   var url = 'https://christoprints.com/products/{{ product.name | slug }}/';
   var title = '{{ product.name }} — Christo\'s Prints';
@@ -287,12 +310,13 @@ async function buyNow() {
   btn.disabled = true;
   btn.textContent = 'Redirecting…';
   errEl.classList.remove('visible');
+  Cart.track('begin_checkout', { method: 'buy_now', product: {{ product.name | dump | safe }} });
 
-  var itemPrice = parseFloat('{{ product.price }}'.replace('£', '')) || 0;
+  var itemPrice = {{ product.price | priceNumber }};
   var cardFee = Math.round((itemPrice * 0.014 + 0.25) * 100) / 100;
 
   var orderData = {
-    items: [{ id: '{{ product.name | slug }}', name: '{{ product.name }}', price: '{{ product.price }}', qty: 1, colour: colour, type: 'product' }],
+    items: [{ id: '{{ product.name | slug }}', name: '{{ product.name }}', price: '{{ product.price }}', pricePence: {{ (product.price | priceNumber) * 100 }}, qty: 1, colour: colour, type: 'product' }],
     name: document.getElementById('buyNowName').value.trim(),
     email: document.getElementById('buyNowEmail').value.trim(),
     phone: document.getElementById('buyNowPhone').value.trim(),
@@ -318,4 +342,3 @@ async function buyNow() {
   }
 }
 </script>
-

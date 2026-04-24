@@ -33,7 +33,7 @@ permalink: /
     <div class="product-card">
       <a href="/products/{{ product.name | slug }}/" class="product-card-img-link" tabindex="-1" aria-hidden="true">
         <div class="product-card-img">
-          <img src="/{{ product.image }}" alt="{{ product.name }}" loading="lazy">
+          <img src="/{{ product.image }}" alt="{{ product.name }}" loading="lazy" decoding="async">
           {%- if product.badge %}
           <span class="product-card-badge{% if product.badge == 'Trending' %} badge-trending{% endif %}">{{ product.badge }}</span>
           {%- endif %}
@@ -77,13 +77,13 @@ permalink: /
   <div class="product-marquee-track" id="marqueeTrack">
     {%- for p in marqueeItems %}
     <a href="/products/{{ p.name | slug }}/" class="product-marquee-item" tabindex="-1">
-      <div class="product-marquee-img"><img src="/{{ p.image }}" alt="{{ p.name }}" loading="lazy"></div>
+      <div class="product-marquee-img"><img src="/{{ p.image }}" alt="{{ p.name }}" loading="lazy" decoding="async"></div>
       <div class="product-marquee-label">{{ p.name }}</div>
     </a>
     {%- endfor %}
     {%- for p in marqueeItems %}
     <a href="/products/{{ p.name | slug }}/" class="product-marquee-item" tabindex="-1">
-      <div class="product-marquee-img"><img src="/{{ p.image }}" alt="" loading="lazy"></div>
+      <div class="product-marquee-img"><img src="/{{ p.image }}" alt="" loading="lazy" decoding="async"></div>
       <div class="product-marquee-label">{{ p.name }}</div>
     </a>
     {%- endfor %}
@@ -94,7 +94,7 @@ permalink: /
   var track = document.getElementById('marqueeTrack');
   if (!track) return;
   var pos = 0;
-  var speed = 0.4;
+  var speed = window.matchMedia('(min-width: 768px)').matches ? 0.18 : 0.32;
   var dragging = false;
   var dragStartX = 0;
   var dragStartPos = 0;
@@ -213,7 +213,7 @@ permalink: /
     </span>
     {%- if futureEvents | length > 0 %}
     <h2>{{ futureEvents[0].name }}</h2>
-    <p>{{ futureEvents[0].date }}{%- if futureEvents[0].location %} &middot; {{ futureEvents[0].location }}{%- endif %}</p>
+    <p>{{ futureEvents[0] | eventDisplayDate }}{%- if futureEvents[0].location %} &middot; {{ futureEvents[0].location }}{%- endif %}</p>
     {%- else %}
     <h2>Seasonal Specials Available</h2>
     <p>Limited edition prints for holidays and special occasions</p>

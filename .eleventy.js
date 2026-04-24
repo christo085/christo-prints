@@ -8,13 +8,22 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/CPLogo.png");
   eleventyConfig.addPassthroughCopy("src/robots.txt");
 
+  function eventDateValue(event) {
+    return event && (event.dateISO || event.date);
+  }
+
+  function parsePrice(price) {
+    if (typeof price === "number") return price;
+    return parseFloat(String(price || "0").replace("£", "").replace("+", "")) || 0;
+  }
+
   eleventyConfig.addFilter("upcomingWithin", function (events, months) {
     var now = new Date();
     now.setHours(0, 0, 0, 0);
     var cutoff = new Date(now);
     cutoff.setMonth(cutoff.getMonth() + months);
     return (events || []).filter(function (event) {
-      var d = new Date(event.date);
+      var d = new Date(eventDateValue(event));
       return d >= now && d <= cutoff;
     });
   });
@@ -23,9 +32,21 @@ module.exports = function (eleventyConfig) {
     var now = new Date();
     now.setHours(0, 0, 0, 0);
     return (events || []).filter(function (event) {
-      var d = new Date(event.date);
+      var d = new Date(eventDateValue(event));
       return d >= now;
     });
+  });
+
+  eleventyConfig.addFilter("eventDisplayDate", function (event) {
+    return event.displayDate || event.date;
+  });
+
+  eleventyConfig.addFilter("eventMachineDate", function (event) {
+    return eventDateValue(event);
+  });
+
+  eleventyConfig.addFilter("priceNumber", function (price) {
+    return parsePrice(price);
   });
 
   eleventyConfig.addFilter("activeSeasonal", function (items) {

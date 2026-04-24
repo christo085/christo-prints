@@ -96,6 +96,7 @@ collections:
             fields:
               - { name: "name", label: "Event Name", widget: "string" }
               - { name: "date", label: "Date (YYYY-MM-DD)", widget: "string" }
+              - { name: "displayDate", label: "Display Date (e.g. 20 June 2026)", widget: "string", required: false }
               - { name: "location", label: "Location", widget: "string" }
               - { name: "description", label: "Description", widget: "text" }
           - name: "seasonal"

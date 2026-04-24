@@ -69,10 +69,10 @@ permalink: /products/
 
   <div class="product-grid" id="productGrid">
     {%- for product in products.items | activeOnly %}
-    <div class="product-card" data-category="{{ product.category }}" data-badge="{{ product.badge }}" data-keywords="{{ product.name | lower }} {{ product.description | lower }} {{ product.category }}" data-price="{{ product.price | replace('£','') }}" data-popular="{{ product.popular }}">
+    <div class="product-card" data-category="{{ product.category }}" data-badge="{{ product.badge }}" data-keywords="{{ product.name | lower }} {{ product.description | lower }} {{ product.category }}" data-price="{{ product.price | priceNumber }}" data-popular="{{ product.popular }}">
       <a href="/products/{{ product.name | slug }}/" class="product-card-img-link" tabindex="-1" aria-hidden="true">
         <div class="product-card-img">
-          <img src="/{{ product.image }}" alt="{{ product.name }}" loading="lazy">
+          <img src="/{{ product.image }}" alt="{{ product.name }}" loading="lazy" decoding="async">
           {%- if product.badge %}
           <span class="product-card-badge{% if product.badge == 'Trending' %} badge-trending{% endif %}">{{ product.badge }}</span>
           {%- elif product.dateAdded %}
@@ -104,10 +104,10 @@ permalink: /products/
     </div>
     {%- endfor %}
     {%- for item in events.seasonal | activeOnly %}
-    <div class="product-card" data-category="seasonal" data-keywords="{{ item.name | lower }} {{ item.description | lower }} seasonal" data-price="{{ item.price | replace('£','') }}" data-popular="false" style="display:none">
+    <div class="product-card" data-category="seasonal" data-keywords="{{ item.name | lower }} {{ item.description | lower }} seasonal" data-price="{{ item.price | priceNumber }}" data-popular="false" style="display:none">
       {%- if item.image %}
       <div class="product-card-img">
-        <img src="/{{ item.image }}" alt="{{ item.name }}" loading="lazy">
+        <img src="/{{ item.image }}" alt="{{ item.name }}" loading="lazy" decoding="async">
         {%- if item.badge %}
         <span class="product-card-badge">{{ item.badge }}</span>
         {%- endif %}

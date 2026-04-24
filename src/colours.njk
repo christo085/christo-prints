@@ -156,13 +156,13 @@ permalink: /colours/
           item.href = '/products/' + slug + '/';
           item.style.cssText = 'border-radius:10px; overflow:hidden; background:#0a0f14; border:1px solid #1e2a36; text-decoration:none; display:block;';
           item.innerHTML =
-            '<img src="/' + ex.image + '" alt="' + ex.name + '" loading="lazy" style="width:100%; aspect-ratio:1/1; object-fit:cover; display:block;">' +
+            '<img src="/' + ex.image + '" alt="' + ex.name + '" loading="lazy" decoding="async" style="width:100%; aspect-ratio:1/1; object-fit:cover; display:block;">' +
             '<div style="padding:6px 8px; font-size:0.78rem; font-weight:500; color:#eaf6f3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + ex.name + ' &#8594;</div>';
         } else {
           item = document.createElement('div');
           item.style.cssText = 'border-radius:10px; overflow:hidden; background:#0a0f14; border:1px solid #1e2a36; display:block;';
           item.innerHTML =
-            '<img src="/' + ex.image + '" alt="' + ex.name + '" loading="lazy" style="width:100%; aspect-ratio:1/1; object-fit:cover; display:block;">' +
+            '<img src="/' + ex.image + '" alt="' + ex.name + '" loading="lazy" decoding="async" style="width:100%; aspect-ratio:1/1; object-fit:cover; display:block;">' +
             '<div style="padding:6px 8px; font-size:0.78rem; font-weight:500; color:#8b9fad; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + ex.name + '</div>';
         }
         productsEl.appendChild(item);

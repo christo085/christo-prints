@@ -1,5 +1,83 @@
 const crypto = require('crypto');
 
+function parsePrice(price) {
+  return parseFloat(String(price || '0').replace('£', '').replace('+', '')) || 0;
+}
+
+function keychainPrice(name) {
+  const len = String(name || '').trim().length;
+  if (len <= 4) return 1;
+  if (len <= 7) return 1.5;
+  return 2;
+}
+
+function formatPrice(price) {
+  return '£' + price.toFixed(2);
+}
+
+function productLookup() {
+  const products = require('../../src/_data/products.json');
+  const events = require('../../src/_data/events.json');
+  const bundles = require('../../src/_data/bundles.json');
+  const map = new Map();
+
+  (products.items || []).forEach(function (item) {
+    map.set(item.name, { price: parsePrice(item.price), active: item.active !== false });
+  });
+  (events.seasonal || []).forEach(function (item) {
+    map.set(item.name, { price: parsePrice(item.price), active: item.active !== false, seasonal: true });
+  });
+  (bundles.items || []).forEach(function (item) {
+    map.set(item.name, { price: parsePrice(item.price), active: item.active !== false, bundle: true });
+  });
+
+  return map;
+}
+
+function validatedLineItems(items) {
+  const lookup = productLookup();
+
+  return items.map(function (item) {
+    const qty = Math.max(1, Math.min(99, parseInt(item.qty, 10) || 1));
+    const isBundleItem = /^bndl-\d+-\d+$/.test(String(item.id || ''));
+    let price;
+
+    if (item.name === 'Name Keychain') {
+      price = keychainPrice(item.keychainName);
+    } else {
+      const record = lookup.get(item.name);
+      if (!record || !record.active) {
+        throw new Error('Unavailable item in basket: ' + item.name);
+      }
+      price = isBundleItem ? Math.round(record.price * 90) / 100 : record.price;
+    }
+
+    const safeItem = {
+      name: String(item.name || 'Item').slice(0, 120),
+      colour: String(item.colour || 'No preference').slice(0, 80),
+      keychainName: String(item.keychainName || '').slice(0, 40),
+      qty: qty,
+      price: price,
+    };
+
+    let itemName = safeItem.name;
+    if (safeItem.colour && safeItem.colour !== 'No preference') itemName += ' (' + safeItem.colour + ')';
+    if (safeItem.keychainName) itemName += ' — Name: ' + safeItem.keychainName;
+
+    return {
+      cartItem: safeItem,
+      squareItem: {
+        name: itemName,
+        quantity: String(qty),
+        base_price_money: {
+          amount: Math.round(price * 100),
+          currency: 'GBP',
+        },
+      },
+    };
+  });
+}
+
 exports.handler = async function (event) {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
@@ -13,11 +91,19 @@ exports.handler = async function (event) {
   }
 
   try {
-    const { items, name, email, phone, notes, couponCode, cardFee } = JSON.parse(event.body);
+    const { items, name, email, phone, notes, couponCode } = JSON.parse(event.body);
 
     if (!items || items.length === 0) {
       return { statusCode: 400, body: JSON.stringify({ error: 'No items in basket' }) };
     }
+
+    const validated = validatedLineItems(items);
+    const subtotal = validated.reduce(function (sum, line) {
+      return sum + (line.cartItem.price * line.cartItem.qty);
+    }, 0);
+    const totalQty = validated.reduce(function (sum, line) {
+      return sum + line.cartItem.qty;
+    }, 0);
 
     // Validate coupon server-side
     const coupons = require('../../src/_data/coupons.json');
@@ -29,19 +115,20 @@ exports.handler = async function (event) {
     const discountUid = coupon ? 'coupon-' + coupon.code : null;
     const useLineItemScope = coupon && coupon.type === 'percentage';
 
-    const lineItems = items.map(function (item) {
-      var price = parseFloat((item.price || '0').replace('£', '').replace('+', '')) || 0;
-      var itemName = item.name;
-      if (item.colour && item.colour !== 'No preference') itemName += ' (' + item.colour + ')';
-      if (item.keychainName) itemName += ' — Name: ' + item.keychainName;
-      var lineItem = {
-        name: itemName,
-        quantity: String(item.qty),
-        base_price_money: {
-          amount: Math.round(price * 100),
-          currency: 'GBP',
-        },
-      };
+    let discount = 0;
+    if (coupon) {
+      discount = coupon.type === 'percentage'
+        ? subtotal * (coupon.value / 100)
+        : Math.min(coupon.value, subtotal);
+    }
+    const finalTotal = Math.max(0, subtotal - discount);
+    if (finalTotal > 30 || totalQty > 20) {
+      return { statusCode: 400, body: JSON.stringify({ error: 'Card payment unavailable for large orders' }) };
+    }
+    const cardFee = Math.round((finalTotal * 0.014 + 0.25) * 100) / 100;
+
+    const lineItems = validated.map(function (line) {
+      var lineItem = line.squareItem;
       if (useLineItemScope) {
         lineItem.applied_discounts = [{ discount_uid: discountUid }];
       }
@@ -64,6 +151,7 @@ exports.handler = async function (event) {
       name ? 'Name: ' + name : '',
       phone ? 'Phone: ' + phone : '',
       coupon ? '[DISCOUNT CODE: ' + coupon.code + ' — ' + coupon.description + ']' : '',
+      'Server total before card fee: ' + formatPrice(finalTotal),
       notes ? 'Notes: ' + notes : '',
     ].filter(Boolean).join(' | ');
 

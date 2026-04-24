@@ -6,6 +6,34 @@ window.Cart = (function () {
     return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
   }
 
+  function parsePrice(price) {
+    if (typeof price === 'number') return price;
+    return parseFloat(String(price || '0').replace('£', '').replace('+', '')) || 0;
+  }
+
+  function pricePence(price) {
+    return Math.round(parsePrice(price) * 100);
+  }
+
+  function itemUnitPence(item) {
+    if (typeof item.pricePence === 'number') return item.pricePence;
+    return pricePence(item.price);
+  }
+
+  function formatPence(pence) {
+    return '£' + ((pence || 0) / 100).toFixed(2);
+  }
+
+  function track(eventName, details) {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: eventName,
+      details: details || {},
+      timestamp: new Date().toISOString()
+    });
+    document.dispatchEvent(new CustomEvent('cpAnalytics', { detail: { event: eventName, details: details || {} } }));
+  }
+
   function getItems() {
     try {
       return JSON.parse(localStorage.getItem(KEY)) || [];
@@ -34,21 +62,22 @@ window.Cart = (function () {
         count++;
         id = 'name-keychain-' + (count + 1);
       }
-      items.push({ id: id, name: name, price: '£1.00', type: type || 'product', colour: options.colour || 'No preference', qty: 1, keychainName: '' });
+      items.push({ id: id, name: name, price: '£1.00', pricePence: 100, type: type || 'product', colour: options.colour || 'No preference', qty: 1, keychainName: '' });
     } else if (options.uniqueId) {
       // Force a new entry with a specific ID (used by bundle builder to avoid qty-merging)
-      items.push({ id: options.uniqueId, name: name, price: price, type: type || 'product', colour: options.colour || 'No preference', qty: 1 });
+      items.push({ id: options.uniqueId, name: name, price: price, pricePence: pricePence(price), type: type || 'product', colour: options.colour || 'No preference', qty: 1 });
     } else {
       var id = slugify(name);
       var existing = items.find(function (i) { return i.id === id; });
       if (existing) {
         existing.qty += 1;
       } else {
-        items.push({ id: id, name: name, price: price, type: type || 'product', colour: options.colour || 'No preference', qty: 1 });
+        items.push({ id: id, name: name, price: price, pricePence: pricePence(price), type: type || 'product', colour: options.colour || 'No preference', qty: 1 });
       }
     }
     _save(items);
     updateBadge();
+    track('add_to_basket', { name: name, type: type || 'product' });
     document.dispatchEvent(new CustomEvent('cartItemAdded', { detail: { name: name } }));
   }
 
@@ -81,6 +110,7 @@ window.Cart = (function () {
     if (!item) return;
     item.keychainName = name;
     item.price = keychainPrice(name);
+    item.pricePence = pricePence(item.price);
     _save(items);
   }
 
@@ -101,10 +131,7 @@ window.Cart = (function () {
   }
 
   function getTotal() {
-    return getItems().reduce(function (sum, i) {
-      var p = parseFloat((i.price || '0').replace('£', '')) || 0;
-      return sum + (p * i.qty);
-    }, 0);
+    return getItems().reduce(function (sum, i) { return sum + (itemUnitPence(i) * i.qty); }, 0) / 100;
   }
 
   function toSummaryText() {
@@ -113,6 +140,53 @@ window.Cart = (function () {
       if (i.keychainName) line += ' [Name: ' + i.keychainName + ']';
       return line;
     }).join('\n');
+  }
+
+  function encodeShare() {
+    var items = getItems().map(function (i) {
+      return {
+        id: i.id,
+        name: i.name,
+        price: i.price,
+        pricePence: itemUnitPence(i),
+        type: i.type || 'product',
+        colour: i.colour || 'No preference',
+        qty: i.qty || 1,
+        keychainName: i.keychainName || ''
+      };
+    });
+    return btoa(unescape(encodeURIComponent(JSON.stringify(items))))
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
+  }
+
+  function restoreShare(encoded) {
+    if (!encoded) return false;
+    try {
+      var normalised = encoded.replace(/-/g, '+').replace(/_/g, '/');
+      while (normalised.length % 4) normalised += '=';
+      var items = JSON.parse(decodeURIComponent(escape(atob(normalised))));
+      if (!Array.isArray(items)) return false;
+      var safeItems = items.slice(0, 50).map(function (i) {
+        return {
+          id: String(i.id || slugify(i.name || 'item')).slice(0, 120),
+          name: String(i.name || 'Item').slice(0, 120),
+          price: String(i.price || formatPence(i.pricePence || 0)).slice(0, 20),
+          pricePence: typeof i.pricePence === 'number' ? i.pricePence : pricePence(i.price),
+          type: String(i.type || 'product').slice(0, 40),
+          colour: String(i.colour || 'No preference').slice(0, 80),
+          qty: Math.max(1, Math.min(99, parseInt(i.qty, 10) || 1)),
+          keychainName: String(i.keychainName || '').slice(0, 40)
+        };
+      });
+      _save(safeItems);
+      updateBadge();
+      track('restore_shared_basket', { count: safeItems.length });
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   function updateBadge() {
@@ -146,6 +220,13 @@ window.Cart = (function () {
     updateColour: updateColour,
     updateKeychainName: updateKeychainName,
     keychainPrice: keychainPrice,
+    parsePrice: parsePrice,
+    pricePence: pricePence,
+    itemUnitPence: itemUnitPence,
+    formatPence: formatPence,
+    encodeShare: encodeShare,
+    restoreShare: restoreShare,
+    track: track,
     clear: clear,
     getCount: getCount,
     getTotal: getTotal,

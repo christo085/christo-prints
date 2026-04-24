@@ -26,9 +26,9 @@ permalink: /events/
     <div class="feature-card event-card" style="text-align: left;">
       <div class="event-date">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        {{ event.date }}
+        {{ event | eventDisplayDate }}
       </div>
-      <span class="event-countdown" data-date="{{ event.date }}"></span>
+      <span class="event-countdown" data-date="{{ event | eventMachineDate }}"></span>
       <h3>{{ event.name }}</h3>
       <p>{{ event.description }}</p>
       {%- if event.location %}
@@ -82,13 +82,13 @@ permalink: /events/
               {%- if hasPage %}
               <a href="/products/{{ itemSlug }}/" class="product-card-img-link" tabindex="-1" aria-hidden="true">
                 <div class="product-card-img">
-                  <img src="/{{ item.image }}" alt="{{ item.name }}" loading="lazy">
+                  <img src="/{{ item.image }}" alt="{{ item.name }}" loading="lazy" decoding="async">
                   {%- if item.badge %}<span class="product-card-badge">{{ item.badge }}</span>{%- endif %}
                 </div>
               </a>
               {%- else %}
               <div class="product-card-img">
-                <img src="/{{ item.image }}" alt="{{ item.name }}" loading="lazy">
+                <img src="/{{ item.image }}" alt="{{ item.name }}" loading="lazy" decoding="async">
                 {%- if item.badge %}<span class="product-card-badge">{{ item.badge }}</span>{%- endif %}
               </div>
               {%- endif %}
@@ -180,6 +180,41 @@ permalink: /events/
   </div>
   {%- endif %}
 </section>
+
+{%- if futureEvents | length > 0 %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {%- for event in futureEvents %}
+    {
+      "@type": "Event",
+      "name": {{ event.name | dump | safe }},
+      "startDate": {{ (event | eventMachineDate) | dump | safe }},
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "description": {{ event.description | dump | safe }},
+      "url": "https://christoprints.com/events/",
+      "organizer": {
+        "@type": "LocalBusiness",
+        "name": "Christo's Prints",
+        "url": "https://christoprints.com"
+      }{%- if event.location %},
+      "location": {
+        "@type": "Place",
+        "name": {{ event.location | dump | safe }},
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Edinburgh",
+          "addressCountry": "GB"
+        }
+      }{%- endif %}
+    }{% if not loop.last %},{% endif %}
+    {%- endfor %}
+  ]
+}
+</script>
+{%- endif %}
 
 <script>
 (function () {

@@ -77,7 +77,7 @@ permalink: /build-bundle/
     {%- for product in products.items | activeOnly %}
     <div class="product-card picker-card" data-name="{{ product.name }}" data-price="{{ product.price }}" data-image="{{ product.image }}" data-keywords="{{ product.name | lower }} {{ product.description | lower }}" onclick="toggleProduct(this)">
       <div class="product-card-img">
-        <img src="/{{ product.image }}" alt="{{ product.name }}" loading="lazy">
+        <img src="/{{ product.image }}" alt="{{ product.name }}" loading="lazy" decoding="async">
         {%- if product.badge %}
         <span class="product-card-badge{% if product.badge == 'Trending' %} badge-trending{% endif %}">{{ product.badge }}</span>
         {%- endif %}
@@ -110,7 +110,7 @@ permalink: /build-bundle/
   }).join('');
 
   function getPrice(priceStr) {
-    return parseFloat((priceStr || '0').replace('£', '').replace('+', '')) || 0;
+    return Cart.parsePrice(priceStr);
   }
 
   function buildSlotColourHtml(slotIndex, selectedColour) {

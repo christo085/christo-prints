@@ -94,12 +94,13 @@ permalink: /success/
 
     // Render order summary
     if (items.length > 0) {
+      Cart.track('purchase', { method: 'card', items: items.length });
       var itemsEl = document.getElementById('successItems');
       itemsEl.innerHTML = items.map(function (i) {
         var label = i.name;
         if (i.colour && i.colour !== 'No preference') label += ' <span class="success-item-colour">(' + i.colour + ')</span>';
         if (i.keychainName) label += ' <span class="success-item-colour">— ' + i.keychainName + '</span>';
-        var price = parseFloat((i.price || '0').replace('£', '')) || 0;
+        var price = Cart.itemUnitPence(i) / 100;
         return '<div class="success-item">' +
           '<span class="success-item-name">' + label + '</span>' +
           '<span class="success-item-qty">x' + i.qty + '</span>' +
@@ -108,7 +109,7 @@ permalink: /success/
       }).join('');
 
       var total = items.reduce(function (sum, i) {
-        return sum + ((parseFloat((i.price || '0').replace('£', '')) || 0) * i.qty);
+        return sum + ((Cart.itemUnitPence(i) / 100) * i.qty);
       }, 0);
 
       var totalEl = document.getElementById('successTotal');

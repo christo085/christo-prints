@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "start": "eleventy --serve",
-    "build": "eleventy"
+    "build": "eleventy",
+    "validate:data": "node scripts/validate-data.js"
   },
   "keywords": [],
   "author": "",
