@@ -99,6 +99,7 @@ permalink: /colours/
   var allProducts = {{ products.items | dump | safe }};
   var colourOnlyExamples = {{ products.colourOnlyExamples | dump | safe }};
   var lowStockColours = {{ colours.lowStock | dump | safe }};
+  var newColours = {{ colours.new | dump | safe }};
 
   function renderSwatches(colours, gridId) {
     var grid = document.getElementById(gridId);
@@ -108,7 +109,8 @@ permalink: /colours/
       swatch.style.background = c.hex;
       if (c.description) swatch.title = c.description;
       var isLow = lowStockColours.indexOf(c.name) !== -1;
-      swatch.innerHTML = '<span>' + c.name + '</span>' + (isLow ? '<span class="low-stock-badge">Running Low</span>' : '');
+      var isNew = newColours.indexOf(c.name) !== -1;
+      swatch.innerHTML = '<span>' + c.name + '</span>' + (isLow ? '<span class="low-stock-badge">Running Low</span>' : '') + (isNew ? '<span class="new-badge">New</span>' : '');
       swatch.addEventListener('click', function () { openColourModal(c); });
       grid.appendChild(swatch);
     });

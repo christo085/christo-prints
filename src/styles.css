@@ -657,7 +657,7 @@ img {
   box-shadow: var(--shadow);
 }
 
-.colour-swatch span:not(.low-stock-badge) {
+.colour-swatch span:not(.low-stock-badge):not(.new-badge) {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -675,6 +675,23 @@ img {
   left: 50%;
   transform: translateX(-50%);
   background: rgba(230, 57, 70, 0.85);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: 20px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.new-badge {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 180, 150, 0.9);
   color: #fff;
   font-size: 0.68rem;
   font-weight: 700;
