@@ -54,6 +54,23 @@
       "active": false
     },
     {
+      "name": "Coaster Set with Case",
+      "price": "£5.00",
+      "description": "Set of 6 3D-printed honeycomb coasters (80mm diameter) with a matching cylindrical case to keep them neatly stored. Protects your surfaces in style.",
+      "category": "decor",
+      "image": "images/coaster-set-main.jpg",
+      "images": [
+        { "image": "images/coaster-set-main.jpg", "colours": ["Marble"] },
+        { "image": "images/coaster-set-top.jpg", "colours": ["Marble"] },
+        { "image": "images/coaster-set-side.jpg", "colours": ["Marble", "Black"] },
+        { "image": "images/coaster-set-closeup.jpg", "colours": ["Marble"] },
+        { "image": "images/coaster-set-measurements.jpg", "colours": ["Marble"], "objectPosition": "center 70%" }
+      ],
+      "colours": ["Marble", "Black"],
+      "popular": false,
+      "badge": "New"
+    },
+    {
       "name": "Spiral Cone",
       "price": "£2.00",
       "description": "The popular mesmerising spiral fidget that keeps your hands busy.",

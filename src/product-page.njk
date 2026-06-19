@@ -59,7 +59,7 @@ permalink: "/products/{{ product.name | slug }}/"
         {%- set allImages = [product.image] %}
       {%- endif %}
       <div class="gallery-main">
-        <img src="/{{ allImages[0] }}" alt="{{ product.name }}" id="galleryMain" loading="eager" fetchpriority="high" decoding="async">
+        <img src="/{{ allImages[0] }}" alt="{{ product.name }}" id="galleryMain" loading="eager" fetchpriority="high" decoding="async"{% if product.images and product.images[0].objectPosition %} style="object-position: {{ product.images[0].objectPosition }}"{% endif %}>
       </div>
       {% if allImages.length > 1 %}
       <div class="gallery-thumbs">
@@ -269,11 +269,13 @@ async function shareProduct() {
   }
 }
 
-var LB_IMAGES = [{% for img in allImages %}'/{{ img }}'{% if not loop.last %},{% endif %}{% endfor %}];
 var currentGalleryIndex = 0;
+var GALLERY_POSITIONS = [{% for img in product.images %}'{{ img.objectPosition if img.objectPosition else "" }}'{% if not loop.last %},{% endif %}{% endfor %}];
 
 function setGallery(src, btn, index) {
-  document.getElementById('galleryMain').src = src;
+  var mainImg = document.getElementById('galleryMain');
+  mainImg.src = src;
+  mainImg.style.objectPosition = GALLERY_POSITIONS[index] || '';
   document.querySelectorAll('.gallery-thumb').forEach(function(t) { t.classList.remove('active'); });
   btn.classList.add('active');
   currentGalleryIndex = index || 0;
