@@ -66,6 +66,81 @@ permalink: /
   </div>
 </section>
 
+<!-- Custom & Commercial -->
+<section class="section" style="padding-top: 0;">
+  <div class="section-header">
+    <h2>Personal Orders &amp; Commercial Partner</h2>
+    <p>Christo's Prints handles personal custom prints. Commercial work is now handled by Partform3D.</p>
+  </div>
+  <div class="custom-split">
+    <div class="custom-split-col custom-split-enterprise">
+      <span class="custom-split-badge">Our Partner</span>
+      <h3>Business &amp; Commercial</h3>
+      <p>Commercial printing, bulk production, specialist components, and large-scale parts are now handled by our partner, Partform3D.</p>
+      <ul class="custom-split-list">
+        <li>Bulk production runs (50–500+)</li>
+        <li>Large-scale &amp; specialist parts</li>
+        <li>Branded &amp; promotional items</li>
+        <li>Schools &amp; organisations</li>
+      </ul>
+      <a href="https://partform3d.co.uk" target="_blank" rel="noopener" class="btn btn-primary">Visit Partform3D &#8594;</a>
+    </div>
+    <div class="custom-split-col">
+      <h3>Personal Orders</h3>
+      <p>One-off prints, custom gifts, and small batches — no minimum order.</p>
+      <ul class="custom-split-list">
+        <li>One-off parts &amp; props</li>
+        <li>Custom gifts &amp; keychains</li>
+        <li>Event favours &amp; giveaways</li>
+        <li>Small batches, any quantity</li>
+      </ul>
+      <a href="/custom/" class="btn btn-secondary">Request a Personal Print &#8594;</a>
+    </div>
+  </div>
+</section>
+
+{%- if testimonials.items | length > 0 %}
+<!-- Testimonials -->
+<section class="section" style="padding-top: 0;">
+  <div class="section-header">
+    <h2>What Customers Say</h2>
+    <p>Feedback from recent custom orders</p>
+  </div>
+  <div class="reviews-grid">
+    {%- for testimonial in testimonials.items %}
+    <div class="review-card">
+      <div class="review-card-header">
+        <div class="review-stars">
+          {%- for i in range(0, testimonial.stars) %}
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--accent)" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          {%- endfor %}
+          {%- for i in range(testimonial.stars, 5) %}
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          {%- endfor %}
+        </div>
+        <span class="testimonial-badge">Verified Order</span>
+      </div>
+      <p class="review-text">"{{ testimonial.text }}"</p>
+      <div class="review-author">
+        <div>
+          <span class="review-name">{{ testimonial.author }}</span>
+          {%- if testimonial.order %}
+          <span class="testimonial-order">{{ testimonial.order }}</span>
+          {%- endif %}
+        </div>
+        {%- if testimonial.date %}
+        <span class="review-date">{{ testimonial.date }}</span>
+        {%- endif %}
+      </div>
+    </div>
+    {%- endfor %}
+  </div>
+  <div style="text-align:center; margin-top:36px;">
+    <a href="/reviews/" class="btn btn-secondary">See All Reviews &#8594;</a>
+  </div>
+</section>
+{%- endif %}
+
 <!-- Product Marquee -->
 {%- set marqueeItems = [] %}
 {%- for p in products.items | activeOnly %}
@@ -227,39 +302,6 @@ permalink: /
 </section>
 {%- endif %}
 
-<!-- Custom & Commercial -->
-<section class="section" style="padding-top: 0;">
-  <div class="section-header">
-    <h2>Personal Orders &amp; Commercial Partner</h2>
-    <p>Christo's Prints handles personal custom prints. Commercial work is now handled by Partform3D.</p>
-  </div>
-  <div class="custom-split">
-    <div class="custom-split-col">
-      <h3>Personal Orders</h3>
-      <p>One-off prints, custom gifts, and small batches — no minimum order.</p>
-      <ul class="custom-split-list">
-        <li>One-off parts &amp; props</li>
-        <li>Custom gifts &amp; keychains</li>
-        <li>Event favours &amp; giveaways</li>
-        <li>Small batches, any quantity</li>
-      </ul>
-      <a href="/custom/" class="btn btn-secondary">Request a Personal Print &#8594;</a>
-    </div>
-    <div class="custom-split-col custom-split-enterprise">
-      <span class="custom-split-badge">Enterprise</span>
-      <h3>Business &amp; Commercial</h3>
-      <p>Commercial printing, bulk production, specialist components, and large-scale parts are now handled by our partner, Partform3D.</p>
-      <ul class="custom-split-list">
-        <li>Bulk production runs (50–500+)</li>
-        <li>Large-scale &amp; specialist parts</li>
-        <li>Branded &amp; promotional items</li>
-        <li>Schools &amp; organisations</li>
-      </ul>
-      <a href="https://partform3d.co.uk" target="_blank" rel="noopener" class="btn btn-primary">Visit Partform3D &#8594;</a>
-    </div>
-  </div>
-</section>
-
 <!-- Build a Bundle -->
 <section class="section" style="padding-top: 0;">
   <div class="cta-banner" style="text-align: center;">
@@ -336,6 +378,9 @@ permalink: /
 
 .custom-split-enterprise {
   background: linear-gradient(135deg, var(--accent-dim), rgba(0, 230, 195, 0.04));
+}
+
+.custom-split-col + .custom-split-col {
   border-left: 1px solid rgba(0, 230, 195, 0.2);
 }
 
@@ -380,7 +425,7 @@ permalink: /
     grid-template-columns: 1fr;
   }
 
-  .custom-split-enterprise {
+  .custom-split-col + .custom-split-col {
     border-left: none;
     border-top: 1px solid rgba(0, 230, 195, 0.2);
   }

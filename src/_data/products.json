@@ -66,7 +66,8 @@
         { "image": "images/coaster-set-closeup.jpg", "colours": ["Marble"] },
         { "image": "images/coaster-set-measurements.jpg", "colours": ["Marble"], "objectPosition": "center 70%" }
       ],
-      "colours": ["Marble", "Black"],
+      "colours": ["Marble"],
+      "coloursLabel": "Marble coasters with a Black case",
       "popular": false,
       "badge": "New"
     },
